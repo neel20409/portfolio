@@ -3,14 +3,15 @@ import Avatar from "@/components/canvas/Avatar";
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative min-h-screen">
       <Scene>
         <Avatar />
       </Scene>
-      {/* Your HTML overlay content here */}
-      <section className="h-screen flex items-center px-10">
-        <h1 className="text-white text-6xl font-bold">NEEL BHATT</h1>
-      </section>
+      
+      <div className="relative z-10 flex flex-col items-center justify-center h-screen">
+        <h1 className="text-white text-7xl font-black uppercase">Neel Bhatt</h1>
+        <p className="text-gray-400 mt-4">Backend Completed | 3D Portfolio in Progress</p>
+      </div>
     </main>
   );
 }

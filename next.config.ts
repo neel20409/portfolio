@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  // Forces Next.js to properly compile the Motion library
+const nextConfig: any = {
   transpilePackages: ["motion"],
+  experimental: {
+    turbo: {
+      resolveAlias: {
+        "motion/react-three": "motion/react-three",
+      },
+    },
+  },
 };
 
 export default nextConfig;

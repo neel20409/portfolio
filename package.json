@@ -10,10 +10,9 @@
   },
   "dependencies": {
     "@react-email/components": "^1.0.6",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^10.0.0-alpha.2",
+    "@react-three/drei": "^10.0.0",
+    "@react-three/fiber": "^9.0.0-rc.0",
     "@types/three": "^0.182.0",
-    "framer-motion-3d": "^12.4.13",
     "motion": "^12.29.2",
     "next": "16.1.6",
     "or": "^0.2.0",
