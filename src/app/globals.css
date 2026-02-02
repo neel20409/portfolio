@@ -23,4 +23,29 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  
+}
+/* src/app/globals.css */
+/* src/app/globals.css */
+@layer utilities {
+  @keyframes shooting-star {
+    0% { 
+      transform: translateX(0) translateY(0) rotate(45deg); 
+      opacity: 0; /* Start invisible to avoid "hanging fruit" look */
+    }
+    5% { 
+      opacity: 1; /* Fade in quickly once moving */
+    }
+    90% { 
+      opacity: 1; 
+    }
+    100% { 
+      transform: translateX(-1000px) translateY(1000px) rotate(45deg); 
+      opacity: 0; 
+    }
+  }
+
+  .animate-shooting {
+    animation: shooting-star linear infinite;
+  }
 }
