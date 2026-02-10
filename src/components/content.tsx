@@ -69,7 +69,7 @@ const Content = ({ onCVClick }: { onCVClick: () => void }) => {
 
         <div className="h-10 mt-4 flex items-center">
           <p className="text-gray-200 text-2xl font-medium tracking-wide">
-            The Architect of Intelligence refined in <span className="text-indigo-400">{displayText}</span>
+            The Architect of Intelligence, refined in <span className="text-indigo-400">{displayText}</span>
             <span className="animate-pulse border-r-2 border-indigo-500 ml-1"></span>
           </p>
         </div>
