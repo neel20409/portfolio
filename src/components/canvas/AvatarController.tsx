@@ -21,31 +21,33 @@ export default function AvatarController({ containerRef }: { containerRef: React
     damping: 30 
   });
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Math.abs ensures we detect movement regardless of scroll direction
-    const velocity = Math.abs(smoothVelocity.get());
-    
-    // Define the specific range for the Project Section (matches page.tsx logic)
-    const isProjectSection = latest >= 0.8 && latest < 1;
+ // Inside src/components/canvas/AvatarController.tsx
 
-    if (isProjectSection) {
-      // Priority 1: Action state for the project zone
-      if (currentModel !== "/models/kick.glb") {
-        setCurrentModel("/models/kick.glb");
-      }
-    } else if (velocity > 0.0001) {
-      // Priority 2: Running state (triggered by any movement)
-      if (currentModel !== "/models/run.glb") {
-        setCurrentModel("/models/run.glb");
-      }
-    } else {
-      // Priority 3: Idle state when velocity is near zero
-      if (currentModel !== "/models/wait.glb") {
-        setCurrentModel("/models/wait.glb");
-      }
+useMotionValueEvent(scrollYProgress, "change", (latest) => {
+  const velocity = Math.abs(smoothVelocity.get());
+  
+  const isProjectSection = latest >= 0.7 && latest < 0.9;
+  const isContactSection = latest >= 0.9; // New range for the bottom of the page
+
+  if (isContactSection) {
+    // Transition to a "Hi" or "Waiting" pose when at the contact form
+    if (currentModel !== "/models/hiavatar.glb") {
+      setCurrentModel("/models/hiavatar.glb"); 
     }
-  });
-
+  } else if (isProjectSection) {
+    if (currentModel !== "/models/kick.glb") {
+      setCurrentModel("/models/kick.glb");
+    }
+  } else if (velocity > 0.0001) {
+    if (currentModel !== "/models/run.glb") {
+      setCurrentModel("/models/run.glb");
+    }
+  } else {
+    if (currentModel !== "/models/wait.glb") {
+      setCurrentModel("/models/wait.glb");
+    }
+  }
+});
   // Smooth position mapping as the user scrolls
   const avatarX = useTransform(
     scrollYProgress,

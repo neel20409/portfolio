@@ -1,24 +1,42 @@
-import { resend } from '@/libs/resend';
 import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
   try {
     const { name, email, message } = await req.json();
 
-    if (!resend) {
-      return NextResponse.json({ error: "Email service not configured" }, { status: 500 });
-    }
-
-    const data = await resend.emails.send({
-      from: 'Portfolio <onboarding@resend.dev>', // Resend provides this for testing
-      to: [process.env.CONTACT_EMAIL as string],
-      subject: `New Message from ${name}`,
-      replyTo: email,
-      text: message,
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+      },
     });
 
-    return NextResponse.json({ success: true, data });
+    const myMailOptions = {
+      from: `"Portfolio Notification" <${process.env.GMAIL_USER}>`,
+      to: process.env.CONTACT_EMAIL,
+      subject: `New Message from ${name}`,
+      replyTo: email,
+      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+    };
+
+    const thankYouMailOptions = {
+      from: `"Neel Bhatt" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: `Thanks for reaching out, ${name}!`,
+      text: `Hi ${name},\n\nThank you for reaching out. I've received your message and will get back to you soon.`,
+    };
+
+    // REMOVE 'await' here to send the response immediately
+    // This runs the email sending process in the background
+    transporter.sendMail(myMailOptions).catch(err => console.error("Admin Email Error:", err));
+    transporter.sendMail(thankYouMailOptions).catch(err => console.error("User Email Error:", err));
+
+    // Send immediate success to the frontend
+    return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error("Route Error:", error);
+    return NextResponse.json({ error: "Request failed" }, { status: 500 });
   }
 }

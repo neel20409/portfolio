@@ -42,3 +42,4 @@ export default function Avatar({ modelPath }: { modelPath: string }) {
 useGLTF.preload("/models/run.glb");
 useGLTF.preload("/models/wait.glb");
 useGLTF.preload("/models/avatar.glb");
+useGLTF.preload("/models/hiavatar.glb");
