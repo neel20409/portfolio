@@ -1,83 +1,81 @@
 "use client";
-import { useState, useMemo } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, useVelocity } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Scene from "./Scene";
 import Avatar from "./Avatar";
 
-export default function AvatarController({ containerRef }: { containerRef: React.RefObject<HTMLDivElement> }) {
+export default function AvatarController() {
   const [currentModel, setCurrentModel] = useState("/models/wait.glb");
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  // 1. Setup Scroll-based positioning
+  const { scrollYProgress } = useScroll();
 
-  // Track velocity to detect any scroll movement (up or down)
-  const scrollVelocity = useVelocity(scrollYProgress);
-  
-  // Create a smoothed velocity value to prevent flickering during rapid direction changes
-  const smoothVelocity = useSpring(scrollVelocity, { 
-    stiffness: 100, 
-    damping: 30 
-  });
-
- // Inside src/components/canvas/AvatarController.tsx
-
-useMotionValueEvent(scrollYProgress, "change", (latest) => {
-  const velocity = Math.abs(smoothVelocity.get());
-  
-  const isProjectSection = latest >= 0.7 && latest < 0.9;
-  const isContactSection = latest >= 0.9; // New range for the bottom of the page
-
-  if (isContactSection) {
-    // Transition to a "Hi" or "Waiting" pose when at the contact form
-    if (currentModel !== "/models/hiavatar.glb") {
-      setCurrentModel("/models/hiavatar.glb"); 
-    }
-  } else if (isProjectSection) {
-    if (currentModel !== "/models/kick.glb") {
-      setCurrentModel("/models/kick.glb");
-    }
-  } else if (velocity > 0.0001) {
-    if (currentModel !== "/models/run.glb") {
-      setCurrentModel("/models/run.glb");
-    }
-  } else {
-    if (currentModel !== "/models/wait.glb") {
-      setCurrentModel("/models/wait.glb");
-    }
-  }
-});
-  // Smooth position mapping as the user scrolls
+  // Movement Logic: 
+  // - Hero: Center (0%)
+  // - Journey: Far Left (-45%)
+  // - Tech: Back to Center or slightly right (0%)
+  // - Projects: Far Right (40%)
   const avatarX = useTransform(
     scrollYProgress,
-    [0, 0.2, 0.5, 0.7, 1], 
-    ["-7%", "-48%", "-48%", "5%", "5%"] 
+    [0, 0.15, 0.6, 0.75, 1],
+    ["0%", "-45%", "-20%", "10%", "0%"]
   );
+const verticalPosition: [number, number, number] = 
+  currentModel === "/models/waitlay.glb" ? [0, -4.5, 0] : [0, -6.5, 0];
+  // 2. Setup Intersection Observer for Animations
+  useEffect(() => {
+    const observerOptions = { threshold: 0.5 };
 
-  const avatarScale = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.5, 0.6], 
-    [1, 1, 1, 0.8] 
-  );
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          switch (entry.target.id) {
+            case "hero":
+              setCurrentModel("/models/wait.glb");
+              break;
+            case "journey":
+              setCurrentModel("/models/run.glb"); // Pose for timeline
+              break;
+            case "tech":
+              setCurrentModel("/models/cigrette.glb"); // Waving at skills
+              break;
+            case "projects":
+              setCurrentModel("/models/cigrette.glb"); // Action pose
+              break;
+            case "contact":
+              setCurrentModel("/models/waitlay.glb"); // Relaxed pose
+              break;
+          }
+        }
+      });
+    };
 
-  // Slight rotation based on scroll position to look more natural during transitions
-  const avatarRotateY = useTransform(
-    scrollYProgress,
-    [0.6, 0.7, 0.9],
-    [0, -0.5, 0]
-  );
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+    ["hero", "journey", "tech", "projects", "contact"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
+    // We apply the dynamic X movement to this motion.div
     <motion.div 
-      style={{ x: avatarX, scale: avatarScale }}
-      className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none"
+      style={{ x: avatarX }}
+      className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none transition-all duration-700 ease-out"
     >
       <div className="w-full h-screen">
         <Scene>
-          <motion.group style={{ rotationY: avatarRotateY }}>
-             <Avatar modelPath={currentModel} />
-          </motion.group>
+          <AnimatePresence mode="wait">
+            <motion.group
+              key={currentModel}
+              // Apply the vertical offset here
+             
+            >
+             <Avatar modelPath={currentModel} position={verticalPosition} />
+            </motion.group>
+          </AnimatePresence>
         </Scene>
       </div>
     </motion.div>

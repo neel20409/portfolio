@@ -4,10 +4,16 @@ import { useFrame } from "@react-three/fiber"; //
 import { useRef, useEffect } from "react"; //
 import * as THREE from "three"; //
 
-export default function Avatar({ modelPath }: { modelPath: string }) {
-  const group = useRef<THREE.Group>(null); //
-  const { scene, animations } = useGLTF(modelPath); //
-  const { actions } = useAnimations(animations, group); //
+export default function Avatar({ 
+  modelPath, 
+  position = [0, -6.5, 0] // Set a default value
+}: { 
+  modelPath: string; 
+  position?: [number, number, number] 
+}) {
+  const group = useRef<THREE.Group>(null);
+  const { scene, animations } = useGLTF(modelPath);
+  const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
     if (actions && Object.keys(actions).length > 0) {
@@ -32,14 +38,17 @@ export default function Avatar({ modelPath }: { modelPath: string }) {
   });
 
   return (
-    <Float speed={1} rotationIntensity={0.5} floatIntensity={0.1}> {/* */}
-      <primitive ref={group} object={scene} scale={6} position={[0, -6.5, 0]} rotation={[0, -0.6, 0]} /> {/* */}
+    <Float speed={1} rotationIntensity={0.5} floatIntensity={0.1}>
+      {/* Use the dynamic position prop here instead of a hardcoded array */}
+      <primitive ref={group} object={scene} scale={6} position={position} rotation={[0, -0.6, 0]} />
     </Float>
   );
 }
 
 // Preload the run model to avoid flickering
 useGLTF.preload("/models/run.glb");
-useGLTF.preload("/models/wait.glb");
-useGLTF.preload("/models/avatar.glb");
-useGLTF.preload("/models/hiavatar.glb");
+
+useGLTF.preload("/models/jump.glb");
+useGLTF.preload("/models/waitlay.glb");
+useGLTF.preload("/models/avatar2.glb");
+useGLTF.preload("/models/cigrette.glb");
