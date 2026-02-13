@@ -26,6 +26,72 @@ body {
   
 }
 /* src/app/globals.css */
+
+@layer components {
+  .glass-shine-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-shine-effect::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%; /* Start off-screen to the left */
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transform: skewX(-20deg);
+  }
+/* src/app/globals.css */
+
+.glass-shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-shine-effect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+.glass-shine-effect:hover::after {
+  animation: shine-animation 0.7s ease-in-out;
+}
+
+@keyframes shine-animation {
+  100% {
+    left: 150%;
+  }
+}
+  .glass-shine-effect:hover::after {
+    animation: shine-animation 0.7s ease-in-out;
+  }
+
+  @keyframes shine-animation {
+    100% {
+      left: 150%; /* Move off-screen to the right */
+    }
+  }
+}
+/* src/app/globals.css */
 /* src/app/globals.css */
 @layer utilities {
   @keyframes shooting-star {

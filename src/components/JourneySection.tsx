@@ -28,7 +28,7 @@ const JourneySection = () => {
           />
           
           {/* VERTICAL JOURNEY TEXT */}
-          <div className="sticky top-3/4 -translate-y-1/2 -translate-x-full pr-10 z-20">
+          <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-10 z-20">
           <h2 className="text-white text-7xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 pointer-events-none">
               Journey
             </h2>
