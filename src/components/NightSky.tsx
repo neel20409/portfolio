@@ -1,8 +1,20 @@
+'use client';
+import { useEffect, useState } from "react";
+
 /* src/components/NightSky.tsx */
 export default function NightSky() {
   const starCount = 15; 
-  const stars = Array.from({ length: starCount });
+ const [stars, setStars] = useState<{top: string, right: string, delay: string}[]>([]);
 
+  useEffect(() => {
+    // Generate the random values ONLY once after the component mounts
+    const generatedStars = Array.from({ length: 50 }).map(() => ({
+      top: `${Math.random() * -20 - 10}%`,
+      right: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 10}s`,
+    }));
+    setStars(generatedStars);
+  }, []);
   return (
     <div className="fixed inset-0 z-[-1] bg-[#000000] overflow-hidden">
       {/* Cloudy Night Atmosphere */}
