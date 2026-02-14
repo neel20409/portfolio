@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
   import { motion,AnimatePresence,useScroll, useTransform } from "framer-motion";
-import { motion as motion3D } from "framer-motion-3d";
+import { motion as motion3D } from "framer-motion";
 import Scene from "./Scene";
 import Avatar from "./Avatar";
 
