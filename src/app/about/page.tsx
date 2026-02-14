@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { User, GraduationCap, Code2, Heart } from "lucide-react";
-import { cn } from "@/libs/utils";
+
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
 import ContactSection from "@/components/ContactSection";

@@ -1,11 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-} from "motion/react";
+import React, { JSX, useState } from "react";
+import { AnimatePresence,useScroll, useMotionValueEvent } from "framer-motion";
+import { motion as motion3D } from "framer-motion";
 import { cn } from "@/libs/utils";
 
 export const FloatingNav = ({
@@ -28,18 +24,14 @@ export const FloatingNav = ({
       if (scrollYProgress.get() < 0.05) {
         setVisible(false);
       } else {
-        if (direction < 0) {
-          setVisible(true);
-        } else {
-          setVisible(true);
-        }
+        setVisible(true)
       }
     }
   });
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div
+      <motion3D.div
         initial={{ opacity: 1, y: -100 }}
         animate={{
           y: visible ? 0 : -100,
@@ -69,7 +61,7 @@ export const FloatingNav = ({
             <span className="hidden sm:block text-sm tracking-wide">{navItem.name}</span>
           </a>
         ))}
-      </motion.div>
+      </motion3D.div>
     </AnimatePresence>
   );
 };

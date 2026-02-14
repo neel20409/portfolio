@@ -1,8 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useScroll, useTransform } from "framer-motion";
-import { AnimatePresence } from "framer-motion";
-import { motion } from "framer-motion-3d";// Use the 3D version
+  import { AnimatePresence,useScroll, useTransform } from "framer-motion";
+import { motion as motion3D } from "framer-motion";
 import Scene from "./Scene";
 import Avatar from "./Avatar";
 
@@ -63,24 +62,24 @@ const verticalPosition: [number, number, number] =
 
   return (
     // We apply the dynamic X movement to this motion.div
-    <motion.div 
+    <motion3D.div 
       style={{ x: avatarX }}
       className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none transition-all duration-700 ease-out"
     >
       <div className="w-full h-screen">
         <Scene>
           <AnimatePresence mode="wait">
-            <motion3D.group
+            <motion3D.hgroup
               key={currentModel}
               // Apply the vertical offset here
-              position={verticalPosition}
+              
              
             >
              <Avatar modelPath={currentModel} position={verticalPosition} />
-            </motion3D.group>
+            </motion3D.hgroup>
           </AnimatePresence>
         </Scene>
       </div>
-    </motion.div>
+    </motion3D.div>
   );
 }

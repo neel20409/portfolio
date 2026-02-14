@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { motion, AnimatePresence, useMotionValue } from "motion/react";
+import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 import { cn } from "@/libs/utils";
 
 export const FollowerPointerCard = ({
@@ -69,8 +69,7 @@ export const FollowPointer = ({
   y: any;
   title?: string | React.ReactNode;
 }) => {
-  const colors = [
-    "#3b82f6"];
+  
   return (
     <motion.div
       className="absolute z-50 h-4 w-4 rounded-full"

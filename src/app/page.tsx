@@ -14,7 +14,7 @@ import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
 import  {PulseBeam} from "@/components/ui/PulseBeam";
 
 import { AvatarPointer } from "@/components/AvatarPointer"; // Ensure this component is created
-import AboutSection from "@/app/about/page";
+
 
 
 export default function Home() {

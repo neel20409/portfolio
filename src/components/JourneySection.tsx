@@ -1,14 +1,22 @@
 "use client";
 import React, { useRef } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, MotionValue } from 'framer-motion';
+
+// --- NEW: INTERFACE TO FIX TYPESCRIPT ERROR ---
+interface JourneyCardProps {
+  year: string;
+  title: string;
+  desc: string;
+  progress: MotionValue<number>;
+  threshold: number;
+}
 
 const JourneySection = () => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   
-  // 1. Track scroll progress specifically for the timeline container
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "end center"] // Line grows as container moves through center
+    offset: ["start center", "end center"] 
   });
 
   const scaleY = useSpring(scrollYProgress, {
@@ -29,7 +37,7 @@ const JourneySection = () => {
           
           {/* VERTICAL JOURNEY TEXT */}
           <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-10 z-20">
-          <h2 className="text-white text-7xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 pointer-events-none">
+            <h2 className="text-white text-7xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 pointer-events-none">
               Journey
             </h2>
           </div>
@@ -37,7 +45,6 @@ const JourneySection = () => {
 
         {/* JOURNEY STEPS */}
         <div className="relative z-10 w-full md:w-[40%] space-y-40 py-20">
-          {/* We pass the progress thresholds: 0.1, 0.5, 0.9 depending on position */}
           <JourneyCard 
             year="2023" 
             title="Python Foundations"
@@ -65,13 +72,12 @@ const JourneySection = () => {
   );
 };
 
-const JourneyCard = ({ year, title, desc, progress, threshold }) => {
-  // 2. Sychronize Dot Glow with Line Progress
-  // When the animated line (progress) passes the threshold, change color/glow
+// --- UPDATED: TYPED COMPONENT TO PASS VERCEL BUILD ---
+const JourneyCard = ({ year, title, desc, progress, threshold }: JourneyCardProps) => {
   const dotColor = useTransform(
     progress,
     [threshold - 0.05, threshold], 
-    ["#1e293b", "#6366f1"] // From Slate to Indigo
+    ["#1e293b", "#6366f1"] 
   );
 
   const dotGlow = useTransform(
@@ -84,7 +90,6 @@ const JourneyCard = ({ year, title, desc, progress, threshold }) => {
 
   return (
     <motion.div className="relative group">
-      {/* THE DOT: Style is linked to the scroll progress directly */}
       <motion.div 
         style={{ 
           backgroundColor: dotColor, 

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import SocialModal from './SocialModel';
 import { PulseBeam } from './ui/PulseBeam';
 import { AvatarPointer } from './AvatarPointer';
+import { Variants } from "framer-motion";
 const Content = ({ onCVClick }: { onCVClick: () => void }) => {
   const name = "Neel Bhatt";
   const roles = ["Web Development", "Mobile Development", "FrontEnd Designing", "3D Interactive Specialization"];
@@ -41,10 +42,10 @@ const Content = ({ onCVClick }: { onCVClick: () => void }) => {
     show: { transition: { staggerChildren: 0.1 } }
   };
 
-  const nameLetter = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
-  };
+ const nameLetter: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+};
 
   return (
     <div className="h-full flex flex-col justify-center items-start pl-20 relative z-10 pointer-events-none">
