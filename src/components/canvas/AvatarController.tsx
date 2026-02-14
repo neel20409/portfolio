@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useScroll, useTransform } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "motion/react-three"; // Use the 3D version
 import Scene from "./Scene";
 import Avatar from "./Avatar";
 
