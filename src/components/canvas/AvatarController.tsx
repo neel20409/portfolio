@@ -1,29 +1,26 @@
 "use client";
 import { useState, useEffect } from "react";
-  import { motion,AnimatePresence,useScroll, useTransform } from "framer-motion";
-import { motion as motion3D } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Scene from "./Scene";
 import Avatar from "./Avatar";
+
+// This creates a 3D-compatible motion component without needing framer-motion-3d
+const MotionGroup = motion.create("group" as any);
 
 export default function AvatarController() {
   const [currentModel, setCurrentModel] = useState("/models/wait.glb");
 
-  // 1. Setup Scroll-based positioning
   const { scrollYProgress } = useScroll();
 
-  // Movement Logic: 
-  // - Hero: Center (0%)
-  // - Journey: Far Left (-45%)
-  // - Tech: Back to Center or slightly right (0%)
-  // - Projects: Far Right (40%)
   const avatarX = useTransform(
     scrollYProgress,
     [0, 0.15, 0.6, 0.75, 1],
     ["0%", "-50%", "15%", "-4%", "0%"]
   );
-const verticalPosition: [number, number, number] = 
-  currentModel === "/models/waitlay.glb" ? [0, -4.5, 0] : [0, -6.5, 0];
-  // 2. Setup Intersection Observer for Animations
+
+  const verticalPosition: [number, number, number] = 
+    currentModel === "/models/waitlay.glb" ? [0, -4.5, 0] : [0, -6.5, 0];
+
   useEffect(() => {
     const observerOptions = { threshold: 0.5 };
 
@@ -35,16 +32,16 @@ const verticalPosition: [number, number, number] =
               setCurrentModel("/models/wait.glb");
               break;
             case "journey":
-              setCurrentModel("/models/run.glb"); // Pose for timeline
+              setCurrentModel("/models/run.glb");
               break;
             case "tech":
-              setCurrentModel("/models/cigrette.glb"); // Waving at skills
+              setCurrentModel("/models/cigrette.glb");
               break;
             case "projects":
-              setCurrentModel("/models/cigrette.glb"); // Action pose
+              setCurrentModel("/models/cigrette.glb");
               break;
             case "contact":
-              setCurrentModel("/models/waitlay.glb"); // Relaxed pose
+              setCurrentModel("/models/waitlay.glb");
               break;
           }
         }
@@ -61,26 +58,25 @@ const verticalPosition: [number, number, number] =
   }, []);
 
   return (
-    // We apply the dynamic X movement to this motion.div
-    <motion3D.div 
+    <motion.div 
       style={{ x: avatarX }}
       className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none transition-all duration-700 ease-out"
     >
       <div className="w-full h-screen">
         <Scene>
           <AnimatePresence mode="wait">
-            <motion3D.group
+            {/* Using MotionGroup ensures it stays a Three.js Group and doesn't become hgroup */}
+            <MotionGroup
               key={currentModel}
-              // Apply the vertical offset here
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-             
+              transition={{ duration: 0.5 }}
             >
-             <Avatar modelPath={currentModel} position={verticalPosition} />
-            </motion3D.group>
+              <Avatar modelPath={currentModel} position={verticalPosition} />
+            </MotionGroup>
           </AnimatePresence>
         </Scene>
       </div>
-    </motion3D.div>
+    </motion.div>
   );
 }
