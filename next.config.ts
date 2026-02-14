@@ -1,14 +1,8 @@
 import type { NextConfig } from "next";
 
-const nextConfig: any = {
-  transpilePackages: ["motion"],
-  experimental: {
-    turbo: {
-      resolveAlias: {
-        "motion/react-three": "motion/react-three",
-      },
-    },
-  },
+const nextConfig: NextConfig = {
+  transpilePackages: ["three", "motion"],
+  // Remove the 'experimental.turbo' block if it continues to cause warnings
 };
 
 export default nextConfig;
