@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-  import { AnimatePresence,useScroll, useTransform } from "framer-motion";
-import { motion as motion3D } from "framer-motion";
+  import { motion,AnimatePresence,useScroll, useTransform } from "framer-motion";
+import { motion as motion3D } from "framer-motion-3d";
 import Scene from "./Scene";
 import Avatar from "./Avatar";
 
@@ -69,14 +69,15 @@ const verticalPosition: [number, number, number] =
       <div className="w-full h-screen">
         <Scene>
           <AnimatePresence mode="wait">
-            <motion3D.hgroup
+            <motion3D.group
               key={currentModel}
               // Apply the vertical offset here
-              
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
              
             >
              <Avatar modelPath={currentModel} position={verticalPosition} />
-            </motion3D.hgroup>
+            </motion3D.group>
           </AnimatePresence>
         </Scene>
       </div>
