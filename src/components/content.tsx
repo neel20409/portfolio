@@ -2,6 +2,8 @@
 import { motion } from 'framer-motion';
 import React, { useState, useEffect } from 'react';
 import SocialModal from './SocialModel';
+import { PulseBeam } from './ui/PulseBeam';
+import { AvatarPointer } from './AvatarPointer';
 const Content = ({ onCVClick }: { onCVClick: () => void }) => {
   const name = "Neel Bhatt";
   const roles = ["Web Development", "Mobile Development", "FrontEnd Designing", "3D Interactive Specialization"];
@@ -54,6 +56,7 @@ const Content = ({ onCVClick }: { onCVClick: () => void }) => {
         transition={{ duration: 0.8 }}
         className="p-10 rounded-[2.5rem] border-amber-100 bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl pointer-events-auto"
       >
+        <AvatarPointer>
         <motion.h1 
           variants={nameContainer}
           initial="hidden"
@@ -73,20 +76,14 @@ const Content = ({ onCVClick }: { onCVClick: () => void }) => {
             <span className="animate-pulse border-r-2 border-indigo-500 ml-1"></span>
           </p>
         </div>
+        </AvatarPointer>
       </motion.div>
       {/* --- GLASS CARD END --- */}
 
       {/* Footer Elements */}
       <div className="fixed bottom-10 left-0 w-full px-10 flex justify-between items-end z-50 pointer-events-none">
         <div className="flex-1" /> 
-       <button 
-          onClick={() => setIsModalOpen(true)} // Trigger modal on click
-          cursor-pointer="true"
-          
-          className="pointer-events-auto flex items-center gap-2 px-8 py-3 bg-white text-black rounded-full font-bold shadow-xl hover:bg-gray-200 transition-colors"
-        >
-          CONNECT <span>+</span>
-        </button>
+<PulseBeam/>
       <div className="flex-1 flex justify-end">
   <a 
     href="/cv.pdf" 

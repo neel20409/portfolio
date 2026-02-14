@@ -23,16 +23,20 @@ const ProjectSection = () => {
       <div className="relative z-10 w-full lg:w-[60%] px-10 lg:pl-20 pb-40">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
+           
             <motion.div 
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               className="p-8 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-indigo-500/50 transition-all shadow-2xl"
-            >
+            > 
+               
               <span className="text-indigo-400 font-bold text-sm uppercase">{project.tech}</span>
               <h3 className="text-white text-3xl font-bold mt-2">{project.title}</h3>
               <p className="text-gray-400 mt-4">{project.desc}</p>
-            </motion.div>
+             
+          </motion.div>
+       
           ))}
         </div>
       </div>

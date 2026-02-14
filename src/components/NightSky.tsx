@@ -4,7 +4,7 @@ export default function NightSky() {
   const stars = Array.from({ length: starCount });
 
   return (
-    <div className="fixed inset-0 z-[-1] bg-[#020617] overflow-hidden">
+    <div className="fixed inset-0 z-[-1] bg-[#000000] overflow-hidden">
       {/* Cloudy Night Atmosphere */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-slate-800/20 blur-[120px] rounded-full animate-pulse" />
 

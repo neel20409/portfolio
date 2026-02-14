@@ -1,0 +1,2 @@
+// Inside your Environment component
+<Environment files="/textures/potsdamer_platz_1k.hdr" />

@@ -18,7 +18,7 @@ export default function AvatarController() {
   const avatarX = useTransform(
     scrollYProgress,
     [0, 0.15, 0.6, 0.75, 1],
-    ["0%", "-45%", "-20%", "10%", "0%"]
+    ["0%", "-50%", "15%", "-4%", "0%"]
   );
 const verticalPosition: [number, number, number] = 
   currentModel === "/models/waitlay.glb" ? [0, -4.5, 0] : [0, -6.5, 0];
