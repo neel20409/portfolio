@@ -7,14 +7,20 @@ import JourneySection from "@/components/JourneySection";
 import TechSlider from "@/components/TechSlider";
 import ProjectSection from "@/components/ProjectSection";
 import ContactSection from "@/components/ContactSection";
-import AvatarController from "@/components/canvas/AvatarController";
+
 import SocialModal from "@/components/SocialModel"; // Ensure this component is created
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
 import  {PulseBeam} from "@/components/ui/PulseBeam";
 
 import { AvatarPointer } from "@/components/AvatarPointer"; // Ensure this component is created
+import dynamic from 'next/dynamic';
 
+// Dynamically import the AvatarController (or whatever component holds your Scene/Canvas)
+const AvatarController = dynamic(
+  () => import('@/components/canvas/AvatarController'),
+  { ssr: false } // This is the key: it prevents the component from running during build/SSR
+);
 
 
 export default function Home() {
