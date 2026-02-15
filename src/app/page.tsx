@@ -68,7 +68,7 @@ export default function Home() {
         <PulseBeam/>
         <div className="flex-1 flex justify-end">
           <a href="/cv.pdf" download="..." className="pointer-events-auto text-gray-400 hover:text-white transition-colors text-xs md:text-sm font-medium">
-            CV ↓
+            VIEW CV ↓
           </a>
         </div>
       </div>

@@ -40,7 +40,7 @@ export const FloatingNav = ({
         transition={{ duration: 0.2 }}
         className={cn(
           // Adjusted: Added px-10 for horizontal expansion, space-x-8 for item distance
-          "flex max-w-[90vw] md:max-w-fit fixed top-5 md:top-10 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-xl z-[5000] px-4 md:px-10 py-3 items-center justify-center md:space-x-8",
+          "flex max-w-[90vw] md:max-w-fit fixed top-5 md:top-10 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-xl z-[5000] px-8 md:px-10 py-3 items-center justify-center md:space-x-10 space-x-8",
           className
         )}
       >

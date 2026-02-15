@@ -85,18 +85,7 @@ const Content = ({ onCVClick }: { onCVClick: () => void }) => {
       <div className="fixed bottom-10 left-0 w-full px-10 flex justify-between items-end z-50 pointer-events-none">
         <div className="flex-1" /> 
 <PulseBeam/>
-      <div className="flex-1 flex justify-end">
-  <a 
-    href="/cv.pdf" 
-    target="_blank" 
-    
-   rel="noopener noreferrer"
-    className="pointer-events-auto text-gray-400 hover:text-white transition-colors text-sm font-medium ml-10 flex items-center gap-2"
-  >
-    VIEW CV
-    <span className="text-[10px] opacity-50">↗</span>
-  </a>
-</div>
+      
       </div>
       <SocialModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
