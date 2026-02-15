@@ -1,7 +1,7 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
 import { Environment, ContactShadows } from "@react-three/drei";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 /**
  * Scene Component
@@ -11,6 +11,14 @@ import { Suspense } from "react";
  */
 // src/components/canvas/Scene.tsx
 export default function Scene({ children }: { children: React.ReactNode }) {
+ const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; //
+ 
   return (
     <div className="fixed top-0 left-1/4 -z-10 h-screen w-full transition-opacity duration-1000 pointer-events-none">
       <Canvas 
