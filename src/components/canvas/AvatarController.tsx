@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Scene from "./Scene";
 import Avatar from "./Avatar";
+import { useThree } from "@react-three/fiber";
 
 // This creates a 3D-compatible motion component without needing framer-motion-3d
 const MotionGroup = motion.create("group" as any);
@@ -12,14 +13,25 @@ export default function AvatarController() {
 
   const { scrollYProgress } = useScroll();
 
+  const { viewport } = useThree();
+  
+  // UPDATE: Calculate scale based on viewport width (approx 1 on desktop, 0.6 on mobile)
+  const responsiveScale = Math.min(viewport.width / 12, 1);
+  const isMobile = viewport.width < 6;
+  
+  // Update your motion logic to use viewport-relative values
+  // Instead of fixed percentages, we use viewport.width units
   const avatarX = useTransform(
     scrollYProgress,
     [0, 0.15, 0.6, 0.75, 1],
-    ["0%", "-50%", "15%", "-4%", "0%"]
+    [0, -viewport.width * 0.3, viewport.width * 0.1, -viewport.width * 0.05, 0]
   );
 
+  // UPDATE: Adjust vertical position so it sits higher on mobile
   const verticalPosition: [number, number, number] = 
-    currentModel === "/models/waitlay.glb" ? [0, -4.5, 0] : [0, -6.5, 0];
+    currentModel === "/models/waitlay.glb" 
+      ? [0, isMobile ? -3.5 : -4.5, 0] 
+      : [0, isMobile ? -4.5 : -6.5, 0];
 
   useEffect(() => {
     const observerOptions = { threshold: 0.5 };
@@ -69,7 +81,7 @@ export default function AvatarController() {
             <MotionGroup
               key={currentModel}
               initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
+              animate={{ scale: responsiveScale }}
               transition={{ duration: 0.5 }}
             >
               <Avatar modelPath={currentModel} position={verticalPosition} />

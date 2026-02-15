@@ -48,21 +48,21 @@ const Content = ({ onCVClick }: { onCVClick: () => void }) => {
 };
 
   return (
-    <div className="h-full flex flex-col justify-center items-start pl-20 relative z-10 pointer-events-none">
-      
+   <div className="h-full flex flex-col justify-center items-start px-4 md:pl-20 relative z-10 pointer-events-none">
       {/* --- GLASS CARD START --- */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8 }}
-        className="p-10 rounded-[2.5rem] border-amber-100 bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl pointer-events-auto"
+       className="p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border-amber-100 bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl pointer-events-auto"
       >
         <AvatarPointer>
         <motion.h1 
           variants={nameContainer}
           initial="hidden"
           animate="show"
-          className="text-white text-6xl font-black uppercase flex flex-wrap"
+         /* UPDATE: Changed text-6xl to text-4xl on mobile */
+          className="text-white text-4xl md:text-6xl font-black uppercase flex flex-wrap"
         >
           {name.split("").map((char, i) => (
             <motion.span key={i} variants={nameLetter}>

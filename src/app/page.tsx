@@ -57,11 +57,11 @@ export default function Home() {
       </AvatarPointer>
       <FloatingNav navItems={navItems} />
       {/* FIXED GLOBAL FOOTER UI */}
-      <div className="fixed bottom-10 left-0 w-full px-10 flex justify-between items-end z-50 pointer-events-none">
+      <div className="fixed bottom-5 md:bottom-10 left-0 w-full px-6 md:px-10 flex justify-between items-end z-50 pointer-events-none">
         <div className="flex-1" /> 
         <PulseBeam/>
         <div className="flex-1 flex justify-end">
-          <a href="/cv.pdf" download="Neel_Bhatt_CV.pdf" className="pointer-events-auto text-gray-400 hover:text-white transition-colors text-sm font-medium">
+          <a href="/cv.pdf" download="..." className="pointer-events-auto text-gray-400 hover:text-white transition-colors text-xs md:text-sm font-medium">
             CV ↓
           </a>
         </div>
@@ -71,7 +71,7 @@ export default function Home() {
 
       {/* SECTIONS */}
       <section id="hero" className="relative h-screen w-full flex items-center z-10">
-        <div className="w-1/2 px-10 lg:px-20">
+        <div className="w-full md:w-1/2 px-6 md:px-10 lg:px-20">
           <Content onCVClick={() => console.log("CV Downloaded")} />
         </div>
       </section>

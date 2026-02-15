@@ -26,26 +26,25 @@ const JourneySection = () => {
 
   return (
     <div className="relative min-h-screen py-20 bg-transparent">
-      <div ref={containerRef} className="relative max-w-7xl mx-auto px-10 flex justify-end">
-        
-        {/* THE TIMELINE LINE */}
-        <div className="absolute left-1/2 md:left-[56%] top-0 bottom-0 w-0.5 bg-white/10">
-          <motion.div 
+     <div ref={containerRef} className="relative max-w-7xl mx-auto px-6 md:px-10 flex justify-end"> 
+        {/* UPDATE: Absolute left changes from center to 20px on mobile */}
+        <div className="absolute left-[20px] md:left-[56%] top-0 bottom-0 w-0.5 bg-white/10">
+          <motion.div
             style={{ scaleY, originY: 0 }}
             className="absolute top-0 left-0 w-full h-full bg-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.6)]"
           />
           
-          {/* VERTICAL JOURNEY TEXT */}
-          <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-10 z-20">
-            <h2 className="text-white text-7xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 pointer-events-none">
+        {/* UPDATE: Hidden on mobile to prevent clutter */}
+          <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-10 z-20 hidden md:block">
+              <h2 className="text-white text-7xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 pointer-events-none">
               Journey
             </h2>
           </div>
         </div>
 
-        {/* JOURNEY STEPS */}
-        <div className="relative z-10 w-full md:w-[40%] space-y-40 py-20">
-          <JourneyCard 
+      {/* UPDATE: w-full on mobile, space-y-20 instead of 40 */}
+        <div className="relative z-10 w-full md:w-[40%] space-y-20 md:space-y-40 py-10 md:py-20">
+             <JourneyCard 
             year="2023" 
             title="Python Foundations"
             desc="Mastered Python basics and React Native."
@@ -96,13 +95,14 @@ const JourneyCard = ({ year, title, desc, progress, threshold }: JourneyCardProp
           boxShadow: dotGlow,
           scale: dotScale 
         }}
-        className="absolute -left-[43px] md:-left-[53px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full border-4 border-[#050816] z-30 transition-colors"
+      className="absolute -left-[33px] md:-left-[53px] top-1/2 -translate-y-1/2 w-4 h-4 md:w-6 md:h-6 rounded-full border-4 border-[#050816] z-30 transition-colors"
+      
       />
 
       <motion.div 
         initial={{ opacity: 0.2 }}
         whileInView={{ opacity: 1 }}
-        className="p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10"
+        className="p-8 md:p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10"
       >
         <span className="text-indigo-400 font-bold text-xl">{year}</span>
         <h3 className="text-white text-3xl font-bold mt-2">{title}</h3>
