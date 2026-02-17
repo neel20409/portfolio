@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { VisitorCounter } from "@/components/VisitorCounter";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* Navigation is usually shared across all pages */}
         <nav className="fixed top-0 w-full z-50">
-          {/* We will build this next */}
+          <VisitorCounter />
         </nav>
 
         <main className="content-layer">
