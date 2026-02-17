@@ -6,7 +6,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Neel Bhatt | 3D Portfolio",
-  description: "Next.js & Framer Motion 3D Portfolio",
+  description: "...",
+  openGraph: {
+    title: "Neel Bhatt | 3D Portfolio",
+    description: "...",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default function RootLayout({

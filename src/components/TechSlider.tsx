@@ -1,47 +1,48 @@
 "use client";
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { cn } from "@/libs/utils";
 const technologies = [
-  { 
-    name: "Python", 
-    logo: "/logos/python.svg", 
+  {
+    name: "Python",
+    logo: "/logos/python.svg",
     gradient: "from-blue-500 via-blue-400 to-yellow-400",
     glow: "shadow-blue-500/20"
   },
-  { 
-    name: "React", 
-    logo: "/logos/react.svg", 
+  {
+    name: "React",
+    logo: "/logos/react.svg",
     gradient: "from-cyan-400 via-cyan-500 to-blue-500",
     glow: "shadow-cyan-500/20"
   },
-  { 
-    name: "Next.js", 
-    logo: "/logos/nextdotjs.svg", 
+  {
+    name: "Next.js",
+    logo: "/logos/nextdotjs.svg",
     gradient: "from-zinc-400 via-zinc-200 to-white",
     glow: "shadow-white/10"
   },
-  { 
-    name: "Three.js", 
-    logo: "/logos/threedotjs.svg", 
+  {
+    name: "Three.js",
+    logo: "/logos/threedotjs.svg",
     gradient: "from-indigo-400 via-purple-500 to-pink-500",
     glow: "shadow-indigo-500/20"
   },
-  { 
-    name: "Node.js", 
-    logo: "/logos/nodedotjs.svg", 
+  {
+    name: "Node.js",
+    logo: "/logos/nodedotjs.svg",
     gradient: "from-green-500 via-emerald-400 to-lime-400",
     glow: "shadow-emerald-500/20"
   },
-  { 
-    name: "Kotlin", 
-    logo: "/logos/kotlin.svg", 
+  {
+    name: "Kotlin",
+    logo: "/logos/kotlin.svg",
     gradient: "from-purple-600 via-violet-500 to-orange-400",
     glow: "shadow-purple-500/20"
   },
-  { 
-    name: "TypeScript", 
-    logo: "/logos/tsnode.svg", 
+  {
+    name: "TypeScript",
+    logo: "/logos/tsnode.svg",
     gradient: "from-blue-600 via-blue-500 to-sky-400",
     glow: "shadow-blue-600/20"
   }
@@ -54,7 +55,7 @@ const TechSlider = () => {
   return (
     /* UPDATE: Changed w-300 and pl-60 to w-full and responsive padding */
     <div className="relative w-full py-10 md:py-20 bg-transparent overflow-hidden px-0">
-      
+
       {/* UPDATE: Responsive Heading size (text-3xl for mobile) */}
       <div className="max-w-7xl mx-auto px-6 md:px-10 mb-8 md:mb-12">
         <h2 className="text-white/20 text-3xl md:text-5xl font-black uppercase tracking-widest italic">
@@ -68,11 +69,11 @@ const TechSlider = () => {
 
       {/* The Animated Track */}
       <div className="flex overflow-hidden">
-        <motion.div 
+        <motion.div
           /* UPDATE: Reduced gap for mobile (gap-5) and increased speed for smaller screens */
           className="flex whitespace-nowrap gap-5 md:gap-10 mt-5"
           animate={{
-            x: ["0%", "-50%"], 
+            x: ["0%", "-50%"],
           }}
           transition={{
             ease: "linear",
@@ -81,8 +82,8 @@ const TechSlider = () => {
           }}
         >
           {duplicatedTech.map((tech, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={cn(
                 /* UPDATE: Reduced padding (px-6 py-4) and rounded corners for mobile */
                 "relative flex items-center gap-3 md:gap-5 px-6 md:px-10 py-4 md:py-7 rounded-2xl md:rounded-[2rem] transition-all duration-500 group cursor-default",
@@ -96,14 +97,16 @@ const TechSlider = () => {
               {/* UPDATE: Reduced icon wrapper size for mobile (w-10 h-10) */}
               <div className="relative w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 overflow-hidden">
                 <div className="absolute inset-0 bg-indigo-600/20 group-hover:bg-indigo-600/40 transition-colors" />
-                
+
                 <span className="relative text-indigo-400 font-black text-xl md:text-2xl group-hover:scale-110 group-hover:text-white transition-all duration-500 drop-shadow-[0_0_10px_rgba(129,140,248,0.8)]">
                   {tech.logo ? (
                     /* UPDATE: Reduced logo size (w-6 h-6) */
-                    <img 
+                    <Image
                       src={tech.logo}
                       alt={tech.name}
-                      className="w-6 h-6 md:w-8 md:h-8 object-contain"  
+                      width={32}
+                      height={32}
+                      className="w-6 h-6 md:w-8 md:h-8 object-contain"
                     />
                   ) : (
                     tech.name[0]

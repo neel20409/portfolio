@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   transpilePackages: ["three", "framer-motion", "framer-motion-3d"],
-  
+
   // 1. Skip TypeScript errors during build (Fixes the 'group' property error)
   typescript: {
     ignoreBuildErrors: true,
@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
 
   // 3. Keep images unoptimized for easier handling of 3D assets/textures
   images: {
-    unoptimized: true,
+    // unoptimized: true, // Commented out to enable optimization
   }
 };
 

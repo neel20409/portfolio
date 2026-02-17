@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { FollowerPointerCard } from "./ui/following-pointer";
 
 interface AvatarPointerProps {
@@ -33,10 +34,10 @@ const TitleComponent = ({
   avatar: string;
 }) => (
   <div className="flex items-center space-x-2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 shadow-2xl">
-    <img
+    <Image
       src={avatar}
-      height="24"
-      width="24"
+      height={24}
+      width={24}
       alt="Neel"
       className="rounded-full border border-blue-500 object-cover"
     />
