@@ -15,6 +15,7 @@ import  {PulseBeam} from "@/components/ui/PulseBeam";
 
 import { AvatarPointer } from "@/components/AvatarPointer"; // Ensure this component is created
 import dynamic from 'next/dynamic';
+import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 
 // Dynamically import the AvatarController (or whatever component holds your Scene/Canvas)
 const AvatarController = dynamic(
@@ -80,6 +81,7 @@ export default function Home() {
         <div className="w-full md:w-1/2 px-6 md:px-10 lg:px-20">
           <Content onCVClick={() => console.log("CV Downloaded")} />
         </div>
+        <ScrollIndicator />
       </section>
 
       <section id="journey" className="relative z-10"><JourneySection /></section>
