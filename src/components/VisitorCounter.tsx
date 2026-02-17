@@ -28,7 +28,7 @@ export const VisitorCounter = () => {
     return (
         <div className="fixed top-5 right-5 z-[5000] hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg text-white/80 text-xs font-medium pointer-events-none select-none">
             <IconEye className="w-4 h-4 text-emerald-400" />
-            <span>{count.toLocaleString()} Views</span>
+            <span>{count.toLocaleString()} Visitors</span>
         </div>
     );
 };
