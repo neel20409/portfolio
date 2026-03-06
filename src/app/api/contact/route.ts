@@ -28,15 +28,20 @@ export async function POST(req: Request) {
       text: `Hi ${name},\n\nThank you for reaching out. I've received your message and will get back to you soon.`,
     };
 
-    // REMOVE 'await' here to send the response immediately
-    // This runs the email sending process in the background
-    transporter.sendMail(myMailOptions).catch(err => console.error("Admin Email Error:", err));
-    transporter.sendMail(thankYouMailOptions).catch(err => console.error("User Email Error:", err));
+    // Await both emails to ensure they are sent before the function exits
+    // This is critical for serverless environments like Vercel
+    await Promise.all([
+      transporter.sendMail(myMailOptions),
+      transporter.sendMail(thankYouMailOptions)
+    ]);
 
     // Send immediate success to the frontend
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Route Error:", error);
-    return NextResponse.json({ error: "Request failed" }, { status: 500 });
+    return NextResponse.json({
+      error: "Request failed",
+      details: error instanceof Error ? error.message : "Unknown error"
+    }, { status: 500 });
   }
 }
