@@ -14,11 +14,11 @@ const ProjectSection = () => {
       image: "/proof/pic2.jpeg"
     },
     {
-      title: "Blogging System",
+      title: "Sync Watch",
       tech: "Next.js",
-      desc: "Full-stack CMS platform.",
-      link: "https://github.com",
-      image: null
+      desc: "Full-stack Video streaming platform.",
+      link: "https://syncwatch-production-bf3c.up.railway.app/",
+      image: "/proof/Pic3.png"
     },
     {
       title: "AI Chatbot",
