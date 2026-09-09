@@ -7,7 +7,6 @@ export const VisitorCounter = () => {
     const [count, setCount] = useState<number | null>(null);
 
     useEffect(() => {
-        // Fetch and increment on mount
         const updateCount = async () => {
             try {
                 const res = await fetch("/api/visitors", { method: "POST" });
@@ -26,9 +25,13 @@ export const VisitorCounter = () => {
     if (count === null) return null;
 
     return (
-        <div className="fixed top-5 right-5 z-[5000] hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg text-white/80 text-xs font-medium pointer-events-none select-none">
-            <IconEye className="w-4 h-4 text-emerald-400" />
-            <span>{count.toLocaleString()} Visitors</span>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 text-white/80 text-xs font-medium pointer-events-auto select-none transition-all shadow-lg shadow-black/40">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="font-mono text-emerald-300 font-semibold">{count.toLocaleString()}</span>
+            <span className="hidden sm:inline text-gray-400 text-[11px]">Visitors</span>
         </div>
     );
 };

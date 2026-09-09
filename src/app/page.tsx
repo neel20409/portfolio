@@ -15,7 +15,6 @@ import { PulseBeam } from "@/components/ui/PulseBeam";
 import { AvatarPointer } from "@/components/AvatarPointer";
 import dynamic from 'next/dynamic';
 import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
-import CommandPalette from "@/components/CommandPalette";
 import AudioVisualizer from "@/components/AudioVisualizer";
 
 // Dynamically import the AvatarController (or whatever component holds your Scene/Canvas)
@@ -56,7 +55,6 @@ export default function Home() {
   return (
     <main ref={containerRef} className="relative bg-transparent overflow-x-hidden">
       <NightSky />
-      <CommandPalette />
       <AudioVisualizer />
       
       <AvatarPointer>

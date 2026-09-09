@@ -15,6 +15,7 @@ import {
   X,
   Zap
 } from 'lucide-react';
+import { VisitorCounter } from './VisitorCounter';
 
 interface CommandItem {
   id: string;
@@ -209,18 +210,20 @@ export default function CommandPalette() {
 
   return (
     <>
-      {/* Floating HUD Trigger Pill in Top Right Header */}
-      <div className="fixed top-5 right-6 md:right-10 z-50">
+      {/* Floating HUD & Status Dock in Top Right Header */}
+      <div className="fixed top-5 right-4 md:right-8 z-50 flex items-center gap-2.5">
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 hover:border-indigo-500/50 text-xs font-mono text-gray-300 hover:text-white transition-all shadow-lg shadow-black/40 active:scale-95"
+          className="group flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 hover:border-indigo-500/50 text-xs font-mono text-gray-300 hover:text-white transition-all shadow-lg shadow-black/40 active:scale-95 cursor-pointer"
+          title="Open Command Palette (⌘K)"
         >
           <Terminal className="w-3.5 h-3.5 text-indigo-400 group-hover:animate-pulse" />
-          <span className="hidden sm:inline">HUD</span>
+          <span className="font-semibold tracking-wide">HUD</span>
           <kbd className="px-1.5 py-0.5 text-[10px] font-sans font-bold bg-white/10 rounded border border-white/10 text-gray-400 group-hover:text-indigo-200">
             ⌘K
           </kbd>
         </button>
+        <VisitorCounter />
       </div>
 
       {/* MATRIX DIGITAL RAIN OVERLAY (EASTER EGG) */}
