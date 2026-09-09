@@ -13,9 +13,16 @@ import {
   Code, 
   Compass, 
   X,
-  Zap
+  Zap,
+  Volume2,
+  VolumeX,
+  Briefcase,
+  TerminalSquare
 } from 'lucide-react';
 import { VisitorCounter } from './VisitorCounter';
+import DevTerminal from './DevTerminal';
+import RecruiterModal from './RecruiterModal';
+import { sound } from '@/utils/soundEngine';
 
 interface CommandItem {
   id: string;
@@ -32,15 +39,28 @@ export default function CommandPalette() {
   const [query, setQuery] = useState('');
   const [copied, setCopied] = useState(false);
   const [matrixActive, setMatrixActive] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isRecruiterOpen, setIsRecruiterOpen] = useState(false);
+  const [isSoundOn, setIsSoundOn] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Keyboard shortcut listener (Cmd+K / Ctrl+K)
+  useEffect(() => {
+    setIsSoundOn(sound.getSoundState());
+  }, []);
+
+  // Keyboard shortcut listener (Cmd+K / Ctrl+K and `)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
+        sound.playWarp();
         setIsOpen((prev) => !prev);
+      }
+      if (e.key === '`' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
+        e.preventDefault();
+        sound.playWarp();
+        setIsTerminalOpen((prev) => !prev);
       }
       if (e.key === 'Escape') {
         setIsOpen(false);
@@ -53,12 +73,19 @@ export default function CommandPalette() {
 
   useEffect(() => {
     if (isOpen) {
+      sound.playWarp();
       setTimeout(() => inputRef.current?.focus(), 50);
       setSelectedIndex(0);
     }
   }, [isOpen]);
 
+  const toggleSound = () => {
+    const next = sound.toggleSound();
+    setIsSoundOn(next);
+  };
+
   const scrollToSection = (id: string) => {
+    sound.playClick();
     setIsOpen(false);
     const el = document.getElementById(id);
     if (el) {
@@ -69,6 +96,7 @@ export default function CommandPalette() {
   };
 
   const copyEmail = () => {
+    sound.playChime();
     navigator.clipboard.writeText('bhattneel2004@gmail.com');
     setCopied(true);
     setTimeout(() => {
@@ -78,11 +106,40 @@ export default function CommandPalette() {
   };
 
   const toggleMatrixMode = () => {
+    sound.playChime();
     setMatrixActive((prev) => !prev);
     setIsOpen(false);
   };
 
   const commands: CommandItem[] = [
+    // Recruiter & Fast Track
+    {
+      id: 'action-recruiter',
+      category: 'Recruiter Fast Track',
+      title: 'Open Recruiter & Hiring Fast-Track',
+      subtitle: '1-Click WhatsApp, Email & Candidate Summary',
+      icon: <Zap className="w-4 h-4 text-emerald-400 fill-current" />,
+      action: () => {
+        sound.playClick();
+        setIsRecruiterOpen(true);
+        setIsOpen(false);
+      },
+      shortcut: '⚡',
+    },
+    {
+      id: 'action-terminal',
+      category: 'Developer Tools',
+      title: 'Launch Interactive AI Dev Terminal CLI',
+      subtitle: 'Type commands, cat resume, inspect stack',
+      icon: <TerminalSquare className="w-4 h-4 text-emerald-400" />,
+      action: () => {
+        sound.playClick();
+        setIsTerminalOpen(true);
+        setIsOpen(false);
+      },
+      shortcut: '~',
+    },
+
     // Navigation
     {
       id: 'nav-home',
@@ -131,6 +188,7 @@ export default function CommandPalette() {
       subtitle: '/about',
       icon: <Compass className="w-4 h-4 text-blue-400" />,
       action: () => {
+        sound.playClick();
         window.location.href = '/about';
       },
     },
@@ -143,7 +201,20 @@ export default function CommandPalette() {
       subtitle: 'https://obix360.com',
       icon: <ExternalLink className="w-4 h-4 text-emerald-400" />,
       action: () => {
+        sound.playClick();
         window.open('https://obix360.com', '_blank');
+        setIsOpen(false);
+      },
+    },
+    {
+      id: 'proj-virtualhat',
+      category: 'Live SaaS & Projects',
+      title: 'Launch Virtual Hat App (AR / Face Mesh)',
+      subtitle: 'https://virtual-hat-app.vercel.app/',
+      icon: <ExternalLink className="w-4 h-4 text-emerald-400" />,
+      action: () => {
+        sound.playClick();
+        window.open('https://virtual-hat-app.vercel.app/', '_blank');
         setIsOpen(false);
       },
     },
@@ -154,6 +225,7 @@ export default function CommandPalette() {
       subtitle: 'https://syncwatch-psi.vercel.app/',
       icon: <ExternalLink className="w-4 h-4 text-cyan-400" />,
       action: () => {
+        sound.playClick();
         window.open('https://syncwatch-psi.vercel.app/', '_blank');
         setIsOpen(false);
       },
@@ -165,18 +237,8 @@ export default function CommandPalette() {
       subtitle: 'Gemini AI Assistant',
       icon: <ExternalLink className="w-4 h-4 text-purple-400" />,
       action: () => {
+        sound.playClick();
         window.open('https://neels-bot.vercel.app/', '_blank');
-        setIsOpen(false);
-      },
-    },
-    {
-      id: 'proj-virtualhat',
-      category: 'Live SaaS & Projects',
-      title: 'Launch Virtual Hat App (AR / Face Mesh)',
-      subtitle: 'https://virtual-hat-app.vercel.app/',
-      icon: <ExternalLink className="w-4 h-4 text-emerald-400" />,
-      action: () => {
-        window.open('https://virtual-hat-app.vercel.app/', '_blank');
         setIsOpen(false);
       },
     },
@@ -198,6 +260,7 @@ export default function CommandPalette() {
       subtitle: 'NeelBhatt_Resume.pdf',
       icon: <Download className="w-4 h-4 text-indigo-400" />,
       action: () => {
+        sound.playClick();
         window.open('/NeelBhatt_Resume.pdf', '_blank');
         setIsOpen(false);
       },
@@ -221,10 +284,40 @@ export default function CommandPalette() {
 
   return (
     <>
-      {/* Floating HUD & Status Dock in Top Right Header */}
-      <div className="fixed top-5 right-4 md:right-8 z-50 flex items-center gap-2.5">
+      {/* Floating Unified Top Right Glass Status Dock */}
+      <div className="fixed top-5 right-4 md:right-8 z-50 flex items-center gap-2">
+        {/* Recruiter Fast-Track Button */}
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            sound.playClick();
+            setIsRecruiterOpen(true);
+          }}
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-semibold backdrop-blur-xl shadow-lg shadow-emerald-950/40 transition-all active:scale-95 cursor-pointer"
+          title="Recruiter Fast-Track"
+        >
+          <Zap className="w-3.5 h-3.5 fill-current text-emerald-400 animate-pulse" />
+          <span>Hire</span>
+        </button>
+
+        {/* Terminal Button */}
+        <button
+          onClick={() => {
+            sound.playClick();
+            setIsTerminalOpen(true);
+          }}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-mono backdrop-blur-xl shadow-lg transition-all active:scale-95 cursor-pointer"
+          title="Open Terminal CLI (~)"
+        >
+          <TerminalSquare className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="hidden md:inline">CLI</span>
+        </button>
+
+        {/* HUD ⌘K Trigger Button */}
+        <button
+          onClick={() => {
+            sound.playClick();
+            setIsOpen(true);
+          }}
           className="group flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 hover:border-indigo-500/50 text-xs font-mono text-gray-300 hover:text-white transition-all shadow-lg shadow-black/40 active:scale-95 cursor-pointer"
           title="Open Command Palette (⌘K)"
         >
@@ -234,8 +327,25 @@ export default function CommandPalette() {
             ⌘K
           </kbd>
         </button>
+
+        {/* Sound Toggle */}
+        <button
+          onClick={toggleSound}
+          className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs backdrop-blur-xl shadow-lg transition-all active:scale-95 cursor-pointer"
+          title={isSoundOn ? 'Mute Sound FX' : 'Enable Sound FX'}
+        >
+          {isSoundOn ? <Volume2 className="w-3.5 h-3.5 text-indigo-400" /> : <VolumeX className="w-3.5 h-3.5 text-gray-500" />}
+        </button>
+
+        {/* Live Visitor Counter */}
         <VisitorCounter />
       </div>
+
+      {/* DEV TERMINAL CLI MODAL */}
+      <DevTerminal isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
+
+      {/* RECRUITER FAST-TRACK MODAL */}
+      <RecruiterModal isOpen={isRecruiterOpen} onClose={() => setIsRecruiterOpen(false)} />
 
       {/* MATRIX DIGITAL RAIN OVERLAY (EASTER EGG) */}
       {matrixActive && <MatrixCanvas onClose={() => setMatrixActive(false)} />}
@@ -267,9 +377,10 @@ export default function CommandPalette() {
                 <input
                   ref={inputRef}
                   type="text"
-                  placeholder="Type a command or search (e.g. obix, journey, cv, email)..."
+                  placeholder="Type a command or search (e.g. obix, hire, cli, cv)..."
                   value={query}
                   onChange={(e) => {
+                    sound.playKey();
                     setQuery(e.target.value);
                     setSelectedIndex(0);
                   }}
@@ -294,7 +405,10 @@ export default function CommandPalette() {
                     <button
                       key={cmd.id}
                       onClick={cmd.action}
-                      onMouseEnter={() => setSelectedIndex(i)}
+                      onMouseEnter={() => {
+                        sound.playHover();
+                        setSelectedIndex(i);
+                      }}
                       className={`w-full flex items-center justify-between p-3 rounded-2xl text-left transition-all duration-150 group ${
                         selectedIndex === i
                           ? 'bg-indigo-600/20 border border-indigo-500/40 text-white'
@@ -381,7 +495,6 @@ function MatrixCanvas({ onClose }: { onClose: () => void }) {
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
-        // Bright lead character
         ctx.fillStyle = Math.random() > 0.9 ? '#ffffff' : '#00ff66';
         ctx.fillText(text, x, y);
 
