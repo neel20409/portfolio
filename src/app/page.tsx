@@ -68,8 +68,15 @@ export default function Home() {
         <div className="flex-1" /> 
         <PulseBeam/>
         <div className="flex-1 flex justify-end">
-          <a href="/NeelBhatt Resume.pdf" download="..." className="pointer-events-auto text-gray-400 hover:text-white transition-colors text-xs md:text-sm font-medium">
-            VIEW CV ↓
+          <a
+            href="/NeelBhatt_Resume.pdf"
+            download="NeelBhatt_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pointer-events-auto text-gray-400 hover:text-white transition-colors text-xs md:text-sm font-medium tracking-wide flex items-center gap-1 group"
+          >
+            <span>VIEW CV</span>
+            <span className="group-hover:translate-y-0.5 transition-transform">↓</span>
           </a>
         </div>
       </div>

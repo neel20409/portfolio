@@ -6,15 +6,38 @@ import { VisitorCounter } from "@/components/VisitorCounter";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Neel Bhatt | 3D Portfolio",
-  description: "Personal 3D Developer Portfolio of Neel Bhatt showcasing full-stack and creative projects.",
+  title: "Neel Bhatt | Full-Stack & 3D Web Developer Portfolio",
+  description: "Personal portfolio of Neel Bhatt — Full-Stack Engineer specializing in Next.js, NestJS, PostgreSQL, React Native & 3D Interactive Web Experiences.",
+  keywords: [
+    "Neel Bhatt",
+    "Neel Bhatt Portfolio",
+    "Full-Stack Developer",
+    "Next.js Developer",
+    "Three.js Developer",
+    "React Native Developer",
+    "NestJS",
+    "PostgreSQL",
+    "OBIX 360",
+    "Software Engineer",
+  ],
+  authors: [{ name: "Neel Bhatt", url: "https://github.com/neel20409" }],
+  creator: "Neel Bhatt",
   verification: {
     google: "googleae932ab363d7543c",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
-    title: "Neel Bhatt | 3D Portfolio",
-    description: "Personal 3D Developer Portfolio of Neel Bhatt showcasing full-stack and creative projects.",
-    images: ["/og-image.jpg"],
+    title: "Neel Bhatt | Full-Stack & 3D Web Developer",
+    description: "Personal portfolio showcasing production SaaS architectures, mobile applications, and 3D web experiences.",
+    images: ["/proof/obix.jpeg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Neel Bhatt | Developer Portfolio",
+    description: "Full-Stack Developer & 3D Interactive Specialist.",
   },
 };
 

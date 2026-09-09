@@ -7,31 +7,38 @@ const ProjectSection = () => {
 
   const projects = [
     {
-      title: "Spotify Clone",
-      tech: "React Native",
-      desc: "Mobile music streaming app.",
-      link: "https://expo.dev/artifacts/eas/mLAQ4QzzANBrZz6SUTYsYm.apk",
-      image: "/proof/pic2.jpeg"
+      title: "OBIX 360",
+      tech: "Next.js • NestJS • Postgres • Docker",
+      desc: "Multi-tenant enterprise SaaS & mobile POS platform with real-time order tracking, automated WhatsApp invoicing, and OTA updates.",
+      link: "https://obix360.com",
+      image: "/proof/obix.jpeg"
     },
     {
       title: "Sync Watch",
-      tech: "Next.js",
-      desc: "Full-stack Video streaming platform.",
+      tech: "Next.js • Node.js",
+      desc: "Full-stack synchronized video streaming and watch-party platform with real-time sockets.",
       link: "https://syncwatch-production-bf3c.up.railway.app/",
       image: "/proof/Pic3.png"
     },
     {
+      title: "Spotify Clone",
+      tech: "React Native • Expo",
+      desc: "Full-featured mobile music streaming application with background playback and custom audio controls.",
+      link: "https://expo.dev/artifacts/eas/mLAQ4QzzANBrZz6SUTYsYm.apk",
+      image: "/proof/pic2.jpeg"
+    },
+    {
       title: "AI Chatbot",
-      tech: "Gemini API",
-      desc: "Intelligent conversational UI.",
+      tech: "Gemini AI • React",
+      desc: "Intelligent conversational assistant UI with contextual streaming and natural language processing.",
       link: "https://neels-bot.vercel.app/",
       image: "/proof/Pic1.png"
     },
     {
       title: "Portfolio 3D",
-      tech: "Three.js",
-      desc: "Interactive 3D web experience.",
-      link: "https://github.com",
+      tech: "Three.js • R3F • Next.js",
+      desc: "Interactive 3D avatar and spatial web experience with custom shaders, physics, and smooth camera transitions.",
+      link: "https://github.com/neel20409/portfolio",
       image: null
     },
   ];

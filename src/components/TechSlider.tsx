@@ -5,10 +5,16 @@ import { motion } from 'framer-motion';
 import { cn } from "@/libs/utils";
 const technologies = [
   {
-    name: "Python",
-    logo: "/logos/python.svg",
-    gradient: "from-blue-500 via-blue-400 to-yellow-400",
-    glow: "shadow-blue-500/20"
+    name: "Next.js",
+    logo: "/logos/nextdotjs.svg",
+    gradient: "from-zinc-400 via-zinc-200 to-white",
+    glow: "shadow-white/10"
+  },
+  {
+    name: "NestJS",
+    logo: null,
+    gradient: "from-red-500 via-rose-500 to-pink-500",
+    glow: "shadow-red-500/20"
   },
   {
     name: "React",
@@ -17,10 +23,16 @@ const technologies = [
     glow: "shadow-cyan-500/20"
   },
   {
-    name: "Next.js",
-    logo: "/logos/nextdotjs.svg",
-    gradient: "from-zinc-400 via-zinc-200 to-white",
-    glow: "shadow-white/10"
+    name: "TypeScript",
+    logo: "/logos/tsnode.svg",
+    gradient: "from-blue-600 via-blue-500 to-sky-400",
+    glow: "shadow-blue-600/20"
+  },
+  {
+    name: "PostgreSQL",
+    logo: null,
+    gradient: "from-blue-500 via-indigo-500 to-cyan-400",
+    glow: "shadow-blue-500/20"
   },
   {
     name: "Three.js",
@@ -35,16 +47,28 @@ const technologies = [
     glow: "shadow-emerald-500/20"
   },
   {
+    name: "Docker / VPS",
+    logo: null,
+    gradient: "from-sky-500 via-blue-600 to-indigo-600",
+    glow: "shadow-sky-500/20"
+  },
+  {
+    name: "React Native",
+    logo: "/logos/react.svg",
+    gradient: "from-cyan-500 via-blue-500 to-indigo-500",
+    glow: "shadow-cyan-500/20"
+  },
+  {
+    name: "Python",
+    logo: "/logos/python.svg",
+    gradient: "from-blue-500 via-blue-400 to-yellow-400",
+    glow: "shadow-blue-500/20"
+  },
+  {
     name: "Kotlin",
     logo: "/logos/kotlin.svg",
     gradient: "from-purple-600 via-violet-500 to-orange-400",
     glow: "shadow-purple-500/20"
-  },
-  {
-    name: "TypeScript",
-    logo: "/logos/tsnode.svg",
-    gradient: "from-blue-600 via-blue-500 to-sky-400",
-    glow: "shadow-blue-600/20"
   }
 ];
 
