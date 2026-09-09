@@ -47,7 +47,7 @@ const JourneySection = () => {
           <JourneyCard 
             year="2023" 
             title="Mobile & Python Foundations"
-            desc="Built cross-platform React Native apps (SpotifyClone) and core algorithmic backend architectures."
+            desc="Built cross-platform React Native apps (Virtual Hat AR App) and core algorithmic backend architectures."
             progress={scrollYProgress}
             threshold={0.1} 
           />

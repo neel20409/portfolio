@@ -25,12 +25,12 @@ const ProjectSection = () => {
       badgeColor: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30"
     },
     {
-      title: "Spotify Clone",
-      tech: "React Native • Expo",
-      desc: "Full-featured mobile music streaming application with background playback and custom audio controls.",
-      link: "https://expo.dev/artifacts/eas/mLAQ4QzzANBrZz6SUTYsYm.apk",
+      title: "Virtual Hat App",
+      tech: "React Native • Computer Vision • Expo",
+      desc: "Real-time virtual hat try-on application featuring camera face tracking, dynamic 2D/3D overlay alignment, and seamless mobile performance.",
+      link: "https://github.com/neel20409/virtual-hat-app",
       image: "/proof/pic2.jpeg",
-      badge: "📱 Android APK",
+      badge: "🧢 AR & Computer Vision",
       badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/30"
     },
     {

@@ -169,6 +169,17 @@ export default function CommandPalette() {
         setIsOpen(false);
       },
     },
+    {
+      id: 'proj-virtualhat',
+      category: 'Mobile & AR Projects',
+      title: 'Launch Virtual Hat App (AR / Computer Vision)',
+      subtitle: 'https://github.com/neel20409/virtual-hat-app',
+      icon: <ExternalLink className="w-4 h-4 text-pink-400" />,
+      action: () => {
+        window.open('https://github.com/neel20409/virtual-hat-app', '_blank');
+        setIsOpen(false);
+      },
+    },
 
     // Quick Actions
     {
