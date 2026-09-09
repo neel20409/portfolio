@@ -11,18 +11,18 @@ import ContactSection from "@/components/ContactSection";
 import SocialModal from "@/components/SocialModel"; // Ensure this component is created
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
-import  {PulseBeam} from "@/components/ui/PulseBeam";
-
-import { AvatarPointer } from "@/components/AvatarPointer"; // Ensure this component is created
+import { PulseBeam } from "@/components/ui/PulseBeam";
+import { AvatarPointer } from "@/components/AvatarPointer";
 import dynamic from 'next/dynamic';
 import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
+import CommandPalette from "@/components/CommandPalette";
+import AudioVisualizer from "@/components/AudioVisualizer";
 
 // Dynamically import the AvatarController (or whatever component holds your Scene/Canvas)
 const AvatarController = dynamic(
   () => import('@/components/canvas/AvatarController'),
   { ssr: false } // This is the key: it prevents the component from running during build/SSR
 );
-
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,9 +55,11 @@ export default function Home() {
 
   return (
     <main ref={containerRef} className="relative bg-transparent overflow-x-hidden">
-       
-      <NightSky /> 
-     <AvatarPointer>
+      <NightSky />
+      <CommandPalette />
+      <AudioVisualizer />
+      
+      <AvatarPointer>
         <div className="relative">
            <AvatarController />
         </div>
