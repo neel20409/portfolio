@@ -7,10 +7,13 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Neel Bhatt | 3D Portfolio",
-  description: "...",
+  description: "Personal 3D Developer Portfolio of Neel Bhatt showcasing full-stack and creative projects.",
+  verification: {
+    google: "googleae932ab363d7543c",
+  },
   openGraph: {
     title: "Neel Bhatt | 3D Portfolio",
-    description: "...",
+    description: "Personal 3D Developer Portfolio of Neel Bhatt showcasing full-stack and creative projects.",
     images: ["/og-image.jpg"],
   },
 };
