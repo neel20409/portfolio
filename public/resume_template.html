@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  @page {
+    size: letter;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #111827;
+    background: #ffffff;
+    font-size: 9.6pt;
+    line-height: 1.38;
+    padding: 26px 36px 20px 36px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #1e293b;
+    padding-bottom: 8px;
+  }
+
+  .name {
+    font-size: 20pt;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #0f172a;
+    text-transform: uppercase;
+  }
+
+  .title {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #2563eb;
+    margin-top: 2px;
+    letter-spacing: 0.2px;
+  }
+
+  .contact {
+    margin-top: 4px;
+    font-size: 8.8pt;
+    color: #4b5563;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .contact a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .contact-sep {
+    color: #9ca3af;
+  }
+
+  /* Section Styling */
+  .section {
+    margin-bottom: 9px;
+  }
+
+  .section-title {
+    font-size: 10pt;
+    font-weight: 800;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 1.2px solid #cbd5e1;
+    padding-bottom: 2px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Summary */
+  .summary-text {
+    font-size: 9.2pt;
+    color: #334155;
+    text-align: justify;
+  }
+
+  /* Skills */
+  .skill-group {
+    font-size: 9pt;
+    margin-bottom: 3px;
+    color: #334155;
+  }
+
+  .skill-label {
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  /* Experience & Projects */
+  .item {
+    margin-bottom: 6.5px;
+  }
+
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .item-title {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .item-subtitle {
+    font-weight: 600;
+    color: #2563eb;
+  }
+
+  .item-tech {
+    font-size: 8.6pt;
+    font-weight: 500;
+    color: #64748b;
+    font-style: italic;
+  }
+
+  .item-date {
+    font-size: 8.6pt;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+  }
+
+  .item-location {
+    font-size: 8.4pt;
+    color: #64748b;
+    font-style: italic;
+  }
+
+  ul.bullets {
+    margin-left: 15px;
+    margin-top: 2px;
+  }
+
+  ul.bullets li {
+    font-size: 9pt;
+    color: #334155;
+    margin-bottom: 2px;
+    padding-left: 2px;
+  }
+
+  ul.bullets li strong {
+    color: #0f172a;
+    font-weight: 600;
+  }
+
+  .education-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .degree {
+    font-size: 9.4pt;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .institution {
+    font-size: 9pt;
+    color: #475569;
+  }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="name">Neel Bhatt</div>
+    <div class="title">Full-Stack Software Engineer & AI / ML Developer</div>
+    <div class="contact">
+      <span>Vadodara, Gujarat, India</span>
+      <span class="contact-sep">•</span>
+      <span>bhattneel2004@gmail.com</span>
+      <span class="contact-sep">•</span>
+      <span>+91-9265982724</span>
+      <span class="contact-sep">•</span>
+      <a href="https://github.com/neel20409" target="_blank">github.com/neel20409</a>
+      <span class="contact-sep">•</span>
+      <a href="https://neel-bhatt.vercel.app" target="_blank">Portfolio</a>
+      <span class="contact-sep">•</span>
+      <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="section">
+    <div class="section-title">Summary</div>
+    <p class="summary-text">
+      Versatile <strong>Full-Stack Software Engineer</strong> & <strong>Data Science Practitioner</strong> with hands-on experience architecting production-grade web applications, multi-tenant SaaS ecosystems, and scalable machine learning pipelines. Proficient in <strong>Next.js 15, NestJS, TypeScript, PostgreSQL, React Native (Expo), Python, and Scikit-Learn</strong>. Proven record of building high-performance APIs, integrating generative AI voice workflows, and engineering 20+ end-to-end data science and full-stack projects.
+    </p>
+  </div>
+
+  <!-- TECHNICAL SKILLS -->
+  <div class="section">
+    <div class="section-title">Technical Skills</div>
+    <div class="skill-group"><span class="skill-label">• Languages:</span> TypeScript, JavaScript, Python, SQL (PostgreSQL), Kotlin, HTML5/CSS3</div>
+    <div class="skill-group"><span class="skill-label">• Frontend & Mobile:</span> Next.js 15 (App Router), React 19, React Native (Expo), TailwindCSS, Three.js, WebGL, Framer Motion</div>
+    <div class="skill-group"><span class="skill-label">• Backend & Databases:</span> NestJS, Node.js, PostgreSQL (Prisma/TypeORM), Redis, Supabase, Socket.io, MongoDB, REST APIs</div>
+    <div class="skill-group"><span class="skill-label">• Data Science & ML:</span> Python, Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, ydata-profiling, Feature Engineering, EDA, Cross-Validation, ROC-AUC</div>
+    <div class="skill-group"><span class="skill-label">• Cloud, AI & Tools:</span> Google Gemini API (Multilingual Audio/Vision), Docker, Railway, VPS, Git/GitHub, Linux, Postman, VS Code</div>
+  </div>
+
+  <!-- PROFESSIONAL EXPERIENCE -->
+  <div class="section">
+    <div class="section-title">Professional Experience</div>
+    <div class="item">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Software Development Intern</span> — <span class="item-subtitle">Clever Minds</span>
+        </div>
+        <span class="item-date">Mar 2026 – Apr 2026</span>
+      </div>
+      <div class="item-location">Vadodara, Gujarat</div>
+      <ul class="bullets">
+        <li>Architected and delivered a production-ready <strong>Wholesale Admin Mobile Application (22+ screens)</strong> using <strong>Expo React Native, TypeScript, and Supabase</strong> for a live enterprise client.</li>
+        <li>Integrated <strong>Google Gemini Native Audio API</strong> to enable AI voice-driven order and inventory operations supporting <strong>Hindi, Gujarati, and English</strong> with fuzzy-matching string algorithms.</li>
+        <li>Implemented offline data persistence, role-based access control (RBAC), real-time stock notifications, and authored complete architectural documentation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FEATURED PROJECTS -->
+  <div class="section">
+    <div class="section-title">Key Projects & SaaS Platforms</div>
+
+    <!-- OBIX 360 -->
+    <div class="item">
+      <div class="item-header">
+        <div>
+          <span class="item-title">OBIX 360 — Multi-Tenant Enterprise SaaS Platform</span>
+          <span class="item-tech">| Next.js 15, NestJS, PostgreSQL, Redis, Docker, TailwindCSS</span>
+        </div>
+        <span class="item-date">Live Production</span>
+      </div>
+      <ul class="bullets">
+        <li>Engineered a scalable multi-tenant business suite featuring automated WhatsApp communication channels (Baileys), order pipelines, and dynamic analytics dashboards.</li>
+        <li>Optimized PostgreSQL database schemas and indexing to achieve sub-50ms response times for high-volume transactions; containerized microservices with Docker for seamless deployment.</li>
+      </ul>
+    </div>
+
+    <!-- SyncWatch -->
+    <div class="item">
+      <div class="item-header">
+        <div>
+          <span class="item-title">SyncWatch — Real-Time Synchronized Video Streaming</span>
+          <span class="item-tech">| Next.js, Socket.io, Node.js, MongoDB, Railway</span>
+        </div>
+        <span class="item-date">github.com/neel20409</span>
+      </div>
+      <ul class="bullets">
+        <li>Built a low-latency collaborative watch-party platform with real-time room chat and millisecond-accurate video state synchronization across distributed clients using Socket.io and YouTube IFrame API.</li>
+      </ul>
+    </div>
+
+    <!-- Machine Learning & Data Science Portfolio -->
+    <div class="item">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Data Science & Predictive ML Pipeline (22+ Projects)</span>
+          <span class="item-tech">| Python, Scikit-learn, Pandas, NumPy, Seaborn</span>
+        </div>
+        <span class="item-date">github.com/neel20409/DataScience</span>
+      </div>
+      <ul class="bullets">
+        <li>Constructed end-to-end classification pipelines (missing-value imputation, title extraction, categorical encoding, StandardScaler); benchmarked 5 models with 5-fold cross-validation, achieving <strong>84% accuracy</strong> with Gradient Boosting.</li>
+        <li>Performed extensive univariate and multivariate exploratory data analysis (EDA), generating automated profiling reports and evaluating models via ROC-AUC curves and confusion matrices.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="education-row">
+      <div>
+        <span class="degree">Bachelor of Computer Applications (BCA)</span> — <span class="institution">The Maharaja Sayajirao University of Baroda, Vadodara</span>
+      </div>
+      <span class="item-date">Graduating 2027</span>
+    </div>
+  </div>
+
+  <!-- LANGUAGES -->
+  <div class="section" style="margin-bottom: 0;">
+    <div class="section-title">Languages</div>
+    <div class="skill-group">
+      English (Professional Working Proficiency) • Hindi (Native) • Gujarati (Native)
+    </div>
+  </div>
+
+</body>
+</html>
