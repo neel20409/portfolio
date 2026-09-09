@@ -19,7 +19,7 @@ const ProjectSection = () => {
       title: "Sync Watch",
       tech: "Next.js • Node.js",
       desc: "Full-stack synchronized video streaming and watch-party platform with real-time sockets.",
-      link: "https://syncwatch-production-bf3c.up.railway.app/",
+      link: "https://syncwatch-psi.vercel.app/",
       image: "/proof/Pic3.png",
       badge: "🟢 Live Platform",
       badgeColor: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30"

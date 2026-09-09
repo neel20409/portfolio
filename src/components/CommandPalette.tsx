@@ -151,10 +151,10 @@ export default function CommandPalette() {
       id: 'proj-syncwatch',
       category: 'Live SaaS & Projects',
       title: 'Launch Sync Watch Platform',
-      subtitle: 'Video Watch-Party System',
+      subtitle: 'https://syncwatch-psi.vercel.app/',
       icon: <ExternalLink className="w-4 h-4 text-cyan-400" />,
       action: () => {
-        window.open('https://syncwatch-production-bf3c.up.railway.app/', '_blank');
+        window.open('https://syncwatch-psi.vercel.app/', '_blank');
         setIsOpen(false);
       },
     },
