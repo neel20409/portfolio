@@ -171,12 +171,12 @@ export default function CommandPalette() {
     },
     {
       id: 'proj-virtualhat',
-      category: 'Mobile & AR Projects',
-      title: 'Launch Virtual Hat App (AR / Computer Vision)',
-      subtitle: 'https://github.com/neel20409/virtual-hat-app',
-      icon: <ExternalLink className="w-4 h-4 text-pink-400" />,
+      category: 'Live SaaS & Projects',
+      title: 'Launch Virtual Hat App (AR / Face Mesh)',
+      subtitle: 'https://virtual-hat-app.vercel.app/',
+      icon: <ExternalLink className="w-4 h-4 text-emerald-400" />,
       action: () => {
-        window.open('https://github.com/neel20409/virtual-hat-app', '_blank');
+        window.open('https://virtual-hat-app.vercel.app/', '_blank');
         setIsOpen(false);
       },
     },

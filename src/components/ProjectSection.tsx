@@ -26,12 +26,12 @@ const ProjectSection = () => {
     },
     {
       title: "Virtual Hat App",
-      tech: "React Native • Computer Vision • Expo",
-      desc: "Real-time virtual hat try-on application featuring camera face tracking, dynamic 2D/3D overlay alignment, and seamless mobile performance.",
-      link: "https://github.com/neel20409/virtual-hat-app",
+      tech: "React • Three.js • MediaPipe AI",
+      desc: "Real-time virtual hat try-on application featuring camera face mesh tracking, dynamic 3D overlay alignment, and interactive headwear filters.",
+      link: "https://virtual-hat-app.vercel.app/",
       image: "/proof/pic2.jpeg",
-      badge: "🧢 AR & Computer Vision",
-      badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/30"
+      badge: "🟢 Live AR Experience",
+      badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
     },
     {
       title: "AI Chatbot",
