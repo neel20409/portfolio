@@ -44,26 +44,26 @@ const JourneySection = () => {
 
       {/* UPDATE: w-full on mobile, space-y-20 instead of 40 */}
         <div className="relative z-10 w-full md:w-[40%] space-y-20 md:space-y-40 py-10 md:py-20 pl-10">
-             <JourneyCard 
+          <JourneyCard 
             year="2023" 
-            title="Python Foundations"
-            desc="Mastered Python basics and React Native."
+            title="Mobile & Python Foundations"
+            desc="Built cross-platform React Native apps (SpotifyClone) and core algorithmic backend architectures."
             progress={scrollYProgress}
             threshold={0.1} 
           />
           <JourneyCard 
             year="2024" 
-            title="3D Web Specialization"
-            desc="Integrated Three.js and Framer Motion."
+            title="3D Web & Interactive Graphics"
+            desc="Specialized in Three.js, React Three Fiber, custom shaders, and immersive spatial web experiences."
             progress={scrollYProgress}
-            threshold={0.5}
+            threshold={0.5} 
           />
           <JourneyCard 
-            year="2025" 
-            title="Full Stack Architect"
-            desc="Developing robust blogging systems."
+            year="2025–2026" 
+            title="Production SaaS Architect"
+            desc="Architecting OBIX 360: Full-stack enterprise POS & billing ecosystem with NestJS, PostgreSQL, and live OTA client updates."
             progress={scrollYProgress}
-            threshold={0.9}
+            threshold={0.9} 
           />
         </div>
       </div>

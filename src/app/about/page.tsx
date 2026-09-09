@@ -8,7 +8,8 @@ import ContactSection from "@/components/ContactSection";
 
 export default function page() {
   const stats = [
-    { label: "Current Focus", value: "Image Classification (Python)", icon: Code2 },
+    { label: "Current Focus", value: "Enterprise SaaS & Distributed APIs", icon: Code2 },
+    { label: "Core Stack", value: "Next.js • NestJS • PostgreSQL", icon: Code2 },
     { label: "Education", value: "BCA, MSU Baroda", icon: GraduationCap },
     { label: "Status", value: "Available for Projects", icon: User },
   ];
@@ -32,7 +33,7 @@ const navItems = [
     },
   ];
   return (
-    <section className="relative min-h-screen py-20 px-10 flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen py-20 px-6 md:px-10 flex flex-col items-center justify-center overflow-hidden">
        <FloatingNav navItems={navItems} />
       {/* Background Decorative Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
@@ -50,25 +51,25 @@ const navItems = [
             <span className="w-10 h-[2px] bg-indigo-500"></span>
             About Section
           </h2>
-          <h1 className="text-white text-6xl font-black uppercase tracking-tighter mb-8 italic">
+          <h1 className="text-white text-5xl md:text-6xl font-black uppercase tracking-tighter mb-6 italic">
             Architect of <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-600">
               Intelligence
             </span>
           </h1>
           
-          <p className="text-gray-400 text-lg leading-relaxed mb-8 max-w-lg">
-            I am <span className="text-white font-bold">Neel Bhatt</span>, a BCA student at <span className="text-indigo-300">MSU Baroda</span> with a passion for building seamless digital experiences and exploring the depths of AI. 
-            Currently, I specialize in <span className="text-white font-semibold">Python</span> and deep learning, specifically crafting image classification models using <span className="text-blue-400">TensorFlow and Keras</span>.
+          <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-8 max-w-lg">
+            I am <span className="text-white font-bold">Neel Bhatt</span>, a Full-Stack Engineer and BCA student at <span className="text-indigo-300 font-semibold">MSU Baroda</span> with a passion for architecting high-performance web platforms, real-time cloud systems, and interactive 3D experiences. 
+            Currently, I build production ecosystems like <span className="text-indigo-400 font-semibold">OBIX 360</span> using <span className="text-white font-semibold">Next.js, NestJS, PostgreSQL, and Three.js</span>.
           </p>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {stats.map((stat, i) => (
-              <div key={i} className="px-5 py-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3">
-                <stat.icon className="text-indigo-500" size={18} />
-                <div className="flex flex-col">
-                  <span className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">{stat.label}</span>
-                  <span className="text-white text-sm font-semibold">{stat.value}</span>
+              <div key={i} className="px-4 py-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3 shadow-md">
+                <stat.icon className="text-indigo-400 flex-shrink-0" size={18} />
+                <div className="flex flex-col truncate">
+                  <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold">{stat.label}</span>
+                  <span className="text-white text-xs font-semibold truncate">{stat.value}</span>
                 </div>
               </div>
             ))}
@@ -83,26 +84,26 @@ const navItems = [
           className="relative group"
         >
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-          <div className="relative bg-zinc-950 border border-white/10 rounded-[2.5rem] p-10 overflow-hidden">
+          <div className="relative bg-zinc-950 border border-white/10 rounded-[2.5rem] p-8 md:p-10 overflow-hidden">
             
             {/* Inner "System" styling */}
-            <div className="mb-10 flex items-center justify-between">
+            <div className="mb-8 flex items-center justify-between">
               <div className="flex gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/50"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500/50"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
               </div>
-              <span className="text-[10px] text-gray-600 font-mono tracking-widest">NEEL_PROFILE_V2.0</span>
+              <span className="text-[10px] text-gray-500 font-mono tracking-widest">NEEL_PROFILE_V2.0</span>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center flex-shrink-0 border border-indigo-500/30">
                   <Code2 className="text-indigo-400" />
                 </div>
                 <div>
-                  <h3 className="text-white font-bold text-lg">Engineering with Code</h3>
-                  <p className="text-gray-500 text-sm">Passionate about Web Development and building responsive React Native applications like my recent SpotifyClone project.</p>
+                  <h3 className="text-white font-bold text-lg">Full-Stack & Cloud Engineering</h3>
+                  <p className="text-gray-400 text-sm mt-1 leading-relaxed">Specializing in multi-tenant SaaS architecture, PostgreSQL data modeling, automated WhatsApp APIs, and cross-platform native applications.</p>
                 </div>
               </div>
 

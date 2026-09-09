@@ -11,35 +11,45 @@ const ProjectSection = () => {
       tech: "Next.js • NestJS • Postgres • Docker",
       desc: "Multi-tenant enterprise SaaS & mobile POS platform with real-time order tracking, automated WhatsApp invoicing, and OTA updates.",
       link: "https://obix360.com",
-      image: "/proof/obix.jpeg"
+      image: "/proof/obix.jpeg",
+      badge: "🟢 Live Production",
+      badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
     },
     {
       title: "Sync Watch",
       tech: "Next.js • Node.js",
       desc: "Full-stack synchronized video streaming and watch-party platform with real-time sockets.",
       link: "https://syncwatch-production-bf3c.up.railway.app/",
-      image: "/proof/Pic3.png"
+      image: "/proof/Pic3.png",
+      badge: "🟢 Live Platform",
+      badgeColor: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30"
     },
     {
       title: "Spotify Clone",
       tech: "React Native • Expo",
       desc: "Full-featured mobile music streaming application with background playback and custom audio controls.",
       link: "https://expo.dev/artifacts/eas/mLAQ4QzzANBrZz6SUTYsYm.apk",
-      image: "/proof/pic2.jpeg"
+      image: "/proof/pic2.jpeg",
+      badge: "📱 Android APK",
+      badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/30"
     },
     {
       title: "AI Chatbot",
       tech: "Gemini AI • React",
       desc: "Intelligent conversational assistant UI with contextual streaming and natural language processing.",
       link: "https://neels-bot.vercel.app/",
-      image: "/proof/Pic1.png"
+      image: "/proof/Pic1.png",
+      badge: "🤖 AI Assistant",
+      badgeColor: "bg-blue-500/10 text-blue-400 border-blue-500/30"
     },
     {
       title: "Portfolio 3D",
       tech: "Three.js • R3F • Next.js",
       desc: "Interactive 3D avatar and spatial web experience with custom shaders, physics, and smooth camera transitions.",
       link: "https://github.com/neel20409/portfolio",
-      image: null
+      image: null,
+      badge: "⚡ 3D Experience",
+      badgeColor: "bg-indigo-500/10 text-indigo-400 border-indigo-500/30"
     },
   ];
 
@@ -117,6 +127,15 @@ const ProjectSection = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-60" />
 
+                  {/* Top Badge */}
+                  {project.badge && (
+                    <div className="absolute top-3 right-3 z-20">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border backdrop-blur-md shadow-md ${project.badgeColor}`}>
+                        {project.badge}
+                      </span>
+                    </div>
+                  )}
+
                   {/* Subtle "Expand" Hint */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="bg-white/10 backdrop-blur-md p-3 rounded-full border border-white/20 text-white">
@@ -130,13 +149,20 @@ const ProjectSection = () => {
 
               {/* Content Container */}
               <div className="p-8 relative z-10 flex flex-col flex-grow">
-                <span className="text-indigo-400 font-bold text-sm uppercase tracking-wider">{project.tech}</span>
-                <h3 className="text-white text-3xl font-bold mt-2 group-hover:text-indigo-300 transition-colors duration-300">{project.title}</h3>
-                <p className="text-gray-400 mt-4 line-clamp-2 flex-grow">{project.desc}</p>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-indigo-400 font-bold text-xs uppercase tracking-wider">{project.tech}</span>
+                  {!project.image && project.badge && (
+                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border ${project.badgeColor}`}>
+                      {project.badge}
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-white text-3xl font-bold group-hover:text-indigo-300 transition-colors duration-300">{project.title}</h3>
+                <p className="text-gray-400 mt-3 text-sm leading-relaxed line-clamp-3 flex-grow">{project.desc}</p>
 
-                <div className="mt-8 flex items-center text-indigo-400 font-bold text-sm group-hover:translate-x-2 transition-transform duration-300">
+                <div className="mt-6 flex items-center text-indigo-400 font-bold text-xs uppercase tracking-wider group-hover:translate-x-2 transition-transform duration-300">
                   <span>Explore Project</span>
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </div>
