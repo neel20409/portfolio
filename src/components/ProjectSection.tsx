@@ -61,7 +61,7 @@ const ProjectSection = () => {
       tech: "React • Three.js • MediaPipe AI",
       desc: "Real-time virtual hat try-on application featuring camera face mesh tracking, dynamic 3D overlay alignment, and interactive headwear filters.",
       link: "https://virtual-hat-app.vercel.app/",
-      image: "/proof/pic2.jpeg",
+      image: "/proof/virtualhat.png",
       badge: "🟢 Live AR Experience",
       badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
       canEmbed: true,
