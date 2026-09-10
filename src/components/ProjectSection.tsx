@@ -288,9 +288,9 @@ const ProjectSection = () => {
         </h2>
       </div>
 
-      {/* GRID VIEW: Constrained to the LEFT to make room for 3D Avatar on the Right */}
-      <div className="relative z-10 w-full lg:w-[62%] px-6 md:px-10 lg:pl-20 pb-40">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* GRID VIEW: Constrained strictly to the LEFT half to guarantee the 3D Avatar has full right-half clearance */}
+      <div className="relative z-10 w-full lg:w-[54%] xl:w-[50%] px-6 md:px-10 lg:pl-16 pb-40">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={index}

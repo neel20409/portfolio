@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface HoloBeamProps {
@@ -10,6 +10,8 @@ interface HoloBeamProps {
 
 export default function HoloBeam({ isOverdrive, activeColor }: HoloBeamProps) {
   const [windowSize, setWindowSize] = useState({ width: 1440, height: 900 });
+  const { scrollY } = useScroll();
+  const beamOpacity = useTransform(scrollY, [0, 250, 450], [1, 0.8, 0]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,7 +44,10 @@ export default function HoloBeam({ isOverdrive, activeColor }: HoloBeamProps) {
   const beamColor = isOverdrive ? "#f43f5e" : activeColor;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-10 overflow-hidden">
+    <motion.div 
+      style={{ opacity: beamOpacity }} 
+      className="pointer-events-none fixed inset-0 z-10 overflow-hidden"
+    >
       <svg className="h-full w-full">
         <defs>
           <linearGradient id="beamGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -103,6 +108,6 @@ export default function HoloBeam({ isOverdrive, activeColor }: HoloBeamProps) {
         {/* Console Receiving Node */}
         <circle cx={endX} cy={endY} r="3.5" fill="#ffffff" filter="url(#holoGlow)" />
       </svg>
-    </div>
+    </motion.div>
   );
 }

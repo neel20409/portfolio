@@ -48,29 +48,30 @@ export default function AvatarController() {
   });
 
   // Smooth X position across the sections:
-  // 0.0 (Hero): Stands at +6% (slightly right of center to balance left glass card)
-  // 0.25 (Journey): Moves to -30% (left side while timeline scrolls on right)
-  // 0.55 (Tech/Projects): Moves to +18% (right side while projects display on left)
-  // 0.85 (Projects/Contact): Centers at 0%
-  // 1.0 (Contact): Centers at 0%
+  // 0.00 (Hero): Stands at +6% (balances left glass card & right HUD)
+  // 0.25 (Journey): Moves to -28% (left side while timeline steps scroll on right)
+  // 0.50 (Tech Slider): Moves smoothly to +28% (clear right side)
+  // 0.70 (Projects): Stays at +28% (right side while projects display strictly on left)
+  // 0.88 (Contact): Moves to +22% (right side next to contact form)
+  // 1.00 (End): Settles at +22%
   const avatarX = useTransform(
     smoothProgress,
-    [0, 0.22, 0.55, 0.82, 1],
-    ["6%", "-28%", "18%", "-15%", "0%"]
+    [0, 0.18, 0.35, 0.50, 0.72, 0.88, 1],
+    ["6%", "-10%", "-28%", "28%", "28%", "22%", "22%"]
   );
 
   // Subtle Y vertical breathing float on scroll
   const avatarY = useTransform(
     smoothProgress,
     [0, 0.25, 0.5, 0.75, 1],
-    ["0%", "-2%", "2%", "-1%", "0%"]
+    ["0%", "-2%", "1%", "-1%", "0%"]
   );
 
   // Subtle scale dynamics on scroll
   const avatarScale = useTransform(
     smoothProgress,
     [0, 0.25, 0.55, 0.85, 1],
-    [1, 0.95, 1.02, 0.96, 1.05]
+    [1, 0.98, 1.02, 1.0, 1.02]
   );
 
   useEffect(() => {
