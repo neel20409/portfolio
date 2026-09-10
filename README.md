@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Personal Portfolio
 
-## Getting Started
+A modern, responsive personal portfolio website built with **Next.js**, showcasing my skills, projects, and background. Live at [portfolio-three-nu-62.vercel.app](https://portfolio-three-nu-62.vercel.app).
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- **About Me** — A personal introduction including background, interests, and goals
+- **Projects** — Showcase of selected work with descriptions and links
+- **Skills** — Overview of technical skills and tools
+- **Responsive Design** — Fully optimized for desktop and mobile devices
+- **Fast Performance** — Built on Next.js for server-side rendering and static generation
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| [Next.js](https://nextjs.org/) | React framework (SSR / SSG) |
+| React | UI components |
+| CSS Modules / Tailwind | Styling |
+| Vercel | Deployment & hosting |
+
+---
+
+## 📦 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v18 or above)
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/neel20409/portfolio.git
+cd portfolio
+```
+
+2. **Install dependencies**
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. **Run the development server**
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [https://portfolio-three-nu-62.vercel.app/](https://portfolio-three-nu-62.vercel.app/) with your browser to see the result.
+You can also run the site locally at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Navigate to [http://localhost:3000](http://localhost:3000) to view the site locally.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🏗️ Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+portfolio/
+├── pages/              # Next.js pages (routing)
+├── components/         # Reusable UI components
+├── public/             # Static assets (images, icons)
+├── styles/             # Global and module CSS
+├── package.json
+└── next.config.js
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Deployment
 
-## Deploy on Vercel
+This project is deployed on **Vercel**. To deploy your own version:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Option 1: Deploy with Vercel (Recommended)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com) and click **New Project**
+3. Import your GitHub repository
+4. Vercel auto-detects Next.js — click **Deploy**
+
+That's it! Vercel handles builds and deployments automatically on every push to `main`.
+
+### Option 2: Manual Build
+
+```bash
+npm run build
+npm run start
+```
+
+This creates an optimized production build and starts the server locally on port 3000.
+
+---
+
+## 📬 Contact
+
+Feel free to connect or reach out:
+
+- **GitHub**: [@neel20409](https://github.com/neel20409)
+- **Live Site**: [portfolio-three-nu-62.vercel.app](https://portfolio-three-nu-62.vercel.app)
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).

@@ -5,6 +5,8 @@ import SocialModal from './SocialModel';
 import { PulseBeam } from './ui/PulseBeam';
 import { AvatarPointer } from './AvatarPointer';
 import { Variants } from "framer-motion";
+
+
 const Content = ({ onCVClick }: { onCVClick: () => void }) => {
   const name = "Neel Bhatt";
   const roles = ["Web Development", "Mobile Development", "FrontEnd Designing", "3D Interactive Specialization"];
