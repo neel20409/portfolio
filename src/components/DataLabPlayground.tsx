@@ -634,6 +634,51 @@ export default function DataLabPlayground() {
     }
   };
 
+  // Touch event handlers for mobile devices
+  const handleKMeansTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const canvas = kmeansCanvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = (touch.clientX - rect.left) / rect.width;
+    const y = (touch.clientY - rect.top) / rect.height;
+
+    let foundIdx: number | null = null;
+    for (let i = 0; i < kPoints.length; i++) {
+      const dist = Math.hypot(kPoints[i].x - x, kPoints[i].y - y);
+      if (dist < 0.06) {
+        foundIdx = i;
+        break;
+      }
+    }
+
+    if (foundIdx !== null) {
+      setDraggedPointIndex(foundIdx);
+    } else {
+      sound.playClick();
+      setKPoints((prev) => [...prev, { id: `pt-${Date.now()}`, x, y }]);
+    }
+  };
+
+  const handleKMeansTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (draggedPointIndex === null || e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const canvas = kmeansCanvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.max(0.02, Math.min(0.98, (touch.clientX - rect.left) / rect.width));
+    const y = Math.max(0.02, Math.min(0.98, (touch.clientY - rect.top) / rect.height));
+
+    setKPoints((prev) => {
+      const next = [...prev];
+      if (next[draggedPointIndex]) {
+        next[draggedPointIndex] = { ...next[draggedPointIndex], x, y };
+      }
+      return next;
+    });
+  };
+
   // =========================================================================
   // --- POLYNOMIAL REGRESSION WITH RIDGE PENALTY & GRADIENT DESCENT ---
   // =========================================================================
@@ -1036,6 +1081,36 @@ export default function DataLabPlayground() {
     if (draggedRegPointId) setDraggedRegPointId(null);
   };
 
+  const handleRegTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const canvas = regCanvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = (touch.clientX - rect.left) / rect.width;
+    const y = 1 - (touch.clientY - rect.top) / rect.height;
+
+    const found = regPoints.find((p) => Math.hypot(p.x - x, p.y - y) < 0.06);
+    if (found) {
+      setDraggedRegPointId(found.id);
+    } else {
+      sound.playClick();
+      setRegPoints((prev) => [...prev, { id: `reg-${Date.now()}`, x, y }]);
+    }
+  };
+
+  const handleRegTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!draggedRegPointId || e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const canvas = regCanvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.max(0.02, Math.min(0.98, (touch.clientX - rect.left) / rect.width));
+    const y = Math.max(0.02, Math.min(0.98, 1 - (touch.clientY - rect.top) / rect.height));
+
+    setRegPoints((prev) => prev.map((p) => (p.id === draggedRegPointId ? { ...p, x, y } : p)));
+  };
+
   // =========================================================================
   // --- DEEP NEURAL NETWORK 2D CLASSIFIER & REAL BACKPROPAGATION ---
   // =========================================================================
@@ -1380,6 +1455,19 @@ export default function DataLabPlayground() {
     setInputInspectX2(parseFloat(y.toFixed(2)));
   };
 
+  const handleNNTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+    const canvas = nnCanvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -(((touch.clientY - rect.top) / rect.height) * 2 - 1);
+    sound.playClick();
+    setInputInspectX1(parseFloat(x.toFixed(2)));
+    setInputInspectX2(parseFloat(y.toFixed(2)));
+  };
+
   // Inspect Output for Live Feed
   const inspectedOutput = useMemo(() => {
     const { activations, output } = forwardPass(inputInspectX1, inputInspectX2, networkLayers);
@@ -1392,7 +1480,7 @@ export default function DataLabPlayground() {
   }, [inputInspectX1, inputInspectX2, networkLayers, forwardPass]);
 
   return (
-    <section id="datalab" className="relative py-24 px-6 md:px-10 max-w-7xl mx-auto z-20 overflow-hidden">
+    <section id="datalab" className="relative py-24 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto z-20 overflow-hidden">
       {/* Background Decorative Aura */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-to-r from-cyan-600/10 via-indigo-600/10 to-fuchsia-600/10 rounded-full blur-[170px] pointer-events-none" />
 
@@ -1412,7 +1500,7 @@ export default function DataLabPlayground() {
         </div>
 
         {/* Mode Selector Tabs */}
-        <div className="flex items-center p-1.5 rounded-2xl bg-zinc-950/80 border border-white/10 backdrop-blur-xl shadow-2xl">
+        <div className="flex flex-wrap sm:flex-nowrap items-center p-1.5 rounded-2xl bg-zinc-950/80 border border-white/10 backdrop-blur-xl shadow-2xl gap-1.5">
           <button
             onClick={() => {
               setActiveMode('kmeans');
@@ -1461,7 +1549,7 @@ export default function DataLabPlayground() {
       </div>
 
       {/* MAIN PLAYGROUND CONTAINER */}
-      <div className="rounded-3xl bg-zinc-950/85 border border-white/10 p-6 sm:p-8 backdrop-blur-2xl shadow-2xl shadow-black/90">
+      <div className="rounded-3xl bg-zinc-950/85 border border-white/10 p-4 sm:p-6 md:p-8 backdrop-blur-2xl shadow-2xl shadow-black/90">
 
         {/* ========================================================================= */}
         {/* TAB 1: K-MEANS CLUSTERING */}
@@ -1476,14 +1564,17 @@ export default function DataLabPlayground() {
                   onMouseDown={handleKMeansCanvasMouseDown}
                   onMouseMove={handleKMeansCanvasMouseMove}
                   onMouseUp={handleKMeansCanvasMouseUp}
-                  className="w-full h-full block"
+                  onTouchStart={handleKMeansTouchStart}
+                  onTouchMove={handleKMeansTouchMove}
+                  onTouchEnd={handleKMeansCanvasMouseUp}
+                  className="w-full h-full block touch-none"
                 />
                 
                 {/* Visual Legend Overlays */}
                 <div className="absolute top-3 left-3 flex flex-wrap gap-2">
                   <div className="px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-mono text-gray-300 flex items-center gap-1.5">
                     <Target className="w-3 h-3 text-cyan-400" />
-                    <span>Click: Add Point | Drag: Move Point</span>
+                    <span>Click/Tap: Add Point | Drag: Move Point</span>
                   </div>
                   {showVoronoi && (
                     <div className="px-2.5 py-1 rounded-lg bg-cyan-950/60 backdrop-blur-md border border-cyan-500/30 text-[10px] font-mono text-cyan-300">
@@ -1503,7 +1594,7 @@ export default function DataLabPlayground() {
               </div>
 
               {/* Real-Time Telemetry Bar */}
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
                   <div className="text-[10px] font-mono text-gray-400 uppercase mb-1">Inertia (SSE)</div>
                   <div className="text-base sm:text-lg font-mono font-bold text-emerald-400">{kInertia}</div>
@@ -1514,7 +1605,7 @@ export default function DataLabPlayground() {
                     {avgSilhouette > 0 ? `+${avgSilhouette}` : avgSilhouette}
                   </div>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
+                <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 col-span-2 sm:col-span-1">
                   <div className="text-[10px] font-mono text-gray-400 uppercase mb-1">Convergence</div>
                   <div className={`text-base sm:text-lg font-mono font-bold ${kIteration > 4 ? 'text-emerald-400' : 'text-amber-400'}`}>
                     {kIteration > 4 ? 'OPTIMAL' : 'CONVERGING'}
@@ -1674,12 +1765,15 @@ export default function DataLabPlayground() {
                   onMouseDown={handleRegCanvasMouseDown}
                   onMouseMove={handleRegCanvasMouseMove}
                   onMouseUp={handleRegCanvasMouseUp}
-                  className="w-full h-full block"
+                  onTouchStart={handleRegTouchStart}
+                  onTouchMove={handleRegTouchMove}
+                  onTouchEnd={handleRegCanvasMouseUp}
+                  className="w-full h-full block touch-none"
                 />
                 <div className="absolute top-3 left-3 flex flex-wrap gap-2">
                   <div className="px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-mono text-gray-300 flex items-center gap-1.5">
                     <TrendingUp className="w-3 h-3 text-indigo-400" />
-                    <span>Click: Add Point | Drag: Outlier Adjustment</span>
+                    <span>Click/Tap: Add Point | Drag: Outlier Adjustment</span>
                   </div>
                   {showConfidenceInterval && (
                     <div className="px-2.5 py-1 rounded-lg bg-indigo-950/60 backdrop-blur-md border border-indigo-500/30 text-[10px] font-mono text-indigo-300">
@@ -1698,7 +1792,7 @@ export default function DataLabPlayground() {
               </div>
 
               {/* Telemetry Metrics Deck */}
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
                   <div className="text-[10px] font-mono text-gray-400 uppercase mb-1">RMSE</div>
                   <div className="text-base font-mono font-bold text-indigo-300">{regMetrics.rmse}</div>
@@ -1851,10 +1945,11 @@ export default function DataLabPlayground() {
                   <canvas
                     ref={nnCanvasRef}
                     onClick={handleNNCanvasClick}
-                    className="w-full h-full block"
+                    onTouchStart={handleNNTouchStart}
+                    className="w-full h-full block touch-none"
                   />
                   <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-mono text-gray-300">
-                    Click to test probe $(x_1, x_2)$
+                    Click/Tap to probe $(x_1, x_2)$
                   </div>
                   <div className="absolute bottom-3 left-3 flex gap-2">
                     <div className="px-2 py-0.5 rounded-md bg-emerald-500/20 border border-emerald-400/40 text-[10px] font-mono text-emerald-300">
@@ -1938,7 +2033,7 @@ export default function DataLabPlayground() {
               </div>
 
               {/* Neural Telemetry Deck */}
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
                   <div className="text-[10px] font-mono text-gray-400 uppercase mb-1">Epochs Trained</div>
                   <div className="text-base font-mono font-bold text-white">{nnEpoch}</div>

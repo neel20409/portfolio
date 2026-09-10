@@ -125,7 +125,7 @@ export default function MetricsBentoGrid() {
   const isInView = useInView(containerRef, { once: true, margin: '-80px' });
 
   return (
-    <section ref={containerRef} className="relative py-20 px-6 md:px-10 max-w-7xl mx-auto z-20">
+    <section ref={containerRef} className="relative py-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto z-20">
       {/* Background Decorative Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-cyan-500/5 rounded-full blur-[140px] pointer-events-none" />
 

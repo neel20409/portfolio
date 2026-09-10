@@ -639,8 +639,8 @@ export default function NightSky() {
       </div>
 
       {/* Floating Theme Switcher Pill in Top Left Dock */}
-      <div className="fixed top-5 left-4 md:left-8 z-50 flex items-center gap-1 p-1 rounded-full bg-zinc-950/80 backdrop-blur-xl border border-white/10 shadow-xl shadow-black/60 pointer-events-auto">
-        <span className="hidden lg:inline text-[10px] font-mono text-gray-400 pl-2.5 pr-1 uppercase tracking-wider font-semibold">Theme:</span>
+      <div className="fixed top-3.5 left-3 sm:top-5 sm:left-6 z-50 flex items-center gap-0.5 sm:gap-1 p-1 rounded-full bg-zinc-950/85 backdrop-blur-2xl border border-white/10 shadow-xl shadow-black/70 pointer-events-auto">
+        <span className="hidden xl:inline text-[10px] font-mono text-gray-400 pl-2.5 pr-1 uppercase tracking-wider font-semibold">Theme:</span>
         {THEME_OPTIONS.map((t) => {
           const isActive = activeTheme === t.id;
           return (
@@ -648,14 +648,14 @@ export default function NightSky() {
               key={t.id}
               onClick={() => switchTheme(t.id)}
               title={`Switch to ${t.label} background`}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-indigo-600/30 text-white border border-indigo-500/50 shadow-inner'
+                  ? 'bg-indigo-600/35 text-white border border-indigo-500/50 shadow-inner'
                   : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
               }`}
             >
               <t.Icon className={`w-3.5 h-3.5 ${t.iconColor}`} />
-              <span className="hidden sm:inline text-[11px]">{t.label}</span>
+              <span className="hidden md:inline text-[11px]">{t.label}</span>
             </button>
           );
         })}

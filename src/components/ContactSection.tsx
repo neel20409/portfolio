@@ -39,7 +39,7 @@ export default function ContactSection() {
   return (
     <section className="relative min-h-screen flex items-center z-10 bg-transparent py-16">
       {/* Container constrained to the LEFT for 3D Avatar visibility */}
-      <div className="w-full lg:w-[60%] px-6 md:px-10 lg:pl-20">
+      <div className="w-full lg:w-[60%] px-4 sm:px-6 md:px-10 lg:pl-20">
         <div className="max-w-md">
           <h2 className="text-white text-5xl md:text-7xl font-black uppercase tracking-tighter italic opacity-10 mb-4">
             Contact

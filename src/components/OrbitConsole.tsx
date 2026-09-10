@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowUpRight, Cpu, Sparkles, Zap, Radio } from "lucide-react";
+import { ArrowUpRight, Cpu, Sparkles, Zap } from "lucide-react";
 import dynamic from "next/dynamic";
 import { sfx } from "@/utils/sfx";
 
@@ -50,6 +50,7 @@ interface OrbitConsoleProps {
   onActiveIndexChange?: (index: number) => void;
   isOverdrive?: boolean;
   onToggleOverdrive?: () => void;
+  isMobileInline?: boolean;
 }
 
 export default function OrbitConsole({
@@ -57,6 +58,7 @@ export default function OrbitConsole({
   onActiveIndexChange,
   isOverdrive = false,
   onToggleOverdrive,
+  isMobileInline = false,
 }: OrbitConsoleProps) {
   const [internalIndex, setInternalIndex] = useState(0);
   const activeIndex = externalIndex !== undefined ? externalIndex : internalIndex;
@@ -77,7 +79,7 @@ export default function OrbitConsole({
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), { damping: 18, stiffness: 140 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || isMobileInline) return;
     const rect = cardRef.current.getBoundingClientRect();
     const xPct = (e.clientX - rect.left) / rect.width - 0.5;
     const yPct = (e.clientY - rect.top) / rect.height - 0.5;
@@ -90,31 +92,31 @@ export default function OrbitConsole({
     mouseY.set(0);
   };
 
+  const containerClasses = isMobileInline
+    ? "w-full max-w-md mx-auto block lg:hidden mt-6 z-20"
+    : "orbit-console pointer-events-auto absolute right-4 xl:right-10 top-1/2 hidden w-[310px] xl:w-[335px] -translate-y-1/2 lg:block z-30 perspective-[1000px]";
+
   return (
     <motion.aside
-      initial={{ opacity: 0, x: 30 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.6, duration: 0.8 }}
-      className="orbit-console pointer-events-auto absolute right-4 xl:right-10 top-1/2 hidden w-[310px] xl:w-[335px] -translate-y-1/2 lg:block z-30 perspective-[1000px]"
+      initial={{ opacity: 0, y: isMobileInline ? 20 : 0, x: isMobileInline ? 0 : 30 }}
+      animate={{ opacity: 1, y: 0, x: 0 }}
+      transition={{ delay: 0.5, duration: 0.7 }}
+      className={containerClasses}
     >
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
-        className={`relative overflow-hidden rounded-2xl border bg-slate-950/30 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-colors duration-500 ${
+        style={!isMobileInline ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
+        className={`relative overflow-hidden rounded-3xl border bg-slate-950/70 p-5 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl transition-colors duration-500 ${
           isOverdrive
-            ? "border-rose-500/60 shadow-[0_0_35px_rgba(244,63,94,0.35)] bg-slate-950/50"
-            : "border-white/12 hover:border-cyan-400/40"
+            ? "border-rose-500/60 shadow-[0_0_35px_rgba(244,63,94,0.35)] bg-slate-950/85"
+            : "border-white/15 hover:border-cyan-400/40"
         }`}
       >
         {/* Dynamic Holographic Spotlight Glare */}
         <div
-          className="pointer-events-none absolute -inset-px rounded-2xl opacity-40 transition-opacity duration-300"
+          className="pointer-events-none absolute -inset-px rounded-3xl opacity-40 transition-opacity duration-300"
           style={{
             background: `radial-gradient(400px circle at ${((mouseX.get() + 0.5) * 100).toFixed(1)}% ${((mouseY.get() + 0.5) * 100).toFixed(1)}%, ${signal.badgeGlow}, transparent 70%)`,
           }}
@@ -128,7 +130,7 @@ export default function OrbitConsole({
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: isOverdrive ? "#f43f5e" : signal.themeColor }} />
                 <span className="relative inline-flex h-2 w-2 rounded-full" style={{ backgroundColor: isOverdrive ? "#f43f5e" : signal.themeColor }} />
               </span>
-              <span>{isOverdrive ? "OVERDRIVE ON" : "Live Signal"}</span>
+              <span>{isOverdrive ? "OVERDRIVE ENGAGED" : "Live Discipline Signal"}</span>
             </div>
             <div className="mt-0.5 text-[9px] font-mono text-white/40 tracking-wider">
               NB / 2026 // HOLO-LINK
@@ -142,7 +144,7 @@ export default function OrbitConsole({
         </div>
 
         {/* Dynamic Discipline Description */}
-        <div className="relative mt-3 min-h-[110px]">
+        <div className="relative mt-3 min-h-[95px] sm:min-h-[105px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={signal.index}
@@ -155,10 +157,10 @@ export default function OrbitConsole({
                 <Sparkles size={12} />
                 <span>Discipline / {signal.index}</span>
               </div>
-              <h3 className="text-[17px] font-bold leading-tight tracking-tight text-white">
+              <h3 className="text-base sm:text-[17px] font-bold leading-tight tracking-tight text-white">
                 {signal.title}
               </h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-slate-300/75">
+              <p className="mt-1.5 text-xs leading-relaxed text-slate-300/80">
                 {signal.detail}
               </p>
             </motion.div>
@@ -168,12 +170,12 @@ export default function OrbitConsole({
         {/* Core Stack & Performance Metrics */}
         <div className="relative mt-2 grid grid-cols-2 gap-2 border-y border-white/10 py-2.5 text-[11px]">
           <div>
-            <div className="mb-0.5 text-[9px] uppercase tracking-wider text-slate-400/60">Core Stack</div>
-            <div className="font-medium text-white/90 truncate">{signal.stack}</div>
+            <div className="mb-0.5 text-[9px] uppercase tracking-wider text-slate-400/70 font-mono">Core Stack</div>
+            <div className="font-medium text-white/90 truncate text-xs">{signal.stack}</div>
           </div>
           <div className="border-l border-white/10 pl-3">
-            <div className="mb-0.5 text-[9px] uppercase tracking-wider text-slate-400/60">Target Velocity</div>
-            <div className="font-semibold" style={{ color: signal.themeColor }}>
+            <div className="mb-0.5 text-[9px] uppercase tracking-wider text-slate-400/70 font-mono">Target Velocity</div>
+            <div className="font-semibold text-xs" style={{ color: signal.themeColor }}>
               {signal.metric} <span className="text-[10px] font-normal text-slate-400">{signal.metricLabel}</span>
             </div>
           </div>
@@ -192,7 +194,7 @@ export default function OrbitConsole({
                   aria-selected={isActive}
                   onMouseEnter={() => sfx.playHoverBlip()}
                   onClick={() => handleSelectTab(index)}
-                  className={`rounded-lg px-2.5 py-1 text-[10px] font-semibold tracking-wider transition-all duration-200 ${
+                  className={`rounded-xl px-2.5 sm:px-3 py-1.5 text-[10px] font-semibold tracking-wider transition-all duration-200 cursor-pointer ${
                     isActive
                       ? "text-white border shadow-md"
                       : "text-slate-400 hover:text-white bg-white/5 border border-white/5 hover:border-white/20"
@@ -214,7 +216,7 @@ export default function OrbitConsole({
             })}
           </div>
 
-          <Cpu size={15} style={{ color: signal.themeColor }} className="opacity-70" />
+          <Cpu size={16} style={{ color: signal.themeColor }} className="opacity-80" />
         </div>
 
         {/* Overdrive Action Button */}
@@ -226,13 +228,13 @@ export default function OrbitConsole({
               sfx.playOverdriveWarp(!isOverdrive);
             }}
             onMouseEnter={() => sfx.playHoverBlip()}
-            className={`mt-3 w-full flex items-center justify-center gap-2 rounded-xl py-2 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 ${
+            className={`mt-3 w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 active:scale-95 cursor-pointer ${
               isOverdrive
-                ? "bg-rose-500/20 text-rose-300 border border-rose-400/50 shadow-[0_0_15px_rgba(244,63,94,0.3)]"
-                : "bg-white/5 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/15 hover:border-cyan-300"
+                ? "bg-rose-500/25 text-rose-300 border border-rose-400/50 shadow-[0_0_18px_rgba(244,63,94,0.35)]"
+                : "bg-white/5 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/15 hover:border-cyan-300 shadow-md"
             }`}
           >
-            <Zap size={12} className={isOverdrive ? "animate-bounce text-rose-400" : "text-cyan-400"} />
+            <Zap size={13} className={isOverdrive ? "animate-bounce text-rose-400" : "text-cyan-400"} />
             <span>{isOverdrive ? "DISENGAGE OVERDRIVE" : "⚡ ENGAGE ZERO-G OVERDRIVE"}</span>
           </button>
         )}
@@ -242,7 +244,7 @@ export default function OrbitConsole({
       <a
         href="#projects"
         onMouseEnter={() => sfx.playHoverBlip()}
-        className="group mt-2.5 flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] px-3.5 py-1.5 text-[10px] uppercase tracking-wider text-slate-400 transition-all duration-200 hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-200"
+        className="group mt-2.5 flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950/60 backdrop-blur-md px-3.5 py-2 text-[10px] uppercase tracking-wider text-slate-400 transition-all duration-200 hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-200"
       >
         <span>Explore Featured Projects</span>
         <ArrowUpRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cyan-300" />

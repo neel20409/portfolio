@@ -93,7 +93,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="relative min-h-screen bg-transparent overflow-x-hidden pt-28 pb-16 px-6 md:px-10 lg:px-16">
+    <main className="relative min-h-screen bg-transparent overflow-x-hidden pt-24 sm:pt-28 pb-16 px-4 sm:px-6 md:px-10 lg:px-16">
       <NightSky />
       <FloatingNav navItems={navItems} />
 
@@ -109,19 +109,19 @@ export default function AboutPage() {
 
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight italic">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight italic">
               Architect of{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-fuchsia-500">
                 Intelligence
               </span>
             </h1>
-            <p className="text-gray-300 text-base sm:text-lg max-w-2xl font-light mt-4 leading-relaxed">
+            <p className="text-gray-300 text-sm sm:text-base md:text-lg max-w-2xl font-light mt-4 leading-relaxed">
               Full-Stack & Distributed Cloud Engineer crafting production-scale SaaS ecosystems, low-latency microservices, and interactive 3D WebGL experiences.
             </p>
           </div>
 
           {/* Status Badge */}
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-zinc-950/80 border border-emerald-500/30 backdrop-blur-xl shadow-lg shadow-emerald-950/20">
+          <div className="flex items-center gap-3 px-4 sm:px-5 py-3 rounded-2xl bg-zinc-950/80 border border-emerald-500/30 backdrop-blur-xl shadow-lg shadow-emerald-950/20 w-fit">
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
@@ -142,7 +142,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="md:col-span-2 lg:col-span-2 rounded-3xl bg-zinc-950/70 border border-white/10 p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group hover:border-indigo-500/40 transition-all duration-300 shadow-xl"
+          className="md:col-span-2 lg:col-span-2 rounded-3xl bg-zinc-950/70 border border-white/10 p-5 sm:p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group hover:border-indigo-500/40 transition-all duration-300 shadow-xl"
         >
           <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-500/10 rounded-bl-[6rem] pointer-events-none" />
           <div className="relative z-10 flex flex-col justify-between h-full">
@@ -193,16 +193,16 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="md:col-span-1 lg:col-span-2 rounded-3xl bg-zinc-950/70 border border-white/10 p-8 backdrop-blur-xl relative overflow-hidden group hover:border-cyan-500/40 transition-all duration-300 shadow-xl"
+          className="md:col-span-1 lg:col-span-2 rounded-3xl bg-zinc-950/70 border border-white/10 p-5 sm:p-8 backdrop-blur-xl relative overflow-hidden group hover:border-cyan-500/40 transition-all duration-300 shadow-xl"
         >
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
           
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
               <Code2 className="w-5 h-5 text-cyan-400" />
               Technical Arsenal
             </h3>
-            <div className="flex gap-1.5 bg-white/5 p-1 rounded-xl border border-white/10">
+            <div className="flex gap-1.5 bg-white/5 p-1 rounded-xl border border-white/10 w-fit">
               {SKILL_CATEGORIES.map((cat, idx) => (
                 <button
                   key={idx}
@@ -255,7 +255,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="md:col-span-3 lg:col-span-3 rounded-3xl bg-zinc-950/70 border border-white/10 p-8 backdrop-blur-xl relative overflow-hidden shadow-xl"
+          className="md:col-span-3 lg:col-span-3 rounded-3xl bg-zinc-950/70 border border-white/10 p-5 sm:p-8 backdrop-blur-xl relative overflow-hidden shadow-xl"
         >
           <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
             <Terminal className="w-5 h-5 text-indigo-400" />
@@ -266,7 +266,7 @@ export default function AboutPage() {
             {PHILOSOPHY_PILLARS.map((p, i) => (
               <div
                 key={i}
-                className={`p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all duration-300 hover:-translate-y-1 ${p.border}`}
+                className={`p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10 transition-all duration-300 hover:-translate-y-1 ${p.border}`}
               >
                 <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 w-fit mb-3">
                   {p.icon}
@@ -283,7 +283,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="md:col-span-3 lg:col-span-1 rounded-3xl bg-gradient-to-br from-indigo-950/60 to-zinc-950/90 border border-indigo-500/30 p-8 backdrop-blur-xl flex flex-col justify-between shadow-xl"
+          className="md:col-span-3 lg:col-span-1 rounded-3xl bg-gradient-to-br from-indigo-950/60 to-zinc-950/90 border border-indigo-500/30 p-5 sm:p-8 backdrop-blur-xl flex flex-col justify-between shadow-xl"
         >
           <div>
             <div className="p-3 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 w-fit mb-4 text-indigo-400">
@@ -313,7 +313,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="col-span-1 md:col-span-3 lg:col-span-4 rounded-3xl bg-zinc-950/70 border border-white/10 p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group hover:border-fuchsia-500/40 transition-all duration-300 shadow-xl"
+          className="col-span-1 md:col-span-3 lg:col-span-4 rounded-3xl bg-zinc-950/70 border border-white/10 p-5 sm:p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group hover:border-fuchsia-500/40 transition-all duration-300 shadow-xl"
         >
           <div className="absolute top-0 right-0 w-96 h-96 bg-fuchsia-500/5 rounded-full blur-3xl pointer-events-none" />
 
