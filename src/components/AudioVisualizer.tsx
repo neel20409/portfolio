@@ -1,96 +1,135 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 
 export default function AudioVisualizer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
-  const oscillatorsRef = useRef<OscillatorNode[]>([]);
+  const masterGainRef = useRef<GainNode | null>(null);
+  const nodesRef = useRef<{ oscs: OscillatorNode[]; lfo?: OscillatorNode }>({ oscs: [] });
 
-  const startAmbientSynth = () => {
+  const getOrCreateContext = useCallback(() => {
+    if (typeof window === 'undefined') return null;
+    if (!audioCtxRef.current) {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (AudioCtx) {
+        audioCtxRef.current = new AudioCtx();
+      }
+    }
+    return audioCtxRef.current;
+  }, []);
+
+  const startAmbientSynth = async () => {
     try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioCtx) return;
+      const ctx = getOrCreateContext();
+      if (!ctx) return;
 
-      const ctx = new AudioCtx();
-      audioCtxRef.current = ctx;
+      // Crucial for iOS / Android mobile browsers: resume on user gesture
+      if (ctx.state === 'suspended') {
+        await ctx.resume();
+      }
 
+      const now = ctx.currentTime;
+
+      // Master gain node with smooth fade-in
       const masterGain = ctx.createGain();
-      masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
-      masterGain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 3);
+      masterGain.gain.setValueAtTime(0.001, now);
+      masterGain.gain.exponentialRampToValueAtTime(0.18, now + 1.5);
       masterGain.connect(ctx.destination);
-      gainNodeRef.current = masterGain;
+      masterGainRef.current = masterGain;
 
-      // Harmonic space drone chord frequencies (D minor celestial pad: D2, A2, F3, C4)
-      const freqs = [73.42, 110.0, 174.61, 261.63, 329.63];
+      // Mobile speaker optimized chord frequencies (A Major 9 Celestial Ambient Space Pad)
+      // Fundamental frequencies are placed in the 220Hz - 660Hz range so phone speakers reproduce them with clarity
+      const chord = [
+        { freq: 220.00, type: 'sine' as OscillatorType, gain: 0.28 },      // A3 (warm body)
+        { freq: 277.18, type: 'triangle' as OscillatorType, gain: 0.24 },  // C#4 (lush major third)
+        { freq: 329.63, type: 'sine' as OscillatorType, gain: 0.22 },      // E4 (harmonic fifth)
+        { freq: 415.30, type: 'triangle' as OscillatorType, gain: 0.18 },  // G#4 (ethereal major 7th)
+        { freq: 554.37, type: 'sine' as OscillatorType, gain: 0.14 },      // C#5 (high sparkle)
+        { freq: 659.25, type: 'sine' as OscillatorType, gain: 0.10 },      // E5 (ambient shimmer)
+      ];
 
-      oscillatorsRef.current = freqs.map((freq, i) => {
+      // Warm low-pass filter to give analog space synth character
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1600, now);
+      filter.Q.setValueAtTime(1.5, now);
+      filter.connect(masterGain);
+
+      // Subtle slow LFO for breathing cosmic modulation (0.2 Hz)
+      const lfo = ctx.createOscillator();
+      const lfoGain = ctx.createGain();
+      lfo.frequency.setValueAtTime(0.18, now);
+      lfoGain.gain.setValueAtTime(250, now);
+      lfo.connect(lfoGain);
+      lfoGain.connect(filter.frequency);
+      lfo.start(now);
+
+      const oscs: OscillatorNode[] = [];
+
+      chord.forEach((voice, i) => {
         const osc = ctx.createOscillator();
-        const filter = ctx.createBiquadFilter();
-        const panner = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
-        const oscGain = ctx.createGain();
+        const vGain = ctx.createGain();
 
-        osc.type = i % 2 === 0 ? 'sine' : 'triangle';
-        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        osc.type = voice.type;
+        osc.frequency.setValueAtTime(voice.freq, now);
 
-        // Subtle gentle detune
-        osc.detune.setValueAtTime(Math.sin(i) * 6, ctx.currentTime);
+        // Gentle organic detune (creates shimmering chorusing)
+        const detuneAmount = Math.sin(i * 1.7) * 8;
+        osc.detune.setValueAtTime(detuneAmount, now);
 
-        // Low-pass filter for warm atmospheric sound
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(450 + i * 80, ctx.currentTime);
+        vGain.gain.setValueAtTime(voice.gain, now);
 
-        oscGain.gain.setValueAtTime(0.2 / freqs.length, ctx.currentTime);
+        osc.connect(vGain);
+        vGain.connect(filter);
 
-        osc.connect(filter);
-        filter.connect(oscGain);
-
-        if (panner) {
-          panner.pan.setValueAtTime(Math.sin(i * 1.5) * 0.6, ctx.currentTime);
-          oscGain.connect(panner);
-          panner.connect(masterGain);
-        } else {
-          oscGain.connect(masterGain);
-        }
-
-        osc.start();
-        return osc;
+        osc.start(now);
+        oscs.push(osc);
       });
 
+      nodesRef.current = { oscs, lfo };
       setIsPlaying(true);
     } catch (e) {
-      console.warn('Web Audio synthesis error:', e);
+      console.warn('Web Audio start error:', e);
     }
   };
 
   const stopAmbientSynth = () => {
-    if (audioCtxRef.current && gainNodeRef.current) {
+    try {
       const ctx = audioCtxRef.current;
-      const gain = gainNodeRef.current;
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+      const master = masterGainRef.current;
+      if (ctx && master) {
+        const now = ctx.currentTime;
+        master.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
 
-      setTimeout(() => {
-        oscillatorsRef.current.forEach((osc) => {
-          try {
-            osc.stop();
-            osc.disconnect();
-          } catch {}
-        });
-        oscillatorsRef.current = [];
-        ctx.close();
-        audioCtxRef.current = null;
-        setIsPlaying(false);
-      }, 1200);
+        setTimeout(() => {
+          nodesRef.current.oscs.forEach((osc) => {
+            try {
+              osc.stop();
+              osc.disconnect();
+            } catch {}
+          });
+          if (nodesRef.current.lfo) {
+            try {
+              nodesRef.current.lfo.stop();
+              nodesRef.current.lfo.disconnect();
+            } catch {}
+          }
+          nodesRef.current = { oscs: [] };
+          setIsPlaying(false);
+        }, 1000);
+      }
+    } catch {
+      setIsPlaying(false);
     }
   };
 
-  const toggleAudio = () => {
+  const toggleAudio = async () => {
     if (isPlaying) {
       stopAmbientSynth();
     } else {
-      startAmbientSynth();
+      await startAmbientSynth();
     }
   };
 
@@ -108,8 +147,13 @@ export default function AudioVisualizer() {
     <div className="fixed bottom-5 md:bottom-10 left-6 md:left-10 z-50 pointer-events-auto">
       <button
         onClick={toggleAudio}
-        className="group flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 transition-all text-gray-300 hover:text-white shadow-lg active:scale-95"
+        onTouchEnd={(e) => {
+          // Prevent ghost double-triggers on mobile touch
+          e.stopPropagation();
+        }}
+        className="group flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 transition-all text-gray-300 hover:text-white shadow-lg active:scale-95 cursor-pointer"
         title={isPlaying ? 'Mute Ambient Soundscape' : 'Play Ambient Space Synth'}
+        aria-label="Toggle Audio Soundscape"
       >
         {isPlaying ? (
           <>
@@ -118,7 +162,7 @@ export default function AudioVisualizer() {
               <span className="w-[2px] bg-cyan-400 rounded-full animate-[pulse_0.9s_ease-in-out_infinite] h-3/4" />
               <span className="w-[2px] bg-purple-400 rounded-full animate-[pulse_0.7s_ease-in-out_infinite] h-1/2" />
             </div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-300">AUDIO ON</span>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-300 font-bold">AUDIO ON</span>
           </>
         ) : (
           <>
