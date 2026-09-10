@@ -19,6 +19,7 @@ import AudioVisualizer from "@/components/AudioVisualizer";
 import OrbitConsole, { DISCIPLINE_SIGNALS } from "@/components/OrbitConsole";
 import HoloBeam from "@/components/HoloBeam";
 import OverdriveOverlay from "@/components/OverdriveOverlay";
+import MetricsBentoGrid from "@/components/MetricsBentoGrid";
 
 // Dynamically import the AvatarController (or whatever component holds your Scene/Canvas)
 const AvatarController = dynamic(
@@ -112,6 +113,7 @@ export default function Home() {
 
       <section id="journey" className="relative z-10"><JourneySection /></section>
       <section id="tech" className="relative z-20 bg-[#00000]/10 backdrop-blur-s"><TechSlider /></section>
+      <section id="metrics" className="relative z-20"><MetricsBentoGrid /></section>
       <section id="projects" className="relative z-10"><ProjectSection /></section>
 
       <section id="contact" className="relative z-10"><ContactSection /></section>

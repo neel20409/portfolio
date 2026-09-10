@@ -243,6 +243,56 @@ export default function CommandPalette() {
       },
     },
 
+    // Background Themes
+    {
+      id: 'theme-nebula',
+      category: 'Visual Themes',
+      title: 'Theme: Deep Nebula Starfield',
+      subtitle: 'Liquid cosmic clouds & twinkling starlight',
+      icon: <Sparkles className="w-4 h-4 text-indigo-400" />,
+      action: () => {
+        sound.playChime();
+        window.dispatchEvent(new CustomEvent('set-bg-theme', { detail: 'nebula' }));
+        setIsOpen(false);
+      },
+    },
+    {
+      id: 'theme-matrix',
+      category: 'Visual Themes',
+      title: 'Theme: Cyberpunk Matrix Rain',
+      subtitle: 'Cascading digital glyphs & hacker aesthetics',
+      icon: <Terminal className="w-4 h-4 text-emerald-400" />,
+      action: () => {
+        sound.playChime();
+        window.dispatchEvent(new CustomEvent('set-bg-theme', { detail: 'matrix' }));
+        setIsOpen(false);
+      },
+    },
+    {
+      id: 'theme-constellations',
+      category: 'Visual Themes',
+      title: 'Theme: Deep Space Constellations',
+      subtitle: 'Interactive geometric node network',
+      icon: <Zap className="w-4 h-4 text-cyan-400" />,
+      action: () => {
+        sound.playChime();
+        window.dispatchEvent(new CustomEvent('set-bg-theme', { detail: 'constellations' }));
+        setIsOpen(false);
+      },
+    },
+    {
+      id: 'theme-cybergrid',
+      category: 'Visual Themes',
+      title: 'Theme: 3D Cyber Neon Grid',
+      subtitle: 'Synthwave perspective wireframe horizon',
+      icon: <Code className="w-4 h-4 text-fuchsia-400" />,
+      action: () => {
+        sound.playChime();
+        window.dispatchEvent(new CustomEvent('set-bg-theme', { detail: 'cybergrid' }));
+        setIsOpen(false);
+      },
+    },
+
     // Quick Actions
     {
       id: 'action-copy-email',
