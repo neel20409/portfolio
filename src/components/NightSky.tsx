@@ -622,8 +622,9 @@ export default function NightSky() {
         }}
       />
 
-      {/* Floating Theme Switcher Pill in Top Right Dock */}
-      <div className="fixed top-6 right-6 z-40 flex items-center gap-1.5 p-1.5 rounded-full bg-zinc-950/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/80">
+      {/* Floating Theme Switcher Pill in Top Left Dock */}
+      <div className="fixed top-5 left-4 md:left-8 z-40 flex items-center gap-1 p-1 rounded-full bg-zinc-950/75 backdrop-blur-xl border border-white/10 shadow-xl shadow-black/60">
+        <span className="hidden lg:inline text-[10px] font-mono text-gray-400 pl-2.5 pr-1 uppercase tracking-wider font-semibold">Theme:</span>
         {THEME_OPTIONS.map((t) => {
           const isActive = activeTheme === t.id;
           return (
@@ -631,7 +632,7 @@ export default function NightSky() {
               key={t.id}
               onClick={() => switchTheme(t.id)}
               title={`Switch to ${t.label} background`}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 isActive
                   ? 'bg-indigo-600/30 text-white border border-indigo-500/50 shadow-inner'
                   : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
