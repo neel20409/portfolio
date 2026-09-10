@@ -1,12 +1,12 @@
 "use client";
-import { useGLTF, Float, useAnimations } from "@react-three/drei"; //
-import { useFrame } from "@react-three/fiber"; //
-import { useRef, useEffect } from "react"; //
-import * as THREE from "three"; //
+import { useGLTF, Float, useAnimations } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { useRef, useEffect } from "react";
+import * as THREE from "three";
 
 export default function Avatar({ 
   modelPath, 
-  position = [0, -6.5, 0]
+  position = [0, -3.3, 0]
 }: { 
   modelPath: string; 
   position?: [number, number, number] 
@@ -44,10 +44,29 @@ export default function Avatar({
   );
 }
 
-// Preload models for instant seamless transitions
+// 1. Critical Path: Only preload the Hero model immediately for lightning-fast First Contentful Paint
 useGLTF.preload("/models/wait.glb");
-useGLTF.preload("/models/run.glb");
-useGLTF.preload("/models/cigrette.glb");
-useGLTF.preload("/models/waitlay.glb");
-useGLTF.preload("/models/jump.glb");
-useGLTF.preload("/models/avatar2.glb");
+
+// 2. Progressive Deferred Preloading: Stagger subsequent models in background idle time
+if (typeof window !== "undefined") {
+  const scheduleDeferredPreload = () => {
+    // Stagger downloads so they never congest mobile bandwidth during initial load
+    setTimeout(() => {
+      useGLTF.preload("/models/run.glb");
+    }, 1500);
+
+    setTimeout(() => {
+      useGLTF.preload("/models/cigrette.glb");
+    }, 3000);
+
+    setTimeout(() => {
+      useGLTF.preload("/models/waitlay.glb");
+    }, 4500);
+  };
+
+  if ("requestIdleCallback" in window) {
+    (window as any).requestIdleCallback(scheduleDeferredPreload, { timeout: 2000 });
+  } else {
+    setTimeout(scheduleDeferredPreload, 1500);
+  }
+}

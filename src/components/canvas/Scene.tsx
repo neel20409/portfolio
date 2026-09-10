@@ -4,6 +4,15 @@ import { ContactShadows } from "@react-three/drei";
 import { Suspense, useEffect, useState, useCallback } from "react";
 import CanvasErrorBoundary from "./CanvasErrorBoundary";
 
+function ModelLoaderFallback() {
+  return (
+    <mesh position={[0, -0.5, 0]}>
+      <sphereGeometry args={[0.25, 16, 16]} />
+      <meshBasicMaterial color="#38bdf8" wireframe transparent opacity={0.3} />
+    </mesh>
+  );
+}
+
 /**
  * Scene Component
  * Resilient, zero-CDN-dependent 3D viewport for the portfolio.
@@ -54,7 +63,7 @@ export default function Scene({ children }: { children: React.ReactNode }) {
           }}
           onCreated={handleCreated}
         >
-          <Suspense fallback={null}>
+          <Suspense fallback={<ModelLoaderFallback />}>
             {/* Self-contained high-end multi-point studio lighting (100% offline & CDN-independent) */}
             <ambientLight intensity={1.5} />
             <hemisphereLight groundColor="#050816" color="#38bdf8" intensity={1.2} />

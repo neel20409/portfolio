@@ -16,7 +16,22 @@ const nextConfig: NextConfig = {
   // 3. Keep images unoptimized for easier handling of 3D assets/textures
   images: {
     // unoptimized: true, // Commented out to enable optimization
-  }
+  },
+
+  // 4. Aggressive caching for 3D GLB models in production
+  async headers() {
+    return [
+      {
+        source: "/models/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
