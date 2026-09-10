@@ -74,28 +74,35 @@ export default function NightSky() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [activeTheme, setActiveTheme] = useState<BackgroundTheme>('nebula');
   const activeThemeRef = useRef<BackgroundTheme>('nebula');
+  const themeResetRef = useRef<boolean>(false);
 
   const switchTheme = (theme: BackgroundTheme) => {
     setActiveTheme(theme);
     activeThemeRef.current = theme;
+    themeResetRef.current = true;
     if (typeof window !== 'undefined') {
       localStorage.setItem('portfolio-bg-theme', theme);
+      (window as any).__PORTFOLIO_THEME = theme;
     }
     sound.playChime();
   };
 
   useEffect(() => {
-    const saved = localStorage.getItem('portfolio-bg-theme') as BackgroundTheme;
+    const saved = (typeof window !== 'undefined' ? localStorage.getItem('portfolio-bg-theme') : null) as BackgroundTheme;
     if (saved && ['nebula', 'matrix', 'constellations', 'cybergrid'].includes(saved)) {
       setActiveTheme(saved);
       activeThemeRef.current = saved;
+      (window as any).__PORTFOLIO_THEME = saved;
     }
 
     const handleThemeEvent = (e: CustomEvent<BackgroundTheme>) => {
-      if (e.detail && ['nebula', 'matrix', 'constellations', 'cybergrid'].includes(e.detail)) {
-        setActiveTheme(e.detail);
-        activeThemeRef.current = e.detail;
-        localStorage.setItem('portfolio-bg-theme', e.detail);
+      const theme = e.detail;
+      if (theme && ['nebula', 'matrix', 'constellations', 'cybergrid'].includes(theme)) {
+        setActiveTheme(theme);
+        activeThemeRef.current = theme;
+        themeResetRef.current = true;
+        localStorage.setItem('portfolio-bg-theme', theme);
+        (window as any).__PORTFOLIO_THEME = theme;
       }
     };
 
@@ -171,11 +178,11 @@ export default function NightSky() {
 
     // --- 2. MATRIX RAIN SETUP ---
     const matrixChars = 'ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ1029384756ZXYWVUTSRQPONMLKJIHGFEDCBA<>/{}[];:=+*~#@';
-    const matrixColWidth = 18;
+    const matrixColWidth = 16;
     const matrixCols = Math.floor(width / matrixColWidth) + 1;
     const matrixDrops: MatrixDrop[] = Array.from({ length: matrixCols }, (_, i) => ({
       x: i * matrixColWidth,
-      y: Math.random() * -height,
+      y: Math.random() * height, // Pre-distributed so rain is immediately visible
       speed: Math.random() * 5 + 4,
       chars: Array.from({ length: Math.floor(Math.random() * 18 + 10) }, () =>
         matrixChars[Math.floor(Math.random() * matrixChars.length)]
@@ -236,7 +243,14 @@ export default function NightSky() {
     // --- RENDER LOOP ---
     const render = () => {
       time += 0.012;
-      const currentTheme = activeThemeRef.current;
+      const currentTheme = activeThemeRef.current || 'nebula';
+
+      // Reset canvas instantly if user switched theme
+      if (themeResetRef.current) {
+        ctx.fillStyle = currentTheme === 'matrix' ? '#02060c' : currentTheme === 'constellations' ? '#030712' : currentTheme === 'cybergrid' ? '#050510' : '#02040a';
+        ctx.fillRect(0, 0, width, height);
+        themeResetRef.current = false;
+      }
 
       // Damped mouse movement
       const dxMouse = targetMouseX - mouseX;
@@ -340,7 +354,7 @@ export default function NightSky() {
             ctx.moveTo(drawX - spike, drawY);
             ctx.lineTo(drawX + spike, drawY);
             ctx.moveTo(drawX, drawY - spike);
-            ctx.lineTo(drawX, drawY + spike);
+            ctx.lineTo(drawX + spike, drawY);
             ctx.stroke();
           }
 
@@ -399,7 +413,7 @@ export default function NightSky() {
       // THEME 2: MATRIX DIGITAL RAIN (Cyberpunk)
       // ==========================================
       else if (currentTheme === 'matrix') {
-        ctx.fillStyle = 'rgba(2, 6, 12, 0.25)';
+        ctx.fillStyle = 'rgba(2, 6, 12, 0.2)';
         ctx.fillRect(0, 0, width, height);
 
         ctx.font = '14px monospace';
@@ -416,7 +430,7 @@ export default function NightSky() {
             }
           }
 
-          if (drop.y > height && Math.random() > 0.975) {
+          if (drop.y > height + 50) {
             drop.y = -drop.length * drop.fontSize;
             drop.speed = Math.random() * 5 + 4;
           }
@@ -426,7 +440,7 @@ export default function NightSky() {
             if (charY < -20 || charY > height + 20) continue;
 
             const isHead = c === drop.length - 1;
-            const alpha = Math.max(0.1, c / drop.length);
+            const alpha = Math.max(0.15, c / drop.length);
 
             if (isHead) {
               ctx.fillStyle = '#ffffff';
@@ -500,9 +514,9 @@ export default function NightSky() {
             const dist = Math.sqrt(dx * dx + dy * dy);
 
             if (dist < linkDist) {
-              const alpha = (1 - dist / linkDist) * 0.4;
+              const alpha = (1 - dist / linkDist) * 0.45;
               ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
-              ctx.lineWidth = 1;
+              ctx.lineWidth = 1.2;
               ctx.beginPath();
               ctx.moveTo(n.x, n.y);
               ctx.lineTo(n2.x, n2.y);
