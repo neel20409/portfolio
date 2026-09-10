@@ -6,7 +6,7 @@ import * as THREE from "three"; //
 
 export default function Avatar({ 
   modelPath, 
-  position = [0, -6.5, 0] // Set a default value
+  position = [0, -6.5, 0]
 }: { 
   modelPath: string; 
   position?: [number, number, number] 
@@ -17,38 +17,37 @@ export default function Avatar({
 
   useEffect(() => {
     if (actions && Object.keys(actions).length > 0) {
-      // Get the first available animation clip
       const firstActionName = Object.keys(actions)[0];
       const action = actions[firstActionName];
       
-      action?.reset().fadeIn(0.5).play(); // Smooth transition
+      action?.reset().fadeIn(0.6).play();
 
       return () => {
-        action?.fadeOut(0.5); // Fade out old model animation
+        action?.fadeOut(0.6);
       };
     }
-  }, [actions, modelPath]); // Re-run when modelPath changes
+  }, [actions, modelPath]);
 
-  useFrame((state) => {
-    if (!group.current) return; //
-    const x = state.mouse.x * 0.2; //
-    const y = state.mouse.y * 0.2; //
-    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, y, 0.1); //
-    group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, x, 0.1); //
+  useFrame((state, delta) => {
+    if (!group.current) return;
+    const targetX = state.mouse.y * 0.15;
+    const targetY = -0.6 + state.mouse.x * 0.25;
+
+    group.current.rotation.x = THREE.MathUtils.damp(group.current.rotation.x, targetX, 4, delta);
+    group.current.rotation.y = THREE.MathUtils.damp(group.current.rotation.y, targetY, 4, delta);
   });
 
   return (
-    <Float speed={1} rotationIntensity={0.5} floatIntensity={0.1}>
-      {/* Use the dynamic position prop here instead of a hardcoded array */}
-      <primitive ref={group} object={scene} scale={6} position={position} rotation={[0, -0.6, 0]} />
+    <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.15}>
+      <primitive ref={group} object={scene} scale={6} position={position} />
     </Float>
   );
 }
 
-// Preload the run model to avoid flickering
+// Preload models for instant seamless transitions
+useGLTF.preload("/models/wait.glb");
 useGLTF.preload("/models/run.glb");
-
-useGLTF.preload("/models/jump.glb");
-useGLTF.preload("/models/waitlay.glb");
-useGLTF.preload("/models/avatar2.glb");
 useGLTF.preload("/models/cigrette.glb");
+useGLTF.preload("/models/waitlay.glb");
+useGLTF.preload("/models/jump.glb");
+useGLTF.preload("/models/avatar2.glb");

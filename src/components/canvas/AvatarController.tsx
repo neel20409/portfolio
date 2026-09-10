@@ -1,26 +1,29 @@
 "use client";
+
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import Scene from "./Scene";
 import Avatar from "./Avatar";
 import { useThree } from "@react-three/fiber";
 
 /**
  * 3D ONLY COMPONENT
- * This sits INSIDE the <Scene> (Canvas), so useThree works perfectly here.
+ * Sits inside <Scene> (Canvas) so R3F hooks (useThree) work smoothly.
  */
 function AvatarWrapper({ currentModel }: { currentModel: string }) {
   const { viewport } = useThree();
   
-  // Responsive Scale: Smaller on mobile, 1 on desktop
-  const responsiveScale = Math.min(viewport.width / 12, 1);
+  // Responsive Scale: Scaled to fit screen cleanly
   const isMobile = viewport.width < 6;
+  const responsiveScale = Math.min(viewport.width / (isMobile ? 8 : 11.5), 1.05);
 
-  // Adjust vertical position based on model and screen size
+  // Precise vertical alignment based on model pose
   const verticalPosition: [number, number, number] = 
     currentModel === "/models/waitlay.glb" 
-      ? [0, isMobile ? -3.5 : -4.5, 0] 
-      : [0, isMobile ? -4.5 : -6.5, 0];
+      ? [0, isMobile ? -3.0 : -3.8, 0] 
+      : currentModel === "/models/run.glb"
+      ? [0, isMobile ? -4.0 : -5.8, 0]
+      : [0, isMobile ? -4.2 : -6.0, 0];
 
   return (
     <group scale={responsiveScale}>
@@ -31,31 +34,64 @@ function AvatarWrapper({ currentModel }: { currentModel: string }) {
 
 /**
  * MAIN CONTROLLER
- * This handles DOM-level logic like scroll and intersection observers.
+ * Smooth spring-damped scroll mapping and intersection detection.
  */
 export default function AvatarController() {
   const [currentModel, setCurrentModel] = useState("/models/wait.glb");
   const { scrollYProgress } = useScroll();
 
-  // Framer Motion useTransform is 2D/CSS based, so it's safe here.
-  // We use percentages for X translation to keep it responsive.
+  // Buttery-smooth spring damping on scroll progress
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 65,
+    damping: 20,
+    mass: 0.6,
+  });
+
+  // Smooth X position across the sections:
+  // 0.0 (Hero): Stands at +6% (slightly right of center to balance left glass card)
+  // 0.25 (Journey): Moves to -30% (left side while timeline scrolls on right)
+  // 0.55 (Tech/Projects): Moves to +18% (right side while projects display on left)
+  // 0.85 (Projects/Contact): Centers at 0%
+  // 1.0 (Contact): Centers at 0%
   const avatarX = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.6, 0.75, 1],
-    ["0%", "-40%", "10%", "-5%", "0%"]
+    smoothProgress,
+    [0, 0.22, 0.55, 0.82, 1],
+    ["6%", "-28%", "18%", "-15%", "0%"]
+  );
+
+  // Subtle Y vertical breathing float on scroll
+  const avatarY = useTransform(
+    smoothProgress,
+    [0, 0.25, 0.5, 0.75, 1],
+    ["0%", "-2%", "2%", "-1%", "0%"]
+  );
+
+  // Subtle scale dynamics on scroll
+  const avatarScale = useTransform(
+    smoothProgress,
+    [0, 0.25, 0.55, 0.85, 1],
+    [1, 0.95, 1.02, 0.96, 1.05]
   );
 
   useEffect(() => {
-    const observerOptions = { threshold: 0.5 };
+    const observerOptions = { threshold: 0.35 };
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           switch (entry.target.id) {
-            case "hero": setCurrentModel("/models/wait.glb"); break;
-            case "journey": setCurrentModel("/models/run.glb"); break;
+            case "hero":
+              setCurrentModel("/models/wait.glb");
+              break;
+            case "journey":
+              setCurrentModel("/models/run.glb");
+              break;
             case "tech":
-            case "projects": setCurrentModel("/models/cigrette.glb"); break;
-            case "contact": setCurrentModel("/models/waitlay.glb"); break;
+            case "projects":
+              setCurrentModel("/models/cigrette.glb");
+              break;
+            case "contact":
+              setCurrentModel("/models/waitlay.glb");
+              break;
           }
         }
       });
@@ -72,20 +108,16 @@ export default function AvatarController() {
 
   return (
     <motion.div 
-      style={{ x: avatarX }}
-      className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none transition-all duration-700 ease-out"
+      style={{ x: avatarX, y: avatarY, scale: avatarScale }}
+      className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none"
     >
       <div className="w-full h-screen">
         <Scene>
           <AnimatePresence mode="wait">
-            {/* AvatarWrapper is a child of Scene, 
-              which contains the <Canvas>. 
-              This is the ONLY way to use R3F hooks.
-            */}
             <AvatarWrapper key={currentModel} currentModel={currentModel} />
           </AnimatePresence>
         </Scene>
       </div>
     </motion.div>
   );
-}
+}

@@ -11,29 +11,33 @@ import { Suspense, useEffect, useState } from "react";
  */
 // src/components/canvas/Scene.tsx
 export default function Scene({ children }: { children: React.ReactNode }) {
- const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null; //
- 
+  if (!mounted) return null;
+
   return (
-    <div className="fixed top-0 left-1/4 -z-10 h-screen w-full transition-opacity duration-1000 pointer-events-none">
+    <div className="fixed inset-0 -z-10 h-screen w-full pointer-events-none">
       <Canvas 
         shadows 
-        camera={{ position: [0, 0, 10], fov: 65 }} // Move camera back slightly
+        camera={{ position: [0, 0, 10], fov: 58 }}
+        gl={{ antialias: true, alpha: true }}
       >
         <Suspense fallback={null}>
-          <ambientLight intensity={1.5} />
+          <ambientLight intensity={1.4} />
+          <directionalLight position={[6, 8, 5]} intensity={2.0} castShadow />
+          <pointLight position={[-6, 2, -2]} color="#38bdf8" intensity={1.8} />
+          <pointLight position={[6, -4, 2]} color="#c084fc" intensity={1.2} />
           <Environment preset="city" /> 
           {children}
           <ContactShadows 
-            position={[0, -2, 0]} 
+            position={[0, -2.2, 0]} 
             opacity={0.4} 
-            scale={20} // Wide shadow for the laying body
-            blur={2} 
+            scale={22} 
+            blur={2.2} 
           />
         </Suspense>
       </Canvas>
