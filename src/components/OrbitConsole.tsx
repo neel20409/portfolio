@@ -1,110 +1,251 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowUpRight, Cpu, Sparkles } from "lucide-react";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { ArrowUpRight, Cpu, Sparkles, Zap, Radio } from "lucide-react";
+import dynamic from "next/dynamic";
+import { sfx } from "@/utils/sfx";
 
-const signals = [
+// Dynamically import the 3D Mini Wireframe Canvas for fast SSR
+const HoloMiniCanvas = dynamic(() => import("./canvas/HoloMiniCanvas"), { ssr: false });
+
+export const DISCIPLINE_SIGNALS = [
   {
     label: "Web",
     index: "01",
-    title: "Interfaces that feel inevitable.",
-    detail: "Fast, expressive product surfaces with a little theatre in every interaction.",
-    stack: "Next.js / TypeScript",
+    title: "Fast, immersive web surfaces.",
+    detail: "High-performance full-stack architectures crafted with micro-interactions & fluid animations.",
+    stack: "Next.js / NestJS / Postgres",
     metric: "03.2s",
-    metricLabel: "time to clarity",
+    metricLabel: "time to value",
+    themeColor: "#38bdf8", // Sky Cyan
+    badgeGlow: "rgba(56, 189, 248, 0.4)",
   },
   {
     label: "Mobile",
     index: "02",
-    title: "Small screens. Big intent.",
-    detail: "Focused mobile experiences that make the next action impossible to miss.",
-    stack: "React Native / Expo",
+    title: "Small screens. Big impact.",
+    detail: "Native cross-platform mobile apps built with seamless offline-first synchronization.",
+    stack: "React Native / Capacitor",
     metric: "01 tap",
-    metricLabel: "to momentum",
+    metricLabel: "to action",
+    themeColor: "#34d399", // Emerald Green
+    badgeGlow: "rgba(52, 211, 153, 0.4)",
   },
   {
     label: "3D / AI",
     index: "03",
-    title: "Useful magic, rendered.",
-    detail: "Spatial interfaces and intelligent systems that turn complexity into curiosity.",
-    stack: "Three.js / Gemini",
-    metric: "∞",
-    metricLabel: "room to explore",
+    title: "Spatial & intelligent systems.",
+    detail: "Real-time 3D web graphics, generative AI agents, and interactive visual workflows.",
+    stack: "Three.js / Gemini / R3F",
+    metric: "60 FPS",
+    metricLabel: "spatial flow",
+    themeColor: "#c084fc", // Purple / Violet
+    badgeGlow: "rgba(192, 132, 252, 0.4)",
   },
 ];
 
-export default function OrbitConsole() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const signal = signals[activeIndex];
+interface OrbitConsoleProps {
+  activeIndex?: number;
+  onActiveIndexChange?: (index: number) => void;
+  isOverdrive?: boolean;
+  onToggleOverdrive?: () => void;
+}
+
+export default function OrbitConsole({
+  activeIndex: externalIndex,
+  onActiveIndexChange,
+  isOverdrive = false,
+  onToggleOverdrive,
+}: OrbitConsoleProps) {
+  const [internalIndex, setInternalIndex] = useState(0);
+  const activeIndex = externalIndex !== undefined ? externalIndex : internalIndex;
+  const signal = DISCIPLINE_SIGNALS[activeIndex];
+
+  const handleSelectTab = (index: number) => {
+    if (externalIndex === undefined) setInternalIndex(index);
+    onActiveIndexChange?.(index);
+    sfx.playHoloChirp(index === 0 ? 1.0 : index === 1 ? 1.25 : 1.5);
+  };
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Smooth 3D Spring Tilt physics
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), { damping: 18, stiffness: 140 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), { damping: 18, stiffness: 140 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(xPct);
+    mouseY.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
 
   return (
     <motion.aside
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.8, duration: 0.8 }}
-      className="orbit-console pointer-events-auto absolute right-6 top-1/2 hidden w-[min(25rem,32vw)] -translate-y-1/2 lg:block"
+      transition={{ delay: 0.6, duration: 0.8 }}
+      className="orbit-console pointer-events-auto absolute right-4 xl:right-10 top-1/2 hidden w-[310px] xl:w-[335px] -translate-y-1/2 lg:block z-30 perspective-[1000px]"
     >
-      <div className="relative overflow-hidden border border-white/15 bg-black/35 p-6 shadow-2xl shadow-cyan-950/30 backdrop-blur-xl">
-        <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full border border-cyan-300/20" />
-        <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full border border-cyan-300/20" />
-        <motion.div
-          className="absolute right-[4.4rem] top-[4.4rem] h-1.5 w-1.5 rounded-full bg-cyan-200 shadow-[0_0_14px_4px_rgba(103,232,249,0.7)]"
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 7, ease: "linear" }}
-          style={{ transformOrigin: "-3.2rem 3.2rem" }}
+      <motion.div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        className={`relative overflow-hidden rounded-2xl border bg-slate-950/30 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-colors duration-500 ${
+          isOverdrive
+            ? "border-rose-500/60 shadow-[0_0_35px_rgba(244,63,94,0.35)] bg-slate-950/50"
+            : "border-white/12 hover:border-cyan-400/40"
+        }`}
+      >
+        {/* Dynamic Holographic Spotlight Glare */}
+        <div
+          className="pointer-events-none absolute -inset-px rounded-2xl opacity-40 transition-opacity duration-300"
+          style={{
+            background: `radial-gradient(400px circle at ${((mouseX.get() + 0.5) * 100).toFixed(1)}% ${((mouseY.get() + 0.5) * 100).toFixed(1)}%, ${signal.badgeGlow}, transparent 70%)`,
+          }}
         />
 
-        <div className="relative flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-cyan-200/70">
-          <span className="flex items-center gap-2"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-300" /> Live signal</span>
-          <span>NB / 2026</span>
-        </div>
-
-        <div className="relative mt-9 min-h-[10.5rem]">
-          <motion.div
-            key={signal.index}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            <div className="mb-3 flex items-center gap-2 text-xs text-white/45"><Sparkles size={13} /> Selected discipline / {signal.index}</div>
-            <h2 className="max-w-xs text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-white">{signal.title}</h2>
-            <p className="mt-4 max-w-sm text-sm leading-6 text-white/55">{signal.detail}</p>
-          </motion.div>
-        </div>
-
-        <div className="relative grid grid-cols-2 border-y border-white/10 py-4 text-xs">
+        {/* Header with Live Signal & Mini 3D Hologram */}
+        <div className="relative flex items-center justify-between">
           <div>
-            <div className="mb-1 uppercase tracking-[0.16em] text-white/35">Typical stack</div>
-            <div className="text-white/80">{signal.stack}</div>
+            <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: isOverdrive ? "#fb7185" : signal.themeColor }}>
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: isOverdrive ? "#f43f5e" : signal.themeColor }} />
+                <span className="relative inline-flex h-2 w-2 rounded-full" style={{ backgroundColor: isOverdrive ? "#f43f5e" : signal.themeColor }} />
+              </span>
+              <span>{isOverdrive ? "OVERDRIVE ON" : "Live Signal"}</span>
+            </div>
+            <div className="mt-0.5 text-[9px] font-mono text-white/40 tracking-wider">
+              NB / 2026 // HOLO-LINK
+            </div>
           </div>
-          <div className="border-l border-white/10 pl-4">
-            <div className="mb-1 uppercase tracking-[0.16em] text-white/35">Design metric</div>
-            <div className="text-cyan-200">{signal.metric} <span className="text-white/40">{signal.metricLabel}</span></div>
+
+          {/* 3D Morphing Shape Preview Canvas */}
+          <div className="relative -my-3 -mr-2">
+            <HoloMiniCanvas activeIndex={activeIndex} />
           </div>
         </div>
 
-        <div className="relative mt-5 flex items-end justify-between">
-          <div className="flex gap-2" role="tablist" aria-label="Choose a discipline">
-            {signals.map((item, index) => (
-              <button
-                key={item.label}
-                type="button"
-                role="tab"
-                aria-selected={activeIndex === index}
-                aria-label={`Show ${item.label} discipline`}
-                onClick={() => setActiveIndex(index)}
-                className={`border px-3 py-2 text-[10px] uppercase tracking-[0.16em] transition-colors ${activeIndex === index ? "border-cyan-200/70 bg-cyan-200/10 text-cyan-100" : "border-white/10 text-white/45 hover:border-white/30 hover:text-white/80"}`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <Cpu size={18} className="text-white/35" />
+        {/* Dynamic Discipline Description */}
+        <div className="relative mt-3 min-h-[110px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={signal.index}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div className="mb-1 flex items-center gap-1.5 text-[11px] font-medium" style={{ color: signal.themeColor }}>
+                <Sparkles size={12} />
+                <span>Discipline / {signal.index}</span>
+              </div>
+              <h3 className="text-[17px] font-bold leading-tight tracking-tight text-white">
+                {signal.title}
+              </h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-slate-300/75">
+                {signal.detail}
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </div>
-      <a href="#projects" className="group mt-4 flex items-center justify-between border-b border-white/15 pb-2 text-xs uppercase tracking-[0.18em] text-white/50 transition-colors hover:border-cyan-200/60 hover:text-cyan-100">
-        Inspect the work <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+
+        {/* Core Stack & Performance Metrics */}
+        <div className="relative mt-2 grid grid-cols-2 gap-2 border-y border-white/10 py-2.5 text-[11px]">
+          <div>
+            <div className="mb-0.5 text-[9px] uppercase tracking-wider text-slate-400/60">Core Stack</div>
+            <div className="font-medium text-white/90 truncate">{signal.stack}</div>
+          </div>
+          <div className="border-l border-white/10 pl-3">
+            <div className="mb-0.5 text-[9px] uppercase tracking-wider text-slate-400/60">Target Velocity</div>
+            <div className="font-semibold" style={{ color: signal.themeColor }}>
+              {signal.metric} <span className="text-[10px] font-normal text-slate-400">{signal.metricLabel}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Discipline Tabs */}
+        <div className="relative mt-3 flex items-center justify-between pt-1">
+          <div className="flex gap-1.5" role="tablist" aria-label="Discipline Selector">
+            {DISCIPLINE_SIGNALS.map((item, index) => {
+              const isActive = activeIndex === index;
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onMouseEnter={() => sfx.playHoverBlip()}
+                  onClick={() => handleSelectTab(index)}
+                  className={`rounded-lg px-2.5 py-1 text-[10px] font-semibold tracking-wider transition-all duration-200 ${
+                    isActive
+                      ? "text-white border shadow-md"
+                      : "text-slate-400 hover:text-white bg-white/5 border border-white/5 hover:border-white/20"
+                  }`}
+                  style={
+                    isActive
+                      ? {
+                          backgroundColor: `${item.themeColor}22`,
+                          borderColor: `${item.themeColor}88`,
+                          color: item.themeColor,
+                          boxShadow: `0 0 14px ${item.themeColor}33`,
+                        }
+                      : {}
+                  }
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <Cpu size={15} style={{ color: signal.themeColor }} className="opacity-70" />
+        </div>
+
+        {/* Overdrive Action Button */}
+        {onToggleOverdrive && (
+          <button
+            type="button"
+            onClick={() => {
+              onToggleOverdrive();
+              sfx.playOverdriveWarp(!isOverdrive);
+            }}
+            onMouseEnter={() => sfx.playHoverBlip()}
+            className={`mt-3 w-full flex items-center justify-center gap-2 rounded-xl py-2 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 ${
+              isOverdrive
+                ? "bg-rose-500/20 text-rose-300 border border-rose-400/50 shadow-[0_0_15px_rgba(244,63,94,0.3)]"
+                : "bg-white/5 text-cyan-300 border border-cyan-400/30 hover:bg-cyan-500/15 hover:border-cyan-300"
+            }`}
+          >
+            <Zap size={12} className={isOverdrive ? "animate-bounce text-rose-400" : "text-cyan-400"} />
+            <span>{isOverdrive ? "DISENGAGE OVERDRIVE" : "⚡ ENGAGE ZERO-G OVERDRIVE"}</span>
+          </button>
+        )}
+      </motion.div>
+
+      {/* Quick Action Link */}
+      <a
+        href="#projects"
+        onMouseEnter={() => sfx.playHoverBlip()}
+        className="group mt-2.5 flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] px-3.5 py-1.5 text-[10px] uppercase tracking-wider text-slate-400 transition-all duration-200 hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-200"
+      >
+        <span>Explore Featured Projects</span>
+        <ArrowUpRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cyan-300" />
       </a>
     </motion.aside>
   );

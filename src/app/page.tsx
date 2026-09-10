@@ -16,7 +16,9 @@ import { AvatarPointer } from "@/components/AvatarPointer";
 import dynamic from 'next/dynamic';
 import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
 import AudioVisualizer from "@/components/AudioVisualizer";
-import OrbitConsole from "@/components/OrbitConsole";
+import OrbitConsole, { DISCIPLINE_SIGNALS } from "@/components/OrbitConsole";
+import HoloBeam from "@/components/HoloBeam";
+import OverdriveOverlay from "@/components/OverdriveOverlay";
 
 // Dynamically import the AvatarController (or whatever component holds your Scene/Canvas)
 const AvatarController = dynamic(
@@ -27,6 +29,8 @@ const AvatarController = dynamic(
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeDiscipline, setActiveDiscipline] = useState(0);
+  const [isOverdrive, setIsOverdrive] = useState(false);
  const navItems = [
     {
       name: "Home",
@@ -57,12 +61,20 @@ export default function Home() {
     <main ref={containerRef} className="relative bg-transparent overflow-x-hidden">
       <NightSky />
       <AudioVisualizer />
+      <OverdriveOverlay isActive={isOverdrive} />
       
       <AvatarPointer>
         <div className="relative">
            <AvatarController />
         </div>
       </AvatarPointer>
+
+      {/* Hologram Projection Beam from 3D Avatar to Orbit Console */}
+      <HoloBeam 
+        isOverdrive={isOverdrive} 
+        activeColor={DISCIPLINE_SIGNALS[activeDiscipline]?.themeColor || "#38bdf8"} 
+      />
+
       <FloatingNav navItems={navItems} />
       {/* FIXED GLOBAL FOOTER UI */}
       <div className="fixed bottom-5 md:bottom-10 left-0 w-full px-6 md:px-10 flex justify-between items-end z-50 pointer-events-none">
@@ -89,7 +101,12 @@ export default function Home() {
         <div className="w-full md:w-1/2 px-6 md:px-10 lg:px-20">
           <Content onCVClick={() => console.log("CV Downloaded")} />
         </div>
-        <OrbitConsole />
+        <OrbitConsole 
+          activeIndex={activeDiscipline}
+          onActiveIndexChange={setActiveDiscipline}
+          isOverdrive={isOverdrive}
+          onToggleOverdrive={() => setIsOverdrive(prev => !prev)}
+        />
         <ScrollIndicator />
       </section>
 
