@@ -162,7 +162,7 @@ export default function DevTerminal({ isOpen, onClose }: { isOpen: boolean; onCl
   "location": "Vadodara, Gujarat, India",
   "contact": {
     "email": "bhattneel2004@gmail.com",
-    "phone": "+91-9265982724",
+    "whatsapp": "Direct Chat Available",
     "github": "https://github.com/neel20409"
   },
   "education": "BCA, MSU Baroda (Grad 2027)",
@@ -185,7 +185,7 @@ export default function DevTerminal({ isOpen, onClose }: { isOpen: boolean; onCl
             <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs space-y-1">
               <p className="font-bold">⚡ Recruiter Fast Track Activated!</p>
               <p>Email: <a href="mailto:bhattneel2004@gmail.com" className="underline font-bold text-white">bhattneel2004@gmail.com</a></p>
-              <p>WhatsApp: <a href="https://wa.me/919265982724" target="_blank" className="underline font-bold text-white">+91 9265982724</a></p>
+              <p>WhatsApp: <a href="https://wa.me/919265982724" target="_blank" className="underline font-bold text-white">Direct Chat Link ↗</a></p>
               <p>Resume: <a href="/NeelBhatt_Resume.pdf" target="_blank" className="underline text-indigo-300">Download Official PDF</a></p>
             </div>
           ),

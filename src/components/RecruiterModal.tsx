@@ -110,7 +110,7 @@ export default function RecruiterModal({ isOpen, onClose }: { isOpen: boolean; o
               >
                 <div className="flex items-center gap-3">
                   <MessageCircle className="w-5 h-5 text-emerald-400" />
-                  <span>Chat on WhatsApp (+91 9265982724)</span>
+                  <span>Chat on WhatsApp (Direct Message)</span>
                 </div>
                 <ExternalLink className="w-4 h-4 text-emerald-400 group-hover:translate-x-0.5 transition-transform" />
               </a>
