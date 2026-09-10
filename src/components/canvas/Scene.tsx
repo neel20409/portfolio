@@ -34,10 +34,10 @@ export default function Scene({ children }: { children: React.ReactNode }) {
           <Environment preset="city" /> 
           {children}
           <ContactShadows 
-            position={[0, -2.2, 0]} 
-            opacity={0.4} 
-            scale={22} 
-            blur={2.2} 
+            position={[0, -3.35, 0]} 
+            opacity={0.5} 
+            scale={16} 
+            blur={1.8} 
           />
         </Suspense>
       </Canvas>

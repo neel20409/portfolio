@@ -13,17 +13,17 @@ import { useThree } from "@react-three/fiber";
 function AvatarWrapper({ currentModel }: { currentModel: string }) {
   const { viewport } = useThree();
   
-  // Responsive Scale: Scaled to fit screen cleanly
+  // Responsive Scale: Balanced for mobile and large desktop monitors
   const isMobile = viewport.width < 6;
-  const responsiveScale = Math.min(viewport.width / (isMobile ? 8 : 11.5), 1.05);
+  const responsiveScale = isMobile ? Math.min(viewport.width / 5.5, 0.9) : 1.0;
 
-  // Precise vertical alignment based on model pose
+  // Calibrated vertical alignment matching 3.65 model scale
   const verticalPosition: [number, number, number] = 
     currentModel === "/models/waitlay.glb" 
-      ? [0, isMobile ? -3.0 : -3.8, 0] 
+      ? [0, isMobile ? -1.4 : -1.8, 0] 
       : currentModel === "/models/run.glb"
-      ? [0, isMobile ? -4.0 : -5.8, 0]
-      : [0, isMobile ? -4.2 : -6.0, 0];
+      ? [0, isMobile ? -2.4 : -3.3, 0]
+      : [0, isMobile ? -2.4 : -3.3, 0];
 
   return (
     <group scale={responsiveScale}>

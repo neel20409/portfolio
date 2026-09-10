@@ -38,8 +38,8 @@ export default function Avatar({
   });
 
   return (
-    <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.15}>
-      <primitive ref={group} object={scene} scale={6} position={position} />
+    <Float speed={1.0} rotationIntensity={0.25} floatIntensity={0.12}>
+      <primitive ref={group} object={scene} scale={3.65} position={position} />
     </Float>
   );
 }
