@@ -13,7 +13,8 @@ interface MetricItem {
   decimals?: number;
   subtext: string;
   badge: string;
-  icon: React.ReactNode;
+  Icon: React.ComponentType<{ className?: string }>;
+  iconColor: string;
   gradient: string;
   borderGlow: string;
 }
@@ -27,7 +28,8 @@ const METRICS_DATA: MetricItem[] = [
     suffix: '%',
     subtext: 'High-availability Kubernetes & VPS multi-cluster',
     badge: 'Live SLA',
-    icon: <ShieldCheck className="w-5 h-5 text-emerald-400" />,
+    Icon: ShieldCheck,
+    iconColor: 'text-emerald-400',
     gradient: 'from-emerald-500/10 via-teal-500/5 to-transparent',
     borderGlow: 'group-hover:border-emerald-500/40',
   },
@@ -38,7 +40,8 @@ const METRICS_DATA: MetricItem[] = [
     suffix: 'k+',
     subtext: 'NestJS REST & Realtime WebSocket streams',
     badge: 'Throughput',
-    icon: <Activity className="w-5 h-5 text-cyan-400" />,
+    Icon: Activity,
+    iconColor: 'text-cyan-400',
     gradient: 'from-cyan-500/10 via-blue-500/5 to-transparent',
     borderGlow: 'group-hover:border-cyan-500/40',
   },
@@ -50,7 +53,8 @@ const METRICS_DATA: MetricItem[] = [
     suffix: 'ms',
     subtext: 'Optimized PostgreSQL indexing & Redis caching',
     badge: 'Ultra Fast',
-    icon: <Zap className="w-5 h-5 text-amber-400" />,
+    Icon: Zap,
+    iconColor: 'text-amber-400',
     gradient: 'from-amber-500/10 via-orange-500/5 to-transparent',
     borderGlow: 'group-hover:border-amber-500/40',
   },
@@ -61,7 +65,8 @@ const METRICS_DATA: MetricItem[] = [
     suffix: ' FPS',
     subtext: 'Three.js & MediaPipe zero-lag GPU pipelines',
     badge: 'Buttery Smooth',
-    icon: <Cpu className="w-5 h-5 text-indigo-400" />,
+    Icon: Cpu,
+    iconColor: 'text-indigo-400',
     gradient: 'from-indigo-500/10 via-purple-500/5 to-transparent',
     borderGlow: 'group-hover:border-indigo-500/40',
   },
@@ -163,7 +168,7 @@ export default function MetricsBentoGrid() {
               {/* Top Row: Icon & Status Badge */}
               <div className="flex items-center justify-between mb-8">
                 <div className="p-2.5 rounded-2xl bg-white/5 border border-white/10 group-hover:scale-110 transition-transform">
-                  {item.icon}
+                  <item.Icon className={`w-5 h-5 ${item.iconColor}`} />
                 </div>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider font-semibold bg-white/5 border border-white/10 text-gray-300">
                   {item.badge}

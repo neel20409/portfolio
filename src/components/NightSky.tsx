@@ -63,11 +63,11 @@ interface NodePoint {
   color: string;
 }
 
-const THEME_OPTIONS: { id: BackgroundTheme; label: string; icon: React.ReactNode }[] = [
-  { id: 'nebula', label: 'Deep Nebula', icon: <Sparkles className="w-3.5 h-3.5 text-indigo-400" /> },
-  { id: 'matrix', label: 'Matrix Rain', icon: <Terminal className="w-3.5 h-3.5 text-emerald-400" /> },
-  { id: 'constellations', label: 'Constellations', icon: <Activity className="w-3.5 h-3.5 text-cyan-400" /> },
-  { id: 'cybergrid', label: 'Cyber Grid', icon: <Grid className="w-3.5 h-3.5 text-fuchsia-400" /> },
+const THEME_OPTIONS = [
+  { id: 'nebula' as BackgroundTheme, label: 'Deep Nebula', Icon: Sparkles, iconColor: 'text-indigo-400' },
+  { id: 'matrix' as BackgroundTheme, label: 'Matrix Rain', Icon: Terminal, iconColor: 'text-emerald-400' },
+  { id: 'constellations' as BackgroundTheme, label: 'Constellations', Icon: Activity, iconColor: 'text-cyan-400' },
+  { id: 'cybergrid' as BackgroundTheme, label: 'Cyber Grid', Icon: Grid, iconColor: 'text-fuchsia-400' },
 ];
 
 export default function NightSky() {
@@ -654,7 +654,7 @@ export default function NightSky() {
                   : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
               }`}
             >
-              {t.icon}
+              <t.Icon className={`w-3.5 h-3.5 ${t.iconColor}`} />
               <span className="hidden sm:inline text-[11px]">{t.label}</span>
             </button>
           );

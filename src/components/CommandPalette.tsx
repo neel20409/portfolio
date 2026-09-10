@@ -17,7 +17,8 @@ import {
   Volume2,
   VolumeX,
   Briefcase,
-  TerminalSquare
+  TerminalSquare,
+  Activity
 } from 'lucide-react';
 import { VisitorCounter } from './VisitorCounter';
 import DevTerminal from './DevTerminal';
@@ -164,6 +165,22 @@ export default function CommandPalette() {
       subtitle: '#tech',
       icon: <Code className="w-4 h-4 text-cyan-400" />,
       action: () => scrollToSection('tech'),
+    },
+    {
+      id: 'nav-metrics',
+      category: 'Navigation',
+      title: 'Go to Engineering Telemetry & Metrics',
+      subtitle: '#metrics',
+      icon: <Activity className="w-4 h-4 text-emerald-400" />,
+      action: () => scrollToSection('metrics'),
+    },
+    {
+      id: 'nav-datalab',
+      category: 'Navigation',
+      title: 'Launch Interactive AI / ML Data Lab',
+      subtitle: '#datalab (K-Means, Regression, Neural Net)',
+      icon: <Sparkles className="w-4 h-4 text-fuchsia-400" />,
+      action: () => scrollToSection('datalab'),
     },
     {
       id: 'nav-projects',
