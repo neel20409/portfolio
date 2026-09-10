@@ -611,19 +611,21 @@ export default function NightSky() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[-1] overflow-hidden bg-[#02040a]">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
+    <>
+      <div className="fixed inset-0 z-[-1] overflow-hidden bg-[#02040a] pointer-events-none">
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
 
-      {/* Ambient Celestial Vignette */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at 50% 50%, transparent 40%, rgba(2, 4, 10, 0.6) 100%)',
-        }}
-      />
+        {/* Ambient Celestial Vignette */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at 50% 50%, transparent 40%, rgba(2, 4, 10, 0.6) 100%)',
+          }}
+        />
+      </div>
 
       {/* Floating Theme Switcher Pill in Top Left Dock */}
-      <div className="fixed top-5 left-4 md:left-8 z-40 flex items-center gap-1 p-1 rounded-full bg-zinc-950/75 backdrop-blur-xl border border-white/10 shadow-xl shadow-black/60">
+      <div className="fixed top-5 left-4 md:left-8 z-50 flex items-center gap-1 p-1 rounded-full bg-zinc-950/80 backdrop-blur-xl border border-white/10 shadow-xl shadow-black/60 pointer-events-auto">
         <span className="hidden lg:inline text-[10px] font-mono text-gray-400 pl-2.5 pr-1 uppercase tracking-wider font-semibold">Theme:</span>
         {THEME_OPTIONS.map((t) => {
           const isActive = activeTheme === t.id;
@@ -644,6 +646,6 @@ export default function NightSky() {
           );
         })}
       </div>
-    </div>
+    </>
   );
 }
