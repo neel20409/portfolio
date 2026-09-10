@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import * as THREE from "three";
+import CanvasErrorBoundary from "./CanvasErrorBoundary";
 
 function MorphingShape({ activeIndex }: { activeIndex: number }) {
   const meshRef = useRef<THREE.Group>(null);
@@ -74,14 +75,16 @@ function MorphingShape({ activeIndex }: { activeIndex: number }) {
 
 export default function HoloMiniCanvas({ activeIndex }: { activeIndex: number }) {
   return (
-    <div className="h-20 w-20 pointer-events-none">
-      <Canvas
-        camera={{ position: [0, 0, 3.2], fov: 45 }}
-        gl={{ alpha: true, antialias: true }}
-      >
-        <ambientLight intensity={1.2} />
-        <MorphingShape activeIndex={activeIndex} />
-      </Canvas>
-    </div>
+    <CanvasErrorBoundary>
+      <div className="h-20 w-20 pointer-events-none">
+        <Canvas
+          camera={{ position: [0, 0, 3.2], fov: 45 }}
+          gl={{ alpha: true, antialias: false, powerPreference: "low-power" }}
+        >
+          <ambientLight intensity={1.2} />
+          <MorphingShape activeIndex={activeIndex} />
+        </Canvas>
+      </div>
+    </CanvasErrorBoundary>
   );
 }
