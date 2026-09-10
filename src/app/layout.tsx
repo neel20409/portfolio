@@ -48,8 +48,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="dark">
+      <body className={`${inter.className} bg-[#030014] text-white selection:bg-indigo-500 selection:text-white`}>
         <MagneticCursor />
         <CommandPalette />
         <main className="content-layer">

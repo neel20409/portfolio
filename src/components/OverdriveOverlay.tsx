@@ -21,12 +21,12 @@ export default function OverdriveOverlay({ isActive }: OverdriveOverlayProps) {
           {/* Neon Border Pulse */}
           <div className="absolute inset-0 border-2 border-cyan-400/40 shadow-[inset_0_0_80px_rgba(6,182,212,0.25)] animate-pulse" />
 
-          {/* Top Status Banner */}
+          {/* Top Status Banner (Positioned below navigation bar to prevent overlap) */}
           <motion.div
-            initial={{ y: -30, opacity: 0 }}
+            initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -30, opacity: 0 }}
-            className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-3 px-4 py-1.5 rounded-full border border-cyan-400/50 bg-slate-950/80 backdrop-blur-xl shadow-[0_0_25px_rgba(6,182,212,0.4)]"
+            exit={{ y: -20, opacity: 0 }}
+            className="absolute top-20 md:top-24 left-1/2 -translate-x-1/2 flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-cyan-400/50 bg-slate-950/90 backdrop-blur-2xl shadow-[0_0_25px_rgba(6,182,212,0.4)] z-30"
           >
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />

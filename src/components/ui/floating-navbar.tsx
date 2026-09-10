@@ -1,8 +1,8 @@
 "use client";
 import React, { JSX, useState } from "react";
-import { AnimatePresence,useScroll, useMotionValueEvent } from "framer-motion";
-import { motion as motion3D } from "framer-motion";
+import { AnimatePresence, useScroll, useMotionValueEvent, motion } from "framer-motion";
 import { cn } from "@/libs/utils";
+import { sfx } from "@/utils/sfx";
 
 export const FloatingNav = ({
   navItems,
@@ -17,51 +17,69 @@ export const FloatingNav = ({
 }) => {
   const { scrollYProgress } = useScroll();
   const [visible, setVisible] = useState(true);
+  const [activeTab, setActiveTab] = useState<string>("Home");
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     if (typeof current === "number") {
-      let direction = current! - scrollYProgress.getPrevious()!;
-      if (scrollYProgress.get() < 0.05) {
-        setVisible(false);
+      if (scrollYProgress.get() < 0.02) {
+        setVisible(true);
       } else {
-        setVisible(true)
+        setVisible(true);
       }
     }
   });
 
   return (
     <AnimatePresence mode="wait">
-      <motion3D.div
-        initial={{ opacity: 1, y: -100 }}
+      <motion.nav
+        initial={{ opacity: 0, y: -40 }}
         animate={{
           y: visible ? 0 : -100,
           opacity: visible ? 1 : 0,
         }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
         className={cn(
-          // Adjusted: Added px-10 for horizontal expansion, space-x-8 for item distance
-          "flex max-w-[90vw] md:max-w-fit fixed top-5 md:top-10 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-xl z-[5000] px-8 md:px-10 py-3 items-center justify-center md:space-x-10 space-x-8",
+          "fixed top-4 md:top-8 inset-x-0 mx-auto max-w-fit rounded-full",
+          "bg-zinc-950/75 backdrop-blur-2xl border border-white/10",
+          "shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(99,102,241,0.15)]",
+          "z-40 px-3 md:px-5 py-2 flex items-center gap-1 md:gap-2",
           className
         )}
       >
-        {navItems.map((navItem: any, idx: number) => (
-          <a
-            key={`link=${idx}`}
-            href={navItem.link}
-            className={cn(
-              "relative items-center flex space-x-1 transition-all duration-300 ease-out",
-              "text-neutral-600 dark:text-neutral-50 font-medium",
-              "border-b-2 border-transparent pb-1", 
-              "hover:text-blue-500 hover:border-blue-500",
-              "hover:shadow-[0_15px_30px_-10px_rgba(59,130,246,0.8)]",
-              "hover:-translate-y-0.5"
-            )}
-          >
-            <span className="block sm:hidden">{navItem.icon}</span>
-            <span className="hidden sm:block text-sm tracking-wide">{navItem.name}</span>
-          </a>
-        ))}
-      </motion3D.div>
+        {navItems.map((navItem, idx) => {
+          const isActive = activeTab === navItem.name;
+
+          return (
+            <a
+              key={`nav-${idx}`}
+              href={navItem.link}
+              onClick={() => {
+                setActiveTab(navItem.name);
+                sfx.playHoverBlip();
+              }}
+              onMouseEnter={() => sfx.playHoverBlip()}
+              className={cn(
+                "relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-300",
+                isActive 
+                  ? "text-white" 
+                  : "text-gray-400 hover:text-gray-100"
+              )}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId="activeNavPill"
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-600/60 to-cyan-500/50 border border-indigo-400/40 shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5">
+                {navItem.icon && <span className="text-indigo-400">{navItem.icon}</span>}
+                <span className="tracking-wide">{navItem.name}</span>
+              </span>
+            </a>
+          );
+        })}
+      </motion.nav>
     </AnimatePresence>
   );
 };
