@@ -44,11 +44,10 @@ export default function Avatar({
   );
 }
 
-// 1. Critical Path: Only preload the Hero model immediately for lightning-fast First Contentful Paint
-useGLTF.preload("/models/wait.glb");
-
-// 2. Progressive Deferred Preloading: Stagger subsequent models in background idle time
+// Progressive Deferred Preloading: Guard GLTF preloads inside browser check
 if (typeof window !== "undefined") {
+  useGLTF.preload("/models/wait.glb");
+
   const scheduleDeferredPreload = () => {
     // Stagger downloads so they never congest mobile bandwidth during initial load
     setTimeout(() => {

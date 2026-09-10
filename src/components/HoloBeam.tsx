@@ -9,11 +9,13 @@ interface HoloBeamProps {
 }
 
 export default function HoloBeam({ isOverdrive, activeColor }: HoloBeamProps) {
+  const [mounted, setMounted] = useState(false);
   const [windowSize, setWindowSize] = useState({ width: 1440, height: 900 });
   const { scrollY } = useScroll();
   const beamOpacity = useTransform(scrollY, [0, 250, 450], [1, 0.8, 0]);
 
   useEffect(() => {
+    setMounted(true);
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
@@ -23,7 +25,7 @@ export default function HoloBeam({ isOverdrive, activeColor }: HoloBeamProps) {
   }, []);
 
   // Only show on desktop screens where OrbitConsole is visible (>= 1024px)
-  if (windowSize.width < 1024) return null;
+  if (!mounted || windowSize.width < 1024) return null;
 
   // Origin point (Avatar center/chest area)
   const startX = windowSize.width * 0.5;
