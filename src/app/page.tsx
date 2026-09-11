@@ -140,11 +140,11 @@ export default function Home() {
 
       {/* SECTIONS */}
       <section id="journey" className="relative z-10"><JourneySection /></section>
+      <section id="projects" className="relative z-10"><ProjectSection /></section>
       <section id="tech" className="relative z-20 bg-black/10 backdrop-blur-xs"><TechSlider /></section>
       <section id="metrics" className="relative z-20"><MetricsBentoGrid /></section>
       <section id="github" className="relative z-20"><GithubCommitChart /></section>
       <section id="datalab" className="relative z-20"><DataLabPlayground /></section>
-      <section id="projects" className="relative z-10"><ProjectSection /></section>
       <section id="contact" className="relative z-10"><ContactSection /></section>
       
     </main>
