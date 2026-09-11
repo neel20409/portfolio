@@ -2,7 +2,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useSpring, useTransform, MotionValue } from 'framer-motion';
 
-// --- NEW: INTERFACE TO FIX TYPESCRIPT ERROR ---
 interface JourneyCardProps {
   year: string;
   title: string;
@@ -25,25 +24,25 @@ const JourneySection = () => {
   });
 
   return (
-    <div className="relative min-h-screen py-20 bg-transparent">
-     <div ref={containerRef} className="relative max-w-7xl mx-auto px-6 md:px-10 flex justify-end"> 
-        {/* UPDATE: Absolute left changes from center to 20px on mobile */}
-        <div className="absolute left-[39px] md:left-[59%] top-0 bottom-0 w-0.5  bg-white/10">
+    <div className="relative min-h-screen py-16 sm:py-20 bg-transparent">
+      <div ref={containerRef} className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-10 flex justify-end"> 
+        {/* Timeline Line */}
+        <div className="absolute left-[24px] sm:left-[39px] md:left-[59%] top-0 bottom-0 w-0.5 bg-white/10">
           <motion.div
             style={{ scaleY, originY: 0 }}
             className="absolute top-0 left-0 w-full h-full bg-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.6)]"
           />
           
-        {/* UPDATE: Hidden on mobile to prevent clutter */}
-          <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-10 z-20 ml-12 ">
-              <h2 className="text-white text-7xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 pointer-events-none">
+          {/* Watermark heading (Desktop only) */}
+          <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-10 z-20 ml-12 hidden md:block">
+            <h2 className="text-white text-7xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 pointer-events-none">
               Journey
             </h2>
           </div>
         </div>
 
-      {/* UPDATE: w-full on mobile, space-y-20 instead of 40 */}
-        <div className="relative z-10 w-full md:w-[40%] space-y-20 md:space-y-40 py-10 md:py-20 pl-10">
+        {/* Timeline Content Cards */}
+        <div className="relative z-10 w-full md:w-[40%] space-y-12 sm:space-y-20 md:space-y-40 py-8 md:py-20 pl-7 sm:pl-10">
           <JourneyCard 
             year="2023" 
             title="Mobile & Python Foundations"
@@ -71,7 +70,6 @@ const JourneySection = () => {
   );
 };
 
-// --- UPDATED: TYPED COMPONENT TO PASS VERCEL BUILD ---
 const JourneyCard = ({ year, title, desc, progress, threshold }: JourneyCardProps) => {
   const dotColor = useTransform(
     progress,
@@ -95,18 +93,17 @@ const JourneyCard = ({ year, title, desc, progress, threshold }: JourneyCardProp
           boxShadow: dotGlow,
           scale: dotScale 
         }}
-      className="absolute -left-[33px] md:-left-[53px] top-1/2 -translate-y-1/2 w-4 h-4 md:w-6 md:h-6 rounded-full border-4 border-[#050816] z-30 transition-colors"
-      
+        className="absolute -left-[35px] sm:-left-[47px] md:-left-[53px] top-8 w-4 h-4 md:w-6 md:h-6 rounded-full border-4 border-[#050816] z-30 transition-colors"
       />
 
       <motion.div 
         initial={{ opacity: 0.2 }}
         whileInView={{ opacity: 1 }}
-        className="p-8 md:p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10"
+        className="p-5 sm:p-8 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl"
       >
-        <span className="text-indigo-400 font-bold text-xl">{year}</span>
-        <h3 className="text-white text-3xl font-bold mt-2">{title}</h3>
-        <p className="text-gray-400 mt-4 leading-relaxed">{desc}</p>
+        <span className="text-indigo-400 font-bold text-lg sm:text-xl font-mono">{year}</span>
+        <h3 className="text-white text-xl sm:text-3xl font-bold mt-1.5">{title}</h3>
+        <p className="text-gray-400 mt-3 text-xs sm:text-sm leading-relaxed">{desc}</p>
       </motion.div>
     </motion.div>
   );

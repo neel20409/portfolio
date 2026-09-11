@@ -62,7 +62,6 @@ export default function Home() {
   return (
     <main ref={containerRef} className="relative bg-transparent overflow-x-hidden min-h-screen">
       <NightSky />
-      <AudioVisualizer />
       <OverdriveOverlay isActive={isOverdrive} />
       
       <AvatarPointer>
@@ -79,21 +78,29 @@ export default function Home() {
 
       <FloatingNav navItems={navItems} />
 
-      {/* FIXED GLOBAL FOOTER UI */}
-      <div className="fixed bottom-3 sm:bottom-6 md:bottom-8 left-0 w-full px-4 sm:px-6 md:px-10 flex justify-between items-end z-50 pointer-events-none">
-        <div className="flex-1" /> 
-        <div className="pointer-events-auto">
+      {/* FIXED GLOBAL BOTTOM HUD DOCK */}
+      <div className="fixed bottom-3 sm:bottom-6 md:bottom-8 inset-x-0 w-full px-3 sm:px-6 md:px-10 flex justify-between items-center z-50 pointer-events-none max-w-7xl mx-auto">
+        {/* Left: Audio Visualizer Control */}
+        <div className="flex-1 flex justify-start pointer-events-auto">
+          <AudioVisualizer />
+        </div>
+
+        {/* Center: Connect Button & Orbital Satellite Dock */}
+        <div className="pointer-events-auto flex justify-center">
           <PulseBeam />
         </div>
-        <div className="flex-1 flex justify-end">
+
+        {/* Right: View CV Action */}
+        <div className="flex-1 flex justify-end pointer-events-auto">
           <a
             href="/NeelBhatt_Resume.pdf"
             download="NeelBhatt_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="pointer-events-auto px-3 py-1.5 rounded-full bg-zinc-950/70 border border-white/10 backdrop-blur-md text-gray-300 hover:text-white transition-colors text-[11px] sm:text-xs md:text-sm font-medium tracking-wide flex items-center gap-1.5 group shadow-lg"
+            className="px-2.5 sm:px-3.5 py-1.5 rounded-full bg-zinc-950/80 border border-white/10 backdrop-blur-xl text-gray-300 hover:text-white transition-colors text-[10px] sm:text-xs md:text-sm font-medium tracking-wide flex items-center gap-1 sm:gap-1.5 group shadow-lg active:scale-95"
           >
-            <span>VIEW CV</span>
+            <span>CV</span>
+            <span className="hidden sm:inline">VIEW</span>
             <span className="group-hover:translate-y-0.5 transition-transform text-cyan-400">↓</span>
           </a>
         </div>
@@ -102,8 +109,8 @@ export default function Home() {
       <SocialModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       {/* HERO SECTION */}
-      <section id="hero" className="relative min-h-screen w-full flex flex-col justify-center items-center lg:items-start pt-28 pb-20 lg:py-0 z-10">
-        <div className="w-full lg:w-1/2 px-4 sm:px-6 md:px-10 lg:pl-16 xl:pl-20">
+      <section id="hero" className="relative min-h-screen w-full flex flex-col justify-center items-center lg:items-start pt-24 sm:pt-28 pb-16 lg:py-0 z-10">
+        <div className="w-full lg:w-1/2 px-3.5 sm:px-6 md:px-10 lg:pl-16 xl:pl-20">
           <Content onCVClick={() => console.log("CV Downloaded")} />
 
           {/* Inline Mobile Orbit Console (< 1024px) */}

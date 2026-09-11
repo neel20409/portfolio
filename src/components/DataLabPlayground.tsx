@@ -1500,13 +1500,13 @@ export default function DataLabPlayground() {
         </div>
 
         {/* Mode Selector Tabs */}
-        <div className="flex flex-wrap sm:flex-nowrap items-center p-1.5 rounded-2xl bg-zinc-950/80 border border-white/10 backdrop-blur-xl shadow-2xl gap-1.5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 w-full lg:w-auto items-center p-1.5 rounded-2xl bg-zinc-950/80 border border-white/10 backdrop-blur-xl shadow-2xl gap-1.5">
           <button
             onClick={() => {
               setActiveMode('kmeans');
               sound.playClick();
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
               activeMode === 'kmeans'
                 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-lg shadow-cyan-500/10'
                 : 'text-gray-400 hover:text-white'
@@ -1521,7 +1521,7 @@ export default function DataLabPlayground() {
               setActiveMode('regression');
               sound.playClick();
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
               activeMode === 'regression'
                 ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 shadow-lg shadow-indigo-500/10'
                 : 'text-gray-400 hover:text-white'
@@ -1536,7 +1536,7 @@ export default function DataLabPlayground() {
               setActiveMode('neural');
               sound.playClick();
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+            className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
               activeMode === 'neural'
                 ? 'bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/40 shadow-lg shadow-fuchsia-500/10'
                 : 'text-gray-400 hover:text-white'
@@ -1558,7 +1558,7 @@ export default function DataLabPlayground() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Canvas Area (2 cols) */}
             <div className="lg:col-span-2 flex flex-col space-y-4">
-              <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-white/10 cursor-crosshair group shadow-inner">
+              <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full rounded-2xl overflow-hidden border border-white/10 cursor-crosshair group shadow-inner">
                 <canvas
                   ref={kmeansCanvasRef}
                   onMouseDown={handleKMeansCanvasMouseDown}
@@ -1759,7 +1759,7 @@ export default function DataLabPlayground() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Canvas Area (2 cols) */}
             <div className="lg:col-span-2 flex flex-col space-y-4">
-              <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-white/10 cursor-crosshair group shadow-inner">
+              <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full rounded-2xl overflow-hidden border border-white/10 cursor-crosshair group shadow-inner">
                 <canvas
                   ref={regCanvasRef}
                   onMouseDown={handleRegCanvasMouseDown}

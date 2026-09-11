@@ -40,24 +40,21 @@ export default function AudioVisualizer() {
       masterGainRef.current = masterGain;
 
       // Mobile speaker optimized chord frequencies (A Major 9 Celestial Ambient Space Pad)
-      // Fundamental frequencies are placed in the 220Hz - 660Hz range so phone speakers reproduce them with clarity
       const chord = [
-        { freq: 220.00, type: 'sine' as OscillatorType, gain: 0.28 },      // A3 (warm body)
-        { freq: 277.18, type: 'triangle' as OscillatorType, gain: 0.24 },  // C#4 (lush major third)
-        { freq: 329.63, type: 'sine' as OscillatorType, gain: 0.22 },      // E4 (harmonic fifth)
-        { freq: 415.30, type: 'triangle' as OscillatorType, gain: 0.18 },  // G#4 (ethereal major 7th)
-        { freq: 554.37, type: 'sine' as OscillatorType, gain: 0.14 },      // C#5 (high sparkle)
-        { freq: 659.25, type: 'sine' as OscillatorType, gain: 0.10 },      // E5 (ambient shimmer)
+        { freq: 220.00, type: 'sine' as OscillatorType, gain: 0.28 },
+        { freq: 277.18, type: 'triangle' as OscillatorType, gain: 0.24 },
+        { freq: 329.63, type: 'sine' as OscillatorType, gain: 0.22 },
+        { freq: 415.30, type: 'triangle' as OscillatorType, gain: 0.18 },
+        { freq: 554.37, type: 'sine' as OscillatorType, gain: 0.14 },
+        { freq: 659.25, type: 'sine' as OscillatorType, gain: 0.10 },
       ];
 
-      // Warm low-pass filter to give analog space synth character
       const filter = ctx.createBiquadFilter();
       filter.type = 'lowpass';
       filter.frequency.setValueAtTime(1600, now);
       filter.Q.setValueAtTime(1.5, now);
       filter.connect(masterGain);
 
-      // Subtle slow LFO for breathing cosmic modulation (0.2 Hz)
       const lfo = ctx.createOscillator();
       const lfoGain = ctx.createGain();
       lfo.frequency.setValueAtTime(0.18, now);
@@ -75,7 +72,6 @@ export default function AudioVisualizer() {
         osc.type = voice.type;
         osc.frequency.setValueAtTime(voice.freq, now);
 
-        // Gentle organic detune (creates shimmering chorusing)
         const detuneAmount = Math.sin(i * 1.7) * 8;
         osc.detune.setValueAtTime(detuneAmount, now);
 
@@ -144,35 +140,32 @@ export default function AudioVisualizer() {
   }, []);
 
   return (
-    <div className="fixed bottom-5 md:bottom-10 left-6 md:left-10 z-50 pointer-events-auto">
-      <button
-        onClick={toggleAudio}
-        onTouchEnd={(e) => {
-          // Prevent ghost double-triggers on mobile touch
-          e.stopPropagation();
-        }}
-        className="group flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 transition-all text-gray-300 hover:text-white shadow-lg active:scale-95 cursor-pointer"
-        title={isPlaying ? 'Mute Ambient Soundscape' : 'Play Ambient Space Synth'}
-        aria-label="Toggle Audio Soundscape"
-      >
-        {isPlaying ? (
-          <>
-            <div className="flex items-end gap-[3px] h-3.5 w-3.5 mr-0.5">
-              <span className="w-[2px] bg-indigo-400 rounded-full animate-[pulse_0.6s_ease-in-out_infinite] h-full" />
-              <span className="w-[2px] bg-cyan-400 rounded-full animate-[pulse_0.9s_ease-in-out_infinite] h-3/4" />
-              <span className="w-[2px] bg-purple-400 rounded-full animate-[pulse_0.7s_ease-in-out_infinite] h-1/2" />
-            </div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-300 font-bold">AUDIO ON</span>
-          </>
-        ) : (
-          <>
-            <VolumeX className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-200" />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 group-hover:text-gray-200">
-              AUDIO
-            </span>
-          </>
-        )}
-      </button>
-    </div>
+    <button
+      onClick={toggleAudio}
+      onTouchEnd={(e) => {
+        e.stopPropagation();
+      }}
+      className="pointer-events-auto group flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-zinc-950/80 hover:bg-zinc-900 backdrop-blur-xl border border-white/10 hover:border-indigo-500/40 transition-all text-gray-300 hover:text-white shadow-lg active:scale-95 cursor-pointer"
+      title={isPlaying ? 'Mute Ambient Soundscape' : 'Play Ambient Space Synth'}
+      aria-label="Toggle Audio Soundscape"
+    >
+      {isPlaying ? (
+        <>
+          <div className="flex items-end gap-[2px] sm:gap-[3px] h-3 sm:h-3.5 w-3 sm:w-3.5">
+            <span className="w-[2px] bg-indigo-400 rounded-full animate-[pulse_0.6s_ease-in-out_infinite] h-full" />
+            <span className="w-[2px] bg-cyan-400 rounded-full animate-[pulse_0.9s_ease-in-out_infinite] h-3/4" />
+            <span className="w-[2px] bg-purple-400 rounded-full animate-[pulse_0.7s_ease-in-out_infinite] h-1/2" />
+          </div>
+          <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-indigo-300 font-bold hidden xs:inline">ON</span>
+        </>
+      ) : (
+        <>
+          <VolumeX className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-200" />
+          <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-gray-400 group-hover:text-gray-200 hidden xs:inline">
+            AUDIO
+          </span>
+        </>
+      )}
+    </button>
   );
 }

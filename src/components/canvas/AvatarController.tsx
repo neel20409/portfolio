@@ -38,7 +38,17 @@ function AvatarWrapper({ currentModel }: { currentModel: string }) {
  */
 export default function AvatarController() {
   const [currentModel, setCurrentModel] = useState("/models/wait.glb");
+  const [isMobileScreen, setIsMobileScreen] = useState(false);
   const { scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileScreen(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Buttery-smooth spring damping on scroll progress
   const smoothProgress = useSpring(scrollYProgress, {
@@ -48,16 +58,16 @@ export default function AvatarController() {
   });
 
   // Smooth X position across the sections:
-  // 0.00 (Hero): Stands at +6% (balances left glass card & right HUD)
-  // 0.25 (Journey): Moves to -28% (left side while timeline steps scroll on right)
-  // 0.50 (Tech Slider): Moves smoothly to +28% (clear right side)
-  // 0.70 (Projects): Stays at +28% (right side while projects display strictly on left)
-  // 0.88 (Contact): Moves to +22% (right side next to contact form)
-  // 1.00 (End): Settles at +22%
-  const avatarX = useTransform(
+  const avatarXDesktop = useTransform(
     smoothProgress,
     [0, 0.18, 0.35, 0.50, 0.72, 0.88, 1],
     ["6%", "-10%", "-28%", "28%", "28%", "22%", "22%"]
+  );
+
+  const avatarXMobile = useTransform(
+    smoothProgress,
+    [0, 0.18, 0.35, 0.50, 0.72, 0.88, 1],
+    ["0%", "0%", "-6%", "6%", "6%", "0%", "0%"]
   );
 
   // Subtle Y vertical breathing float on scroll
@@ -109,7 +119,7 @@ export default function AvatarController() {
 
   return (
     <motion.div 
-      style={{ x: avatarX, y: avatarY, scale: avatarScale }}
+      style={{ x: isMobileScreen ? avatarXMobile : avatarXDesktop, y: avatarY, scale: avatarScale }}
       className="fixed inset-0 z-0 flex items-center justify-center pointer-events-none"
     >
       <div className="w-full h-screen">
@@ -121,4 +131,4 @@ export default function AvatarController() {
       </div>
     </motion.div>
   );
-}
+}

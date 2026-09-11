@@ -96,32 +96,27 @@ const ProjectSection = () => {
     setIsLoadingIframe(true);
     setIframeKey((prev) => prev + 1);
     setActivePreviewProject(project);
-    // Set default mobile mode for mobile AR apps if desired
-    if (project.title === 'Virtual Hat App') {
-      setDeviceMode('desktop');
-    } else {
-      setDeviceMode('desktop');
-    }
+    setDeviceMode('desktop');
   };
 
   const getContainerWidth = () => {
     switch (deviceMode) {
       case 'mobile':
-        return 'max-w-[400px] h-[780px]';
+        return 'max-w-sm h-[75vh] sm:h-[80vh]';
       case 'tablet':
-        return 'max-w-[768px] h-[820px]';
+        return 'max-w-2xl h-[80vh] sm:h-[82vh]';
       case 'desktop':
       default:
-        return 'max-w-6xl h-[85vh]';
+        return 'max-w-6xl h-[80vh] sm:h-[85vh]';
     }
   };
 
   return (
-    <div className="relative min-h-screen py-20 bg-transparent">
+    <div className="relative min-h-screen py-16 sm:py-20 bg-transparent">
       {/* INTERACTIVE LIVE PREVIEW / DEVICE SIMULATOR MODAL */}
       <AnimatePresence>
         {activePreviewProject && (
-          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/85 backdrop-blur-xl p-3 md:p-6 overflow-hidden">
+          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/85 backdrop-blur-xl p-3 sm:p-6 overflow-hidden">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -137,23 +132,23 @@ const ProjectSection = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.92, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 26, stiffness: 320 }}
-              className={`relative w-full ${getContainerWidth()} flex flex-col rounded-3xl bg-zinc-950/95 border border-white/15 shadow-[0_0_80px_rgba(99,102,241,0.25)] backdrop-blur-2xl overflow-hidden pointer-events-auto transition-all duration-300 z-10`}
+              className={`relative w-full ${getContainerWidth()} flex flex-col rounded-2xl sm:rounded-3xl bg-zinc-950/95 border border-white/15 shadow-[0_0_80px_rgba(99,102,241,0.25)] backdrop-blur-2xl overflow-hidden pointer-events-auto transition-all duration-300 z-10`}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Browser Header Bar */}
-              <div className="flex items-center justify-between px-4 py-3 bg-zinc-900/90 border-b border-white/10 gap-3">
+              <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 bg-zinc-900/90 border-b border-white/10 gap-2 sm:gap-3">
                 {/* Window Traffic Lights */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <button
                     onClick={() => setActivePreviewProject(null)}
-                    className="w-3.5 h-3.5 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors cursor-pointer"
+                    className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors cursor-pointer"
                     title="Close Preview"
                   />
-                  <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/80" />
-                  <span className="w-3.5 h-3.5 rounded-full bg-green-500/80" />
+                  <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-yellow-500/80" />
+                  <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-green-500/80" />
                 </div>
 
-                {/* Device Viewport Switcher */}
+                {/* Device Viewport Switcher (hidden on smallest screens) */}
                 <div className="hidden sm:flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
                   <button
                     onClick={() => setDeviceMode('desktop')}
@@ -206,7 +201,7 @@ const ProjectSection = () => {
                 </div>
 
                 {/* Action Controls */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <button
                     onClick={() => {
                       setIsLoadingIframe(true);
@@ -215,15 +210,15 @@ const ProjectSection = () => {
                     className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
                     title="Reload Live Frame"
                   >
-                    <RotateCw className="w-4 h-4" />
+                    <RotateCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                   <button
                     onClick={() => window.open(activePreviewProject.link, '_blank')}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-indigo-300 hover:text-white text-xs font-semibold transition-all shadow-md active:scale-95"
+                    className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-xl bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-indigo-300 hover:text-white text-[11px] sm:text-xs font-semibold transition-all shadow-md active:scale-95"
                     title="Open in New Tab"
                   >
-                    <span>Open Tab</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Tab</span>
+                    <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   </button>
                   <button
                     onClick={() => setActivePreviewProject(null)}
@@ -258,13 +253,13 @@ const ProjectSection = () => {
                     className="w-full h-full border-0 bg-white"
                   />
                 ) : (
-                  <div className="p-8 text-center flex flex-col items-center justify-center gap-4">
-                    <Globe className="w-12 h-12 text-indigo-400 animate-bounce" />
-                    <h3 className="text-xl font-bold text-white">{activePreviewProject.title}</h3>
-                    <p className="text-sm text-gray-400 max-w-md">{activePreviewProject.desc}</p>
+                  <div className="p-6 sm:p-8 text-center flex flex-col items-center justify-center gap-4">
+                    <Globe className="w-10 h-10 sm:w-12 sm:h-12 text-indigo-400 animate-bounce" />
+                    <h3 className="text-lg sm:text-xl font-bold text-white">{activePreviewProject.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-400 max-w-md">{activePreviewProject.desc}</p>
                     <button
                       onClick={() => window.open(activePreviewProject.link, '_blank')}
-                      className="mt-2 px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-all shadow-lg flex items-center gap-2"
+                      className="mt-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs sm:text-sm transition-all shadow-lg flex items-center gap-2"
                     >
                       <span>Visit External Repository</span>
                       <ExternalLink className="w-4 h-4" />
@@ -277,47 +272,47 @@ const ProjectSection = () => {
         )}
       </AnimatePresence>
 
-      {/* PROJECT HEADING in the LEFT corner */}
-      <div className="max-w-7xl mx-auto px-6 md:px-10 mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <span className="w-8 h-[2px] bg-indigo-500" />
-          <span className="text-indigo-400 font-mono text-xs uppercase tracking-widest font-bold">Interactive Sandbox</span>
+      {/* PROJECT HEADING */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 mb-6 sm:mb-8">
+        <div className="flex items-center gap-2.5 mb-2">
+          <span className="w-6 sm:w-8 h-[2px] bg-indigo-500" />
+          <span className="text-indigo-400 font-mono text-[11px] sm:text-xs uppercase tracking-widest font-bold">Interactive Sandbox</span>
         </div>
-        <h2 className="text-white text-5xl md:text-7xl font-black uppercase tracking-tighter italic opacity-20">
+        <h2 className="text-white text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter italic opacity-20">
           Projects
         </h2>
       </div>
 
-      {/* GRID VIEW: Constrained strictly to the LEFT half to guarantee the 3D Avatar has full right-half clearance */}
-      <div className="relative z-10 w-full lg:w-[54%] xl:w-[50%] px-6 md:px-10 lg:pl-16 pb-40">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* GRID VIEW: Constrained strictly to the LEFT half for desktop, full width on mobile */}
+      <div className="relative z-10 w-full lg:w-[54%] xl:w-[50%] px-4 sm:px-6 md:px-10 lg:pl-16 pb-32 sm:pb-40">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -8 }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
-              className="group relative overflow-hidden rounded-3xl bg-zinc-950/60 backdrop-blur-xl border border-white/10 hover:border-indigo-500/50 transition-all duration-500 shadow-2xl flex flex-col h-full"
+              whileHover={{ y: -6 }}
+              transition={{ duration: 0.4, delay: index * 0.06 }}
+              className="group relative overflow-hidden rounded-3xl bg-zinc-950/70 backdrop-blur-xl border border-white/10 hover:border-indigo-500/50 transition-all duration-500 shadow-2xl flex flex-col h-full"
             >
               {/* Card Browser Chrome Mockup Top Bar */}
-              <div className="px-4 py-2.5 bg-white/[0.03] border-b border-white/10 flex items-center justify-between text-xs text-gray-400 font-mono">
+              <div className="px-3.5 py-2 sm:py-2.5 bg-white/[0.03] border-b border-white/10 flex items-center justify-between text-xs text-gray-400 font-mono">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+                  <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-red-500/70" />
+                  <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-yellow-500/70" />
+                  <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-green-500/70" />
                 </div>
-                <div className="flex items-center gap-1.5 text-[11px] text-gray-400 truncate max-w-[150px]">
+                <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-gray-400 truncate max-w-[130px] sm:max-w-[150px]">
                   <Lock className="w-2.5 h-2.5 text-emerald-400 flex-shrink-0" />
                   <span className="truncate">{project.domain}</span>
                 </div>
-                <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border ${project.badgeColor}`}>
+                <span className={`px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-wider border ${project.badgeColor}`}>
                   {project.badge}
                 </span>
               </div>
 
               {/* Interactive Preview Container with Hover Actions */}
-              <div className="relative h-52 w-full overflow-hidden bg-zinc-900">
+              <div className="relative h-44 sm:h-52 w-full overflow-hidden bg-zinc-900">
                 {project.image ? (
                   <motion.img
                     src={project.image}
@@ -326,7 +321,7 @@ const ProjectSection = () => {
                   />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-indigo-950/40 via-zinc-950 to-purple-950/40 p-6 text-center">
-                    <Globe className="w-10 h-10 text-indigo-400 mb-2 opacity-80" />
+                    <Globe className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-400 mb-2 opacity-80" />
                     <span className="text-xs font-mono text-gray-400">Interactive 3D Engine</span>
                   </div>
                 )}
@@ -334,8 +329,8 @@ const ProjectSection = () => {
                 {/* Dark Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-300" />
 
-                {/* Live Preview Button Hover Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center gap-3 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-xs bg-black/40">
+                {/* Desktop Hover Overlay */}
+                <div className="absolute inset-0 hidden sm:flex items-center justify-center gap-3 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-xs bg-black/40">
                   <button
                     onClick={(e) => handleOpenPreview(project, e)}
                     className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition-all shadow-xl shadow-indigo-600/40 active:scale-95 cursor-pointer"
@@ -358,25 +353,25 @@ const ProjectSection = () => {
               </div>
 
               {/* Content Description */}
-              <div className="p-6 relative z-10 flex flex-col flex-grow">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-indigo-400 font-bold text-xs uppercase tracking-wider">{project.tech}</span>
+              <div className="p-4 sm:p-6 relative z-10 flex flex-col flex-grow">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-indigo-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider">{project.tech}</span>
                 </div>
-                <h3 className="text-white text-2xl font-bold group-hover:text-indigo-300 transition-colors duration-300">{project.title}</h3>
-                <p className="text-gray-400 mt-2.5 text-xs md:text-sm leading-relaxed line-clamp-3 flex-grow">{project.desc}</p>
+                <h3 className="text-white text-xl sm:text-2xl font-bold group-hover:text-indigo-300 transition-colors duration-300">{project.title}</h3>
+                <p className="text-gray-400 mt-2 text-xs sm:text-sm leading-relaxed line-clamp-3 flex-grow">{project.desc}</p>
 
-                {/* Bottom Action Row */}
-                <div className="mt-5 pt-4 border-t border-white/5 flex items-center justify-between">
+                {/* Bottom Action Row: Directly Tappable on Mobile & Desktop */}
+                <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/5 flex items-center justify-between">
                   <button
                     onClick={(e) => handleOpenPreview(project, e)}
-                    className="flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 font-bold text-[11px] sm:text-xs uppercase tracking-wider transition-colors cursor-pointer py-1"
                   >
                     <Eye className="w-3.5 h-3.5" />
-                    <span>Launch Live Preview</span>
+                    <span>Launch Preview</span>
                   </button>
                   <button
                     onClick={() => window.open(project.link, '_blank')}
-                    className="text-gray-500 hover:text-white transition-colors"
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                     title="Open in new tab"
                   >
                     <ExternalLink className="w-4 h-4" />

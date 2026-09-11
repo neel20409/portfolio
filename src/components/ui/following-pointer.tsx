@@ -1,7 +1,7 @@
 // Core component that receives mouse positions and renders pointer and content
+"use client";
 
 import React, { useEffect, useState } from "react";
-
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 import { cn } from "@/libs/utils";
 
@@ -18,15 +18,22 @@ export const FollowerPointerCard = ({
   const y = useMotionValue(0);
   const ref = React.useRef<HTMLDivElement>(null);
   const [rect, setRect] = useState<DOMRect | null>(null);
-  const [isInside, setIsInside] = useState<boolean>(false); // Add this line
+  const [isInside, setIsInside] = useState<boolean>(false);
+  const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
 
   useEffect(() => {
+    // Detect touch device to prevent stuck custom cursor on mobile
+    if (typeof window !== "undefined") {
+      const touch = "ontouchstart" in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768;
+      setIsTouchDevice(touch);
+    }
     if (ref.current) {
       setRect(ref.current.getBoundingClientRect());
     }
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isTouchDevice) return;
     if (rect) {
       const scrollX = window.scrollX;
       const scrollY = window.scrollY;
@@ -34,26 +41,30 @@ export const FollowerPointerCard = ({
       y.set(e.clientY - rect.top + scrollY);
     }
   };
+
   const handleMouseLeave = () => {
     setIsInside(false);
   };
 
   const handleMouseEnter = () => {
-    setIsInside(true);
+    if (!isTouchDevice) {
+      setIsInside(true);
+    }
   };
+
   return (
     <div
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       style={{
-        cursor: "none",
+        cursor: isTouchDevice ? "auto" : "none",
       }}
       ref={ref}
       className={cn("relative", className)}
     >
       <AnimatePresence>
-        {isInside && <FollowPointer x={x} y={y} title={title} />}
+        {isInside && !isTouchDevice && <FollowPointer x={x} y={y} title={title} />}
       </AnimatePresence>
       {children}
     </div>
@@ -69,14 +80,12 @@ export const FollowPointer = ({
   y: any;
   title?: string | React.ReactNode;
 }) => {
-  
   return (
     <motion.div
-      className="absolute z-50 h-4 w-4 rounded-full"
+      className="absolute z-50 h-4 w-4 rounded-full pointer-events-none"
       style={{
         top: y,
         left: x,
-        pointerEvents: "none",
       }}
       initial={{
         scale: 1,
@@ -119,9 +128,7 @@ export const FollowPointer = ({
           scale: 0.5,
           opacity: 0,
         }}
-        className={
-          "min-w-max rounded-full bg-neutral-200 px-2 py-2 text-xs whitespace-nowrap text-white"
-        }
+        className="min-w-max rounded-full bg-neutral-200 px-2 py-2 text-xs whitespace-nowrap text-white"
       >
         {title || `William Shakespeare`}
       </motion.div>

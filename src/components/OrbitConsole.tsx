@@ -74,7 +74,7 @@ export default function OrbitConsole({
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth 3D Spring Tilt physics
+  // Smooth 3D Spring Tilt physics (desktop only)
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), { damping: 18, stiffness: 140 });
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), { damping: 18, stiffness: 140 });
 
@@ -93,7 +93,7 @@ export default function OrbitConsole({
   };
 
   const containerClasses = isMobileInline
-    ? "w-full max-w-md mx-auto block lg:hidden mt-6 z-20"
+    ? "w-full max-w-md mx-auto block lg:hidden mt-5 z-20"
     : "orbit-console pointer-events-auto absolute right-4 xl:right-10 top-1/2 hidden w-[310px] xl:w-[335px] -translate-y-1/2 lg:block z-30 perspective-[1000px]";
 
   return (
@@ -108,7 +108,7 @@ export default function OrbitConsole({
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={!isMobileInline ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
-        className={`relative overflow-hidden rounded-3xl border bg-slate-950/70 p-5 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl transition-colors duration-500 ${
+        className={`relative overflow-hidden rounded-3xl border bg-slate-950/75 p-4 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl transition-colors duration-500 ${
           isOverdrive
             ? "border-rose-500/60 shadow-[0_0_35px_rgba(244,63,94,0.35)] bg-slate-950/85"
             : "border-white/15 hover:border-cyan-400/40"
@@ -144,7 +144,7 @@ export default function OrbitConsole({
         </div>
 
         {/* Dynamic Discipline Description */}
-        <div className="relative mt-3 min-h-[95px] sm:min-h-[105px]">
+        <div className="relative mt-3 min-h-[90px] sm:min-h-[105px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={signal.index}
@@ -157,7 +157,7 @@ export default function OrbitConsole({
                 <Sparkles size={12} />
                 <span>Discipline / {signal.index}</span>
               </div>
-              <h3 className="text-base sm:text-[17px] font-bold leading-tight tracking-tight text-white">
+              <h3 className="text-sm sm:text-[17px] font-bold leading-tight tracking-tight text-white">
                 {signal.title}
               </h3>
               <p className="mt-1.5 text-xs leading-relaxed text-slate-300/80">
@@ -182,8 +182,8 @@ export default function OrbitConsole({
         </div>
 
         {/* Discipline Tabs */}
-        <div className="relative mt-3 flex items-center justify-between pt-1">
-          <div className="flex gap-1.5" role="tablist" aria-label="Discipline Selector">
+        <div className="relative mt-3 flex items-center justify-between pt-1 gap-2">
+          <div className="flex gap-1.5 flex-1" role="tablist" aria-label="Discipline Selector">
             {DISCIPLINE_SIGNALS.map((item, index) => {
               const isActive = activeIndex === index;
               return (
@@ -194,7 +194,7 @@ export default function OrbitConsole({
                   aria-selected={isActive}
                   onMouseEnter={() => sfx.playHoverBlip()}
                   onClick={() => handleSelectTab(index)}
-                  className={`rounded-xl px-2.5 sm:px-3 py-1.5 text-[10px] font-semibold tracking-wider transition-all duration-200 cursor-pointer ${
+                  className={`flex-1 text-center rounded-xl px-2 sm:px-3 py-1.5 text-[10px] font-semibold tracking-wider transition-all duration-200 cursor-pointer ${
                     isActive
                       ? "text-white border shadow-md"
                       : "text-slate-400 hover:text-white bg-white/5 border border-white/5 hover:border-white/20"
@@ -216,7 +216,7 @@ export default function OrbitConsole({
             })}
           </div>
 
-          <Cpu size={16} style={{ color: signal.themeColor }} className="opacity-80" />
+          <Cpu size={16} style={{ color: signal.themeColor }} className="opacity-80 flex-shrink-0" />
         </div>
 
         {/* Overdrive Action Button */}
