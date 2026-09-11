@@ -58,17 +58,17 @@ export default function AvatarController() {
   });
 
   // Smooth X position across the sections:
-  // Hero (Right: 18%) -> Journey (Left: -26%) -> Projects (Left: -26%) -> Tech (Right: 22%) -> Metrics/GitHub (Left: -24%) -> DataLab/Contact (Right: 20%)
+  // Hero (Right: 18%) -> Journey (Left: -26%) -> Projects (Right: 28%) -> Tech (Right: 22%) -> Metrics/GitHub (Left: -24%) -> DataLab/Contact (Right: 20%)
   const avatarXDesktop = useTransform(
     smoothProgress,
     [0, 0.16, 0.32, 0.48, 0.65, 0.82, 1],
-    ["18%", "-26%", "-26%", "22%", "-22%", "20%", "0%"]
+    ["18%", "-26%", "28%", "22%", "-22%", "20%", "0%"]
   );
 
   const avatarXMobile = useTransform(
     smoothProgress,
     [0, 0.16, 0.32, 0.48, 0.65, 0.82, 1],
-    ["0%", "0%", "-4%", "4%", "-4%", "0%", "0%"]
+    ["0%", "0%", "4%", "4%", "-4%", "0%", "0%"]
   );
 
   // Subtle Y vertical breathing float on scroll

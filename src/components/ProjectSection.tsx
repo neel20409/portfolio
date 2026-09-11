@@ -273,7 +273,7 @@ const ProjectSection = () => {
       </AnimatePresence>
 
       {/* PROJECT HEADING */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 mb-6 sm:mb-8 flex flex-col items-start lg:items-end">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 mb-6 sm:mb-8">
         <div className="flex items-center gap-2.5 mb-2">
           <span className="w-6 sm:w-8 h-[2px] bg-indigo-500" />
           <span className="text-indigo-400 font-mono text-[11px] sm:text-xs uppercase tracking-widest font-bold">Interactive Sandbox</span>
@@ -283,8 +283,8 @@ const ProjectSection = () => {
         </h2>
       </div>
 
-      {/* GRID VIEW: Positioned on the RIGHT half (lg:ml-auto) for desktop so 3D Avatar on the LEFT is 100% unobstructed */}
-      <div className="relative z-10 w-full lg:w-[52%] xl:w-[50%] lg:ml-auto px-4 sm:px-6 md:px-10 lg:pr-16 pb-32 sm:pb-40">
+      {/* GRID VIEW: Positioned on the LEFT with widened cards, while 3D Avatar is on the RIGHT */}
+      <div className="relative z-10 w-full lg:w-[58%] xl:w-[56%] px-4 sm:px-6 md:px-10 lg:pl-16 pb-32 sm:pb-40">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {projects.map((project, index) => (
             <motion.div
