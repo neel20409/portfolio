@@ -69,7 +69,7 @@ export default function SocialModal({ isOpen, onClose }: SocialModalProps) {
     {
       name: "Schedule a Call",
       desc: "15-min discovery & consultation",
-      link: "https://cal.com/neel-bhatt", // or booking link
+      link: "https://cal.com/bhatt-neel-7c2u0l",
       icon: Calendar,
       accent: "from-amber-500/20 via-orange-500/10 to-transparent",
       border: "hover:border-amber-500/50",

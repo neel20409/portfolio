@@ -139,6 +139,21 @@ export default function RecruiterModal({ isOpen, onClose }: { isOpen: boolean; o
                 </div>
               </button>
 
+              {/* Schedule 15-min Call on Cal.com */}
+              <a
+                href="https://cal.com/bhatt-neel-7c2u0l"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => sound.playClick()}
+                className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 font-semibold text-xs md:text-sm transition-all shadow-md group active:scale-98"
+              >
+                <div className="flex items-center gap-3">
+                  <Calendar className="w-5 h-5 text-amber-400" />
+                  <span>Schedule Discovery Call (Cal.com)</span>
+                </div>
+                <ExternalLink className="w-4 h-4 text-amber-400 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+
               {/* Download CV */}
               <a
                 href="/NeelBhatt_Resume.pdf"

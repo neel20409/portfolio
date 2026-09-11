@@ -18,7 +18,8 @@ import {
   VolumeX,
   Briefcase,
   TerminalSquare,
-  Activity
+  Activity,
+  Calendar
 } from 'lucide-react';
 import { VisitorCounter } from './VisitorCounter';
 import DevTerminal from './DevTerminal';
@@ -329,6 +330,18 @@ export default function CommandPalette() {
       action: () => {
         sound.playClick();
         window.open('/NeelBhatt_Resume.pdf', '_blank');
+        setIsOpen(false);
+      },
+    },
+    {
+      id: 'action-schedule-call',
+      category: 'Quick Actions',
+      title: 'Schedule Discovery Call (Cal.com)',
+      subtitle: 'https://cal.com/bhatt-neel-7c2u0l',
+      icon: <Calendar className="w-4 h-4 text-amber-400" />,
+      action: () => {
+        sound.playClick();
+        window.open('https://cal.com/bhatt-neel-7c2u0l', '_blank');
         setIsOpen(false);
       },
     },
