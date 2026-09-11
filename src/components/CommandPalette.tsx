@@ -377,15 +377,15 @@ export default function CommandPalette() {
 
   return (
     <>
-      {/* Floating Unified Top Right Glass Status Dock */}
-      <div className="fixed top-5 right-4 md:right-8 z-50 flex items-center gap-2">
+      {/* Desktop Floating Unified Top Right Glass Status Dock (>= md) */}
+      <div className="hidden md:flex fixed top-5 right-6 md:right-8 z-40 items-center gap-2">
         {/* Recruiter Fast-Track Button */}
         <button
           onClick={() => {
             sound.playClick();
             setIsRecruiterOpen(true);
           }}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-semibold backdrop-blur-xl shadow-lg shadow-emerald-950/40 transition-all active:scale-95 cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-xs font-semibold backdrop-blur-xl shadow-lg shadow-emerald-950/40 transition-all active:scale-95 cursor-pointer"
           title="Recruiter Fast-Track"
         >
           <Zap className="w-3.5 h-3.5 fill-current text-emerald-400 animate-pulse" />
@@ -402,7 +402,7 @@ export default function CommandPalette() {
           title="Open Terminal CLI (~)"
         >
           <TerminalSquare className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="hidden md:inline">CLI</span>
+          <span className="hidden lg:inline">CLI</span>
         </button>
 
         {/* HUD ⌘K Trigger Button */}
@@ -433,6 +433,19 @@ export default function CommandPalette() {
         {/* Live Visitor Counter */}
         <VisitorCounter />
       </div>
+
+      {/* Mobile Compact HUD Trigger Button (< md) */}
+      <button
+        onClick={() => {
+          sound.playClick();
+          setIsOpen(true);
+        }}
+        className="flex md:hidden fixed top-3 right-3 z-50 w-9 h-9 items-center justify-center rounded-full bg-zinc-950/90 backdrop-blur-2xl border border-white/15 text-indigo-400 shadow-xl shadow-black/80 pointer-events-auto active:scale-95 transition-all"
+        title="Open Command Palette (HUD)"
+        aria-label="Open Command Palette"
+      >
+        <Terminal className="w-4 h-4 text-indigo-400 animate-pulse" />
+      </button>
 
       {/* DEV TERMINAL CLI MODAL */}
       <DevTerminal isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
