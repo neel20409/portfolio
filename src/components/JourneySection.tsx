@@ -179,6 +179,13 @@ export default function JourneySection() {
         {/* ========================================================================= */}
         <div className="absolute left-[24px] sm:left-[36px] md:left-[59%] top-0 bottom-0 z-20 flex justify-center">
           
+          {/* Sticky Rotated "JOURNEY" Watermark Aligned With Progression Bar */}
+          <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-8 sm:pr-12 md:pr-16 z-10 hidden md:block pointer-events-none select-none">
+            <h2 className="text-white text-7xl lg:text-8xl xl:text-9xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 lg:opacity-15 font-mono">
+              Journey
+            </h2>
+          </div>
+
           {/* Outer Glass Conduit Tube Track */}
           <div className="relative w-1.5 sm:w-2 h-full rounded-full bg-zinc-900/90 border border-white/10 shadow-[inset_0_0_8px_rgba(0,0,0,0.8)]">
             
