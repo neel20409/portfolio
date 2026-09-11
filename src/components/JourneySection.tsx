@@ -93,13 +93,13 @@ export default function JourneySection() {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 70%", "end 80%"] 
+    offset: ["start center", "end center"] 
   });
 
   // Smooth Spring Dynamics on the progress beam
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 24,
+    stiffness: 100,
+    damping: 25,
     restDelta: 0.001
   });
 
@@ -135,7 +135,7 @@ export default function JourneySection() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-10 flex flex-col md:flex-row justify-end">
         
         {/* ========================================================================= */}
-        {/* LEFT HUD: CHRONO-TELEMETRY & STICKY WATERMARK (Desktop only) */}
+        {/* LEFT HUD: CHRONO-TELEMETRY (Desktop only) */}
         {/* ========================================================================= */}
         <div className="hidden lg:block absolute left-8 xl:left-14 top-12 z-20 pointer-events-none">
           {/* Chrono Stream Telemetry Card */}
@@ -180,8 +180,8 @@ export default function JourneySection() {
         <div className="absolute left-[24px] sm:left-[36px] md:left-[59%] top-0 bottom-0 z-20 flex justify-center">
           
           {/* Sticky Rotated "JOURNEY" Watermark Aligned With Progression Bar */}
-          <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-8 sm:pr-12 md:pr-16 z-10 hidden md:block pointer-events-none select-none">
-            <h2 className="text-white text-7xl lg:text-8xl xl:text-9xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-10 lg:opacity-15 font-mono">
+          <div className="sticky top-1/3 -translate-y-1/2 -translate-x-full pr-8 md:pr-12 z-10 hidden md:block pointer-events-none select-none">
+            <h2 className="text-white text-7xl lg:text-8xl xl:text-9xl font-black uppercase tracking-tighter italic -rotate-90 origin-center whitespace-nowrap opacity-15 font-mono">
               Journey
             </h2>
           </div>
@@ -192,19 +192,19 @@ export default function JourneySection() {
             {/* Active Neon Laser Beam Core */}
             <motion.div
               style={{ height: beamHeightPercent }}
-              className="absolute top-0 left-0 w-full rounded-full bg-gradient-to-b from-cyan-400 via-indigo-500 via-purple-500 to-emerald-400 shadow-[0_0_16px_rgba(99,102,241,0.9),0_0_30px_rgba(56,189,248,0.6)]"
+              className="absolute top-0 left-0 w-full rounded-full bg-gradient-to-b from-cyan-400 via-indigo-500 via-purple-500 to-emerald-400 shadow-[0_0_16px_rgba(99,102,241,0.9),0_0_30px_rgba(56,189,248,0.7)]"
             />
 
             {/* Pulsing Light Filament Overlay */}
             <motion.div
               style={{ height: beamHeightPercent }}
-              className="absolute top-0 left-0 w-full rounded-full bg-white/40 blur-[1px]"
+              className="absolute top-0 left-0 w-full rounded-full bg-white/50 blur-[1px]"
             />
 
             {/* Gliding Photon Plasma Energy Comet (Head Beacon) */}
             <motion.div
               style={{ top: beamHeightPercent }}
-              className="absolute -left-[9px] sm:-left-[11px] -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 pointer-events-none z-40 flex items-center justify-center"
+              className="absolute -left-[10px] sm:-left-[11px] -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 pointer-events-none z-40 flex items-center justify-center"
             >
               {/* Outer Energy Shockwave Ping */}
               <span className="absolute w-full h-full rounded-full bg-cyan-400/60 animate-ping" />
@@ -221,7 +221,7 @@ export default function JourneySection() {
         {/* ========================================================================= */}
         {/* RIGHT SIDE: INTERACTIVE MILESTONE CARDS & QUANTUM NODES */}
         {/* ========================================================================= */}
-        <div className="relative z-10 w-full md:w-[40%] space-y-14 sm:space-y-24 md:space-y-36 py-8 md:py-16 pl-9 sm:pl-14">
+        <div className="relative z-10 w-full md:w-[40%] space-y-14 sm:space-y-24 md:space-y-36 py-8 md:py-16 pl-12 sm:pl-14">
           
           {/* Header Bar (Mobile & Tablet) */}
           <div className="block lg:hidden mb-6">
@@ -279,12 +279,6 @@ function MilestoneCard({
     [0.4, 1]
   );
 
-  const cardBorderOpacity = useTransform(
-    progress,
-    [item.threshold - 0.08, item.threshold],
-    ["rgba(255, 255, 255, 0.08)", `${item.accentColor}55`]
-  );
-
   return (
     <motion.div 
       className="relative group"
@@ -304,7 +298,7 @@ function MilestoneCard({
           borderColor: isActive ? item.accentColor : "rgba(255,255,255,0.2)",
           boxShadow: isActive ? `0 0 24px ${item.accentGlow}` : "none",
         }}
-        className="absolute -left-[45px] sm:-left-[63px] md:-left-[67px] top-6 w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-zinc-950 border-2 flex items-center justify-center z-30 transition-all duration-300 shadow-xl"
+        className="absolute -left-[24px] sm:-left-[26px] md:-left-[60px] -translate-x-1/2 top-6 w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-zinc-950 border-2 flex items-center justify-center z-30 transition-all duration-300 shadow-xl"
       >
         {/* Node Active Ping Wave */}
         {isActive && (

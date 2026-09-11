@@ -58,16 +58,17 @@ export default function AvatarController() {
   });
 
   // Smooth X position across the sections:
+  // Hero (Right: 18%) -> Journey (Left: -26%) -> Projects (Left: -26%) -> Tech (Right: 22%) -> Metrics/GitHub (Left: -24%) -> DataLab/Contact (Right: 20%)
   const avatarXDesktop = useTransform(
     smoothProgress,
-    [0, 0.18, 0.35, 0.50, 0.72, 0.88, 1],
-    ["6%", "-10%", "-28%", "28%", "28%", "22%", "22%"]
+    [0, 0.16, 0.32, 0.48, 0.65, 0.82, 1],
+    ["18%", "-26%", "-26%", "22%", "-22%", "20%", "0%"]
   );
 
   const avatarXMobile = useTransform(
     smoothProgress,
-    [0, 0.18, 0.35, 0.50, 0.72, 0.88, 1],
-    ["0%", "0%", "-6%", "6%", "6%", "0%", "0%"]
+    [0, 0.16, 0.32, 0.48, 0.65, 0.82, 1],
+    ["0%", "0%", "-4%", "4%", "-4%", "0%", "0%"]
   );
 
   // Subtle Y vertical breathing float on scroll
@@ -96,8 +97,11 @@ export default function AvatarController() {
             case "journey":
               setCurrentModel("/models/run.glb");
               break;
-            case "tech":
             case "projects":
+            case "tech":
+            case "metrics":
+            case "github":
+            case "datalab":
               setCurrentModel("/models/cigrette.glb");
               break;
             case "contact":
@@ -109,7 +113,7 @@ export default function AvatarController() {
     };
 
     const observer = new IntersectionObserver(handleIntersection, observerOptions);
-    ["hero", "journey", "tech", "projects", "contact"].forEach((id) => {
+    ["hero", "journey", "projects", "tech", "metrics", "github", "datalab", "contact"].forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });

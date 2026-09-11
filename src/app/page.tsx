@@ -61,7 +61,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main ref={containerRef} className="relative bg-transparent overflow-x-hidden min-h-screen">
+    <main ref={containerRef} className="relative bg-transparent overflow-x-clip min-h-screen">
       <NightSky />
       <OverdriveOverlay isActive={isOverdrive} />
       
