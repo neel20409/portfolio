@@ -294,12 +294,10 @@ function MilestoneCard({
         style={{
           scale: nodeScale,
           opacity: nodeOpacity,
-        }}
-        className="absolute -left-[45px] sm:-left-[63px] md:-left-[67px] top-6 w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-zinc-950 border-2 flex items-center justify-center z-30 transition-all duration-300 shadow-xl"
-        style={{
           borderColor: isActive ? item.accentColor : "rgba(255,255,255,0.2)",
           boxShadow: isActive ? `0 0 24px ${item.accentGlow}` : "none",
         }}
+        className="absolute -left-[45px] sm:-left-[63px] md:-left-[67px] top-6 w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-zinc-950 border-2 flex items-center justify-center z-30 transition-all duration-300 shadow-xl"
       >
         {/* Node Active Ping Wave */}
         {isActive && (
@@ -311,8 +309,7 @@ function MilestoneCard({
 
         {/* Node Icon */}
         <item.icon 
-          className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110"
-          style={{ color: isActive ? item.accentColor : "#94a3b8" }}
+          className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`}
         />
       </motion.div>
 

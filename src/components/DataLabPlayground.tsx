@@ -311,7 +311,7 @@ export default function DataLabPlayground() {
   // Step K-Means with Silhouette Coefficient & Covariance Ellipses
   const stepKMeansAlgorithm = useCallback(() => {
     if (kPoints.length === 0 || centroids.length === 0) return;
-    sound.playBlip ? sound.playBlip() : sound.playChime();
+    (sound as any)?.playBlip ? (sound as any).playBlip() : sound.playChime();
 
     // 1. Assignment step
     let currentInertia = 0;
