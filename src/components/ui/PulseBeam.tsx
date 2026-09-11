@@ -46,7 +46,7 @@ const SATELLITES = [
     id: "linkedin",
     name: "LinkedIn",
     icon: Linkedin,
-    href: "https://linkedin.com/in/neel-bhatt",
+    href: "https://www.linkedin.com/in/neel-bhatt-7116373a7/",
     color: "#0ea5e9",
     border: "border-sky-500/40",
     text: "text-sky-400",

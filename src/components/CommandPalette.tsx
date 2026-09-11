@@ -19,7 +19,8 @@ import {
   Briefcase,
   TerminalSquare,
   Activity,
-  Calendar
+  Calendar,
+  Linkedin
 } from 'lucide-react';
 import { VisitorCounter } from './VisitorCounter';
 import DevTerminal from './DevTerminal';
@@ -342,6 +343,18 @@ export default function CommandPalette() {
       action: () => {
         sound.playClick();
         window.open('https://cal.com/bhatt-neel-7c2u0l', '_blank');
+        setIsOpen(false);
+      },
+    },
+    {
+      id: 'action-linkedin',
+      category: 'Socials & Profiles',
+      title: 'Open LinkedIn Profile',
+      subtitle: 'https://www.linkedin.com/in/neel-bhatt-7116373a7/',
+      icon: <Linkedin className="w-4 h-4 text-sky-400" />,
+      action: () => {
+        sound.playClick();
+        window.open('https://www.linkedin.com/in/neel-bhatt-7116373a7/', '_blank');
         setIsOpen(false);
       },
     },

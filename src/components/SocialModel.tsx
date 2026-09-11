@@ -88,7 +88,7 @@ export default function SocialModal({ isOpen, onClose }: SocialModalProps) {
     },
     { 
       name: "LinkedIn", 
-      link: "https://linkedin.com/in/neel-bhatt", 
+      link: "https://www.linkedin.com/in/neel-bhatt-7116373a7/", 
       icon: Linkedin, 
       color: "hover:text-sky-400 hover:border-sky-400/40" 
     },
